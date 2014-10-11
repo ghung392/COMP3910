@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>#{msgs.login}</title>
+	<h:outputStylesheet library="css" name="bootstrap.css" />
+	<h:outputStylesheet library="css" name="main.css" />
+</h:head>
+
+<h:body>
+	<div class="container">
+		<div id="heading">
+			<ui:insert name="heading">
+				<ui:include src="/sections/mainHeader.xhtml" />
+			</ui:insert>
+		</div>
+
+		<div id="navigation">
+			<ui:insert name="navigation">
+				<ui:include src="/sections/mainNavigation.xhtml" />
+			</ui:insert>
+		</div>
+
+		<div id="pageTitle">
+			<h2><ui:insert name="pageTitle" /></h2>
+		</div>
+
+		<div id="content">
+			<ui:insert name="content" />
+		</div>
+	</div>
+
+	<ui:debug />
+</h:body>
+</html>

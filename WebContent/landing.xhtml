@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<head>
+<title>IGNORED</title>
+</head>
+
+<body>
+	<ui:composition template="/templates/masterLayout.xhtml">
+		<ui:define name="pageTitle">
+			#{msgs.landing_title} user.firstName user.lastName
+		</ui:define>
+		<ui:define name="content">
+			<h:form>
+				<div class="top-padding list-group">
+					<h:commandLink class="list-group-item " value="#{msgs.nav_fill_timesheet}" />
+					<h:commandLink class="list-group-item " value="#{msgs.nav_fill_timesheet}" />
+					<h:commandLink class="list-group-item " value="#{msgs.nav_fill_timesheet}" />
+					<h:commandLink class="list-group-item " value="#{msgs.nav_fill_timesheet}" />
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>
