@@ -6,36 +6,23 @@
       xmlns:h="http://java.sun.com/jsf/html">
    
    <h:head>
-      <title>#{msgs.windowTitle}</title>
+      <title>#{msgs.login}</title>
       <h:outputStylesheet library="css" name="styles.css"/>
    </h:head>
    
    <h:body>   
-      <div id="header">
-            <ui:insert name="header" >
-            	<ui:include src="/sections/display/header.xhtml" />
+      <div id="heading" class="page-header">
+            <ui:insert name="heading" >
+            	<ui:include src="/sections/loginHeader/header.xhtml" />
             </ui:insert>
       </div>
       
-      <div >
-      <div id="navPane" style="width: 100px; float: left;" >
-      	<ui:insert name="navPane" >
-      		<ui:include src="/sections/display/navPane.xhtml" />
+      <div id="content" >
+      	<ui:insert name="content" >
+      		<ui:include src="/sections/loginHeader/content.xhtml" />
       	</ui:insert>
       </div>
       
-      <div id="dataTable" style="margin-left: 100px;">
-         <ui:insert name="dataTable">
-            <ui:include src="/sections/dataTable.xhtml"/>
-         </ui:insert>
-      </div>   
-      </div> 
-      
-      <div id="footer">
-         <ui:insert name="footer" >
-         	<ui:include src="/sections/footer.xhtml" />
-         </ui:insert>
-      </div>
       <ui:debug/>
    </h:body>
 </html>
