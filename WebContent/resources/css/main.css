@@ -1,0 +1,41 @@
+@CHARSET "US-ASCII";
+
+#login-wrapper {
+    max-width: 600px;
+    margin-top: 60px;
+}
+
+.logo-header {
+    max-width: 80px;
+}
+
+.logo-inline {
+  max-width: 30px;
+  margin: 0px;
+  float: left;
+}
+
+.user-info {
+  padding-top: 15px;
+  padding-right: 15px;
+}
+
+.note-field {
+  min-width: 150px;
+}
+
+.hour-field {
+}
+
+.table-footer {
+  font-weight: bold;
+}
+
+.vcenter {
+  display: block;
+  padding-top: 7px;
+}
+
+.top-padding {
+  margin-top: 30px;
+}
