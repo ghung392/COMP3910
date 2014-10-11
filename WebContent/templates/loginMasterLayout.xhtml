@@ -2,27 +2,28 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
-   
-   <h:head>
-      <title>#{msgs.login}</title>
-      <h:outputStylesheet library="css" name="styles.css"/>
-   </h:head>
-   
-   <h:body>   
-      <div id="heading" class="page-header">
-            <ui:insert name="heading" >
-            	<ui:include src="/sections/loginHeader/header.xhtml" />
-            </ui:insert>
-      </div>
-      
-      <div id="content" >
-      	<ui:insert name="content" >
-      		<ui:include src="/sections/loginHeader/content.xhtml" />
-      	</ui:insert>
-      </div>
-      
-      <ui:debug/>
-   </h:body>
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>#{msgs.login}</title>
+	<h:outputStylesheet library="css" name="bootstrap.css" />
+	<h:outputStylesheet library="css" name="main.css" />
+</h:head>
+
+<h:body>
+	<div class="container">
+		<div id="heading">
+			<ui:insert name="heading">
+				<ui:include src="/sections/loginHeader.xhtml" />
+			</ui:insert>
+		</div>
+
+		<div id="content">
+			<ui:insert name="content" />
+		</div>
+	</div>
+
+	<ui:debug />
+</h:body>
 </html>

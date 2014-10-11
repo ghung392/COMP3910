@@ -2,14 +2,35 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
-   
-   <head><title>IGNORED</title></head>
-   
-   <body>
-   	  <ui:composition template="/templates/loginMasterLayout.xhtml">
-   	          	
-      </ui:composition>
-   </body>
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<head>
+<title>IGNORED</title>
+</head>
+
+<body>
+	<ui:composition template="/templates/loginMasterLayout.xhtml">
+		<ui:define name="content">
+			<div id="login-wrapper" class="center-block well">
+				<h:form>
+					<div class="form-group">
+						<label for="username">#{msgs.username}</label>
+						<h:inputText class="form-control" id="username"
+							pt:placeholder="Username" />
+					</div>
+					<div class="form-group">
+						<label for="password">#{msgs.password}</label>
+						<h:inputText class="form-control" id="password"
+							pt:placeholder="Password" />
+					</div>
+
+					<h:commandButton value="#{msgs.login}" />
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</body>
 </html>
