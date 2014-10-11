@@ -1,0 +1,13 @@
+# IDE Envrionment files
+.classpath
+.project
+.settings
+.idea
+
+# generated files
+bin
+target
+
+# git conflict files
+*.rej
+*.orig
