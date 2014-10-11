@@ -13,8 +13,12 @@
 
 <body>
 	<ui:composition template="/templates/loginMasterLayout.xhtml">
+		<ui:define name="windowTitle">
+			#{msgs.login}
+		</ui:define>
 		<ui:define name="content">
 			<div id="login-wrapper" class="center-block well">
+			<h4>#{msgs.login}</h4>
 				<h:form>
 					<div class="form-group">
 						<label for="username">#{msgs.username}</label>
