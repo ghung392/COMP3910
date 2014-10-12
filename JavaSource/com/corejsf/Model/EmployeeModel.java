@@ -1,12 +1,14 @@
 package com.corejsf.Model;
 
+import java.io.Serializable;
+
 import ca.bcit.infosys.employee.Employee;
 /**
  * Employee Model
  * @author Gabriel
  * @version 1.0
  */
-public class EmployeeModel extends Employee {
+public class EmployeeModel extends Employee implements Serializable {
     /** Employee password */
     private String password;
     /** Employee admin status */
