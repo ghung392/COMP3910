@@ -15,15 +15,20 @@
 	<ui:composition>
 		<h:form>
 			<div class="navbar navbar-default">
-				<h:commandLink class="navbar-brand" value="#{msgs.timesheet}" />
+				<h:commandLink class="navbar-brand" value="#{msgs.site_name}" />
 				<ul class="nav navbar-nav">
 					<li><h:commandLink value="#{msgs.nav_fill_timesheet}" /></li>
 					<li><h:commandLink value="#{msgs.nav_history}" /></li>
 					<li><h:commandLink value="#{msgs.nav_profile}" /></li>
 					<!-- // TODO show/hide based on if user admin -->
-					<li><h:commandLink value="#{msgs.nav_admin}"  rendered="true"/></li>
+					<li><h:commandLink value="#{msgs.nav_admin}" rendered="true" /></li>
 					<li><h:commandLink value="#{msgs.nav_logout}" /></li>
 				</ul>
+
+				<div class="user-info text-right">
+					<strong>user.name: </strong> <h:outputText value="( E Num: user.id )" class="text-muted" />
+				</div>
+
 			</div>
 		</h:form>
 	</ui:composition>

@@ -13,8 +13,15 @@
 
 <body>
 	<ui:composition template="/templates/masterLayout.xhtml">
+		<ui:define name="windowTitle">
+			<h:outputFormat value="#{msgs.landing_title}">
+				<f:param value="user.name"/>
+			</h:outputFormat>
+		</ui:define>
 		<ui:define name="pageTitle">
-			#{msgs.landing_title} user.firstName user.lastName
+			<h:outputFormat value="#{msgs.landing_title}">
+				<f:param value="user.name"/>
+			</h:outputFormat>
 		</ui:define>
 		<ui:define name="content">
 			<h:form>
