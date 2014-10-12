@@ -2,12 +2,13 @@ package com.corejsf;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+
+import com.corejsf.Access.EmployeeTracker;
+import com.corejsf.Model.EmployeeModel;
 
 import ca.bcit.infosys.employee.Credentials;
 import ca.bcit.infosys.employee.Employee;
@@ -19,45 +20,29 @@ import ca.bcit.infosys.employee.EmployeeList;
  *
  */
 public class EmployeeInfo implements Serializable, EmployeeList {
-    @Inject private Credentials credentials;
-    /**Current employee */
-    @Inject private Employee employee = employees.get(0);
-    /** ArrayList containing the employees */
-    private static ArrayList<Employee> employees = new ArrayList<Employee>(Arrays.asList(
-            new Employee("Gabriel", 1, "ghung392"),
-            new Employee("Angela", 2, "starangelma")
-            ));
-    
-    private static Map<String, String> loginCombos;
-    static {
-        loginCombos = new LinkedHashMap<String, String>();
-        loginCombos.put(employees.get(0).getUserName(), "toohardtoguess");
-        loginCombos.put(employees.get(1).getUserName(), "qwerty");
-    }
    
+    @Inject private EmployeeTracker employeeList;
+    private EmployeeModel currentEmployee;
 
     @Override
-    /**
-     * @return the employee list.
-     */
     public List<Employee> getEmployees() {
-        return employees;
+        return null;
     }
-
+    /**
+     * Method to get the list of employees
+     * @return arraylist of employees
+     */
+    public ArrayList<EmployeeModel> getEmployeeList() {
+        return employeeList.getEmployees();
+    }
     @Override
     /**
      * @param name the name of the employee
      * @return the employee
      */
     public Employee getEmployee(String name) {
-        for(int i = 0; i < employees.size(); i++ ) {
-            if(employees.get(i).getName().compareToIgnoreCase(name) == 0) {
-                return employees.get(i);
-            }
-            
-        }
-            
-        return null;
+        return employeeList.find(name);
+        
     }
 
     @Override
@@ -65,13 +50,16 @@ public class EmployeeInfo implements Serializable, EmployeeList {
      * @return the Map containing the valid (userName, password) combinations.
      */
     public Map<String, String> getLoginCombos() {
-        return loginCombos;
+        return null;
     }
 
     @Override
+    /**
+     * Method to return the current employee signed in
+     * @return current employee
+     */
     public Employee getCurrentEmployee() {
-        // TODO Auto-generated method stub
-        return null;
+        return currentEmployee;
     }
 
     @Override
@@ -88,25 +76,40 @@ public class EmployeeInfo implements Serializable, EmployeeList {
      * @return true if it is, false if it is not.
      */
     public boolean verifyUser(Credentials credential) {
-        // TODO Auto-generated method stub
         return false;
+    }
+    /**
+     * Authenticates user and sets current employee depending on matching credentials.
+     * @param username input username
+     * @param password input password
+     */
+    public String verifyEmployee(String username, String password) {
+        currentEmployee = employeeList.auth(username, password);
+        
+        if( currentEmployee == null ) {
+            return "faillogin";
+        } else {
+            return "successlogin";
+        }
     }
 
     @Override
     public String logout(Employee employee) {
-        // TODO Auto-generated method stub
-        return null;
+        currentEmployee = null;
+        return "logout";
     }
 
     @Override
     public void deleteEmpoyee(Employee userToDelete) {
-        // TODO Auto-generated method stub
+        employeeList.remove(userToDelete);
         
     }
 
     @Override
     public void addEmployee(Employee newEmployee) {
-        // TODO Auto-generated method stub
-        
+    }
+    
+    public void addEmployeeToList(EmployeeModel newEmployee) {
+        employeeList.add(newEmployee);
     }
 }

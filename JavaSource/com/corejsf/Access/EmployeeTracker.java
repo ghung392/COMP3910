@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import ca.bcit.infosys.employee.Employee;
+
 import com.corejsf.Model.EmployeeModel;
 /**
  * Class that tracks and manipulates the employee list. Also provides an authentication
@@ -22,9 +24,9 @@ public class EmployeeTracker implements Serializable{
      * @param id employee number
      * @return employee if find or null
      */
-    public EmployeeModel find(final int id) {
+    public EmployeeModel find(final String name) {
         for(int i = 0; i < employees.size(); i++) {
-            if(employees.get(i).getEmpNumber() == id) {
+            if(employees.get(i).getName().compareTo(name) == 0) {
                 return employees.get(i);
             }
         }
@@ -34,9 +36,9 @@ public class EmployeeTracker implements Serializable{
      * Remove an employee from the list
      * @param id employee number
      */
-    public void remove(final int id) {
+    public void remove(Employee employee) {
         for(int i = 0; i < employees.size(); i++) {
-            if(employees.get(i).getEmpNumber() == id) {
+            if(employees.get(i).getEmpNumber() == employee.getEmpNumber()) {
                 employees.remove(i);
             }
         }
