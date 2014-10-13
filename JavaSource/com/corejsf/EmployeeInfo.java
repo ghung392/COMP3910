@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import com.corejsf.Access.EmployeeTracker;
 import com.corejsf.Model.EmployeeModel;
@@ -19,10 +21,29 @@ import ca.bcit.infosys.employee.EmployeeList;
  * @author Gabriel
  *
  */
+@Named("employee")
+@SessionScoped
 public class EmployeeInfo implements Serializable, EmployeeList {
    
     @Inject private EmployeeTracker employeeList;
+    //@Inject private Employee employee;
     private EmployeeModel currentEmployee;
+    
+    /**public String getUsername() {
+        return currentEmployee.getUserName();
+    }
+    
+    public String getPassword() {
+        return currentEmployee.getPassword();
+    }**/
+    
+    public void setUsername(String newValue) {
+        currentEmployee.setUserName(newValue);
+    }
+    
+    public void setPassword(String newValue) {
+        currentEmployee.setPassword(newValue);
+    }
 
     @Override
     public List<Employee> getEmployees() {
@@ -83,7 +104,7 @@ public class EmployeeInfo implements Serializable, EmployeeList {
      * @param username input username
      * @param password input password
      */
-    public String verifyEmployee(String username, String password) {
+    public String verifyEmployee(final String username, final String password) {
         currentEmployee = employeeList.auth(username, password);
         
         if( currentEmployee == null ) {

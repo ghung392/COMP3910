@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.enterprise.context.SessionScoped;
+
 import ca.bcit.infosys.employee.Employee;
 
 import com.corejsf.Model.EmployeeModel;
@@ -13,7 +15,8 @@ import com.corejsf.Model.EmployeeModel;
  * @author Gabriel
  * @version 1.0
  */
-public class EmployeeTracker implements Serializable{
+@SessionScoped
+public class EmployeeTracker implements Serializable {
     /**ArrayList holding employees. Initially defined with a superuser and a normal user. */
     private ArrayList<EmployeeModel> employees = new ArrayList<EmployeeModel>(Arrays.asList(
             new EmployeeModel("Gabriel", 1, "ghung392", true, "toohardtoguess"),
