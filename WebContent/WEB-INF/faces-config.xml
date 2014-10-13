@@ -17,6 +17,20 @@
 			<to-view-id>/landing.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/landing.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>logout</from-outcome>
+			<to-view-id>/logout.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/profile.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>updatesuccess</from-outcome>
+			<to-view-id>/landing.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 	<application>
 		<locale-config>
 			<default-locale>en</default-locale>

@@ -27,23 +27,8 @@ public class EmployeeInfo implements Serializable, EmployeeList {
    
     @Inject private EmployeeTracker employeeList;
     //@Inject private Employee employee;
-    private EmployeeModel currentEmployee;
-    
-    /**public String getUsername() {
-        return currentEmployee.getUserName();
-    }
-    
-    public String getPassword() {
-        return currentEmployee.getPassword();
-    }**/
-    
-    public void setUsername(String newValue) {
-        currentEmployee.setUserName(newValue);
-    }
-    
-    public void setPassword(String newValue) {
-        currentEmployee.setPassword(newValue);
-    }
+    private EmployeeModel currentEmployee;    
+    private boolean admin;
 
     @Override
     public List<Employee> getEmployees() {
@@ -88,6 +73,10 @@ public class EmployeeInfo implements Serializable, EmployeeList {
         // TODO Auto-generated method stub
         return null;
     }
+    
+    public boolean getAdmin() {
+        return currentEmployee.isAdmin();
+    }
 
     @Override
     /**
@@ -119,6 +108,14 @@ public class EmployeeInfo implements Serializable, EmployeeList {
         currentEmployee = null;
         return "logout";
     }
+    /**
+     * Logs out the current employee.
+     * @return logout for navigation
+     */
+    public String employeeLogout() {
+        currentEmployee = null;
+        return "logout";
+    }
 
     @Override
     public void deleteEmpoyee(Employee userToDelete) {
@@ -132,5 +129,12 @@ public class EmployeeInfo implements Serializable, EmployeeList {
     
     public void addEmployeeToList(EmployeeModel newEmployee) {
         employeeList.add(newEmployee);
+    }
+    
+    public String updateEmployee(final String name, final String password) {
+        currentEmployee.setName(name);
+        currentEmployee.setPassword(password);
+        
+        return "updatesuccess";
     }
 }
