@@ -17,8 +17,8 @@
 			<div class="navbar navbar-default">
 				<h:commandLink class="navbar-brand" value="#{msgs.site_name}" action="landing" />
 				<ul class="nav navbar-nav">
-					<li><h:commandLink value="#{msgs.nav_fill_timesheet}" /></li>
-					<li><h:commandLink value="#{msgs.nav_history}" /></li>
+					<li><h:commandLink value="#{msgs.nav_fill_timesheet}"  action="#{timesheetData.currTimesheet}" /></li>
+					<li><h:commandLink value="#{msgs.nav_history}" action="history" /></li>
 					<li><h:commandLink value="#{msgs.nav_profile}" action="profile" /></li>
 					<!-- // TODO show/hide based on if user admin -->
 					<li><h:commandLink value="#{msgs.nav_admin}" rendered="#{employee.admin}" /></li>

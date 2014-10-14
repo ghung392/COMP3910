@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<head>
+<title>IGNORED</title>
+</head>
+
+<body>
+	<ui:composition template="/templates/masterLayout.xhtml">
+		<ui:define name="windowTitle">
+			#{msgs.new_tsheet_title}
+		</ui:define>
+		<ui:define name="pageTitle">
+			#{msgs.timesheet_title}
+		</ui:define>
+		<ui:define name="content">
+			<h:form>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<b>Current Week of Year: #{timesheetData.timesheet.weekNum}</b>  <!--  TODO should get weekNumber instead of weekNum  -->
+						<div class="pull-right">
+							<b>Week ends on: #{timesheetData.timesheet.weekEnding}</b>
+						</div>
+					</div>
+					<div class="panel-body"></div>
+					<h:dataTable value="#{timesheetData.timesheet.details}"
+						var="detail" class="table timesheet-table">
+						<h:column>
+							<f:facet name="header">Project</f:facet>
+							<h:inputText value="#{detail.projectID}" class="form-control" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">WP#</f:facet>
+							<h:inputText value="#{detail.workPackage}" class="form-control" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Total</f:facet>
+							<h:outputText value="#{detail.sum}" class="vcenter" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">MON</f:facet>
+							<h:inputText value="#{detail.hoursForWeek[2]}"
+								class="form-control" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">TUE</f:facet>
+							<h:inputText value="#{detail.hoursForWeek[3]}"
+								class="form-control" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Note</f:facet>
+							<h:inputText value="#{detail.notes}" class="form-control" />
+						</h:column>
+					</h:dataTable>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

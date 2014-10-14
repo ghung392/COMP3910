@@ -54,4 +54,10 @@ public class EmployeeModel extends Employee implements Serializable {
     public boolean isAdmin() {
         return admin;
     }
+    
+    @Override
+    public boolean equals(Object o) {
+    	Employee emp = (Employee) o;
+    	return emp.getEmpNumber() == this.getEmpNumber();
+    }
 }

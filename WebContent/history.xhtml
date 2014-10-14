@@ -14,23 +14,18 @@
 <body>
 	<ui:composition template="/templates/masterLayout.xhtml">
 		<ui:define name="windowTitle">
-			<h:outputFormat value="#{msgs.landing_title}">
-				<f:param value="#{employee.currentEmployee.name}"/>
-			</h:outputFormat>
+			#{msgs.history_title}
 		</ui:define>
 		<ui:define name="pageTitle">
-			<h:outputFormat value="#{msgs.landing_title}">
-				<f:param value="#{employee.currentEmployee.name}"/>
-			</h:outputFormat>
+			#{msgs.history_title}
 		</ui:define>
 		<ui:define name="content">
 			<h:form>
-				<div class="top-padding list-group">
-					<h:commandLink class="list-group-item " value="#{msgs.nav_fill_timesheet}"/>
-					<h:commandLink class="list-group-item " value="#{msgs.nav_fill_timesheet}" />
-					<h:commandLink class="list-group-item " value="#{msgs.nav_fill_timesheet}" />
-					<h:commandLink class="list-group-item " value="#{msgs.nav_fill_timesheet}" />
-				</div>
+				<h:dataTable value="#{timesheetData.allTimesheets}" var="timesheet" class="table">
+					<h:column>
+						<h:commandLink value="Timesheet of week ending on #{timesheet.weekEnding}"  class="list-group-item " />
+					</h:column>
+				</h:dataTable>
 			</h:form>
 		</ui:define>
 	</ui:composition>
