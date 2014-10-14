@@ -21,9 +21,13 @@
 		</ui:define>
 		<ui:define name="content">
 			<h:form>
-				<h:dataTable value="#{timesheetData.allTimesheets}" var="timesheet" class="table">
+				<h:dataTable value="#{timesheetData.allTimesheets}" var="timesheet"
+					class="table">
 					<h:column>
-						<h:commandLink value="Timesheet of week ending on #{timesheet.weekEnding}"  class="list-group-item " />
+						<h:commandLink
+							value="Timesheet of week ending on #{timesheet.weekEnding}"
+							action="#{timesheetData.viewTimesheet(timesheet.endWeek)}"
+							class="list-group-item " />
 					</h:column>
 				</h:dataTable>
 			</h:form>

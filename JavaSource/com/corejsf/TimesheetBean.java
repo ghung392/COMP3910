@@ -51,4 +51,11 @@ public class TimesheetBean implements Serializable {
 
 		return "createTimesheet";
 	}
+	
+	public String viewTimesheet(final Date endWeek) {
+		currEndWeek = endWeek;
+		
+		// TODO return proper view page of timesheet
+		return "createTimesheet";
+	}
 }
