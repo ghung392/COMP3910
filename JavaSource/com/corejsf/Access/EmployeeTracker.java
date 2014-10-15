@@ -19,8 +19,10 @@ import com.corejsf.Model.EmployeeModel;
 public class EmployeeTracker implements Serializable {
     /**ArrayList holding employees. Initially defined with a superuser and a normal user. */
     private ArrayList<EmployeeModel> employees = new ArrayList<EmployeeModel>(Arrays.asList(
-            new EmployeeModel("Gabriel", 1, "ghung392", true, "toohardtoguess"),
-            new EmployeeModel("Angela", 2, "starangelma", false, "qwerty")
+            new EmployeeModel("Johne Doe", 1, "test", false, "test"),
+            new EmployeeModel("Bob Smith", 2, "testadmin", true, "testadmin"),
+            new EmployeeModel("Gabriel", 3, "ghung392", true, "toohardtoguess"),
+            new EmployeeModel("Angela", 4, "starangelam", false, "qwerty")
             ));
     /**
      * Method to find a employee
