@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -28,7 +31,6 @@ public class EmployeeInfo implements Serializable, EmployeeList {
     @Inject private EmployeeTracker employeeList;
     //@Inject private Employee employee;
     private EmployeeModel currentEmployee;    
-    private boolean admin;
 
     @Override
     public List<Employee> getEmployees() {
@@ -131,10 +133,26 @@ public class EmployeeInfo implements Serializable, EmployeeList {
         employeeList.add(newEmployee);
     }
     
-    public String updateEmployee(final String name, final String password) {
+    public String updateEmployee(final String name, final String oldPassword,
+            final String newPassword, final String confirmPassword ) {
+        if((oldPassword.compareTo(currentEmployee.getPassword())) != 0) {
+            FacesContext.getCurrentInstance().addMessage("profileForm:old_password", 
+                    new FacesMessage("You did not enter a match with your old password. Try again."));
+            return "updatefail";
+        } else if((newPassword.compareTo(confirmPassword)) != 0) {
+            FacesContext.getCurrentInstance().addMessage("profileForm:confirm_password", 
+                    new FacesMessage("Your password confirmation did not match. Try again."));
+            return "updatefail";
+        } else if((oldPassword.compareTo(newPassword)) == 0) {
+            FacesContext.getCurrentInstance().addMessage("profileForm:new_password", 
+                    new FacesMessage("Your new password did not change. Try again."));
+            return "updatefail";
+        }
+        
         currentEmployee.setName(name);
-        currentEmployee.setPassword(password);
+        currentEmployee.setPassword(newPassword);
         
         return "updatesuccess";
     }
+    
 }

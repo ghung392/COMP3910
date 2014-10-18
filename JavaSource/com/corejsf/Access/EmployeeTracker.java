@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 
 import ca.bcit.infosys.employee.Employee;
 
@@ -78,7 +82,9 @@ public class EmployeeTracker implements Serializable {
                 return employees.get(i);
             }
         }
-        
+        FacesContext.getCurrentInstance().addMessage("loginform:password", 
+                new FacesMessage("Username and/or password does not match! Please try again."));
         return null;
     }
+
 }

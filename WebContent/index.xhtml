@@ -19,7 +19,7 @@
 		<ui:define name="content">
 			<div id="login-wrapper" class="center-block well">
 			<h4>#{msgs.login}</h4>
-				<h:form>
+				<h:form id="loginform">
 					<div class="form-group">
 						<label for="username">#{msgs.username}</label>
 						<h:inputText binding="#{usernameField}" class="form-control" id="username"
@@ -31,7 +31,8 @@
 							pt:placeholder="Password" />
 					</div>
 
-					<h:commandButton value="#{msgs.login}" action="#{employee.verifyEmployee(usernameField.value, passwordField.value)}" />
+					<h:commandButton id="loginbutton" value="#{msgs.login}" action="#{employee.verifyEmployee(usernameField.value, passwordField.value)}" />
+					<h:message for="loginbutton" />
 				</h:form>
 			</div>
 		</ui:define>

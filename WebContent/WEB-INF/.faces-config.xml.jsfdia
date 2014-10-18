@@ -32,5 +32,11 @@
     PATH="/landing.xhtml" TARGET="rules:#landing.xhtml"
     TITLE="updatesuccess" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
+  <PROCESS-ITEM ID="rules:#profile.xhtml:1" NAME="item1"
+   PATH="/profile.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="updatefail::#profile.xhtml" NAME="output"
+    PATH="/profile.xhtml" TARGET="rules:#profile.xhtml"
+    TITLE="updatefail" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
  </PROCESS-ITEM>
 </PROCESS>

@@ -14,29 +14,45 @@
 <body>
 	<ui:composition template="/templates/masterLayout.xhtml">
 		<ui:define name="windowTitle">
-			<h:outputFormat value="#{msgs.profile_title}" escape="false">
+			<h:outputFormat value="#{msgs.profile_title}" escape="false" >
 				<f:param value="#{employee.currentEmployee.name}"/>
 			</h:outputFormat>
 		</ui:define>
 		<ui:define name="pageTitle">
-			<h:outputFormat value="#{msgs.profile_title}" escape="false">
+			<h:outputFormat value="#{msgs.profile_title}" escape="false" >
 				<f:param value="#{employee.currentEmployee.name}"/>
 			</h:outputFormat>
 		</ui:define>
 		<ui:define name="content">
-			<h:form>
-					<div class="form-group">
-						<label for="username">#{msgs.username}</label>
+		<h3>#{msgs.profile_msg}</h3>
+		<h:outputText value="#{msgs.profile_warning}" rendered="#{not employee.admin}" />
+			<h:form id="profileForm">
+					<div class="form-group" >
+						<h:outputLabel value="#{msgs.username}" for="username" rendered="#{employee.admin}"/>
 						<h:inputText binding="#{nameField}" class="form-control" id="username"
-							pt:placeholder="Username" />
+							pt:placeholder="#{msgs.username}" rendered="#{employee.admin}" />
 					</div>
+					
 					<div class="form-group">
-						<label for="password">#{msgs.password}</label>
-						<h:inputSecret binding="#{passwordField}" class="form-control" id="password"
-							pt:placeholder="Password" />
+						<label for="password">#{msgs.old_password}</label>
+						<h:inputSecret binding="#{old_passwordField}" class="form-control" id="old_password"
+							pt:placeholder="#{msgs.old_pass_hint}" />
+					</div>
+					
+					<div class="form-group">
+						<label for="password">#{msgs.new_password}</label>
+						<h:inputSecret binding="#{new_passwordField}" class="form-control" id="new_password"
+							pt:placeholder="#{msgs.new_pass_hint}" />
+					</div>
+					
+					<div class="form-group">
+						<label for="password">#{msgs.confirm_password}</label>
+						<h:inputSecret binding="#{confirm_passwordField}" class="form-control" id="confirm_password"
+							pt:placeholder="#{msgs.confirm_pass_hint}" />	
 					</div>
 
-					<h:commandButton value="#{msgs.save}" action="#{employee.updateEmployee(nameField.value, passwordField.value)}" />
+					<h:commandButton value="#{msgs.save}" action="#{employee.updateEmployee(employee.currentEmployee.name, old_passwordField.value,
+						new_passwordField.value, confirm_passwordField.value)}" />
 				</h:form>
 		</ui:define>
 	</ui:composition>
