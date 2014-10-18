@@ -14,12 +14,12 @@
 <body>
 	<ui:composition template="/templates/masterLayout.xhtml">
 		<ui:define name="windowTitle">
-			<h:outputFormat value="#{msgs.profile_title}">
+			<h:outputFormat value="#{msgs.profile_title}" escape="false">
 				<f:param value="#{employee.currentEmployee.name}"/>
 			</h:outputFormat>
 		</ui:define>
 		<ui:define name="pageTitle">
-			<h:outputFormat value="#{msgs.profile_title}">
+			<h:outputFormat value="#{msgs.profile_title}" escape="false">
 				<f:param value="#{employee.currentEmployee.name}"/>
 			</h:outputFormat>
 		</ui:define>
