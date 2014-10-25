@@ -28,6 +28,7 @@ public class EmployeeTracker implements Serializable {
             new EmployeeModel("Gabriel", 3, "ghung392", true, "toohardtoguess"),
             new EmployeeModel("Angela", 4, "starangelam", false, "qwerty")
             ));
+    private int counter = 4;
     /**
      * Method to find a employee
      * @param id employee number
@@ -85,6 +86,16 @@ public class EmployeeTracker implements Serializable {
         FacesContext.getCurrentInstance().addMessage("loginform:password", 
                 new FacesMessage("Username and/or password does not match! Please try again."));
         return null;
+    }
+    
+    public int getCounter()
+    {
+    	return counter;
+    }
+    
+    public void setCounter(int number)
+    {
+    	counter = number;
     }
 
 }

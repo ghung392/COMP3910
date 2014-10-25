@@ -21,6 +21,7 @@
 		</ui:define>
 		<ui:define name="content">
 			<h:form>
+				<h:commandButton value="#{msgs.create_user}" action="createEmployee" />
 				<h:dataTable value="#{employee.employeeList}" var="user"
 					class="table">
 					<h:column>

@@ -14,43 +14,41 @@
 <body>
 	<ui:composition template="/templates/masterLayout.xhtml">
 		<ui:define name="windowTitle">
-			<h:outputFormat value="#{msgs.profile_title}" escape="false" >
-				<f:param value="#{employee.currentEmployee.name}"/>
+			<h:outputFormat value="#{msgs.create_title}" >
 			</h:outputFormat>
 		</ui:define>
 		<ui:define name="pageTitle">
-			<h:outputFormat value="#{msgs.profile_title}" escape="false" >
-				<f:param value="#{employee.currentEmployee.name}"/>
+			<h:outputFormat value="#{msgs.create_title}" >
 			</h:outputFormat>
 		</ui:define>
 		<ui:define name="content">
-		<h3>#{msgs.profile_msg}</h3>
-			<h:form id="profileForm">
+		<h3>#{msgs.create_msg}</h3>
+			<h:form>
 					<div class="form-group" >
-						<h:outputLabel value="#{msgs.username}" for="username" rendered="#{employee.admin}"/>
-						<h:inputText binding="#{nameField}" class="form-control" id="username"
-							pt:placeholder="#{msgs.username}" rendered="#{employee.admin}" />
+						<h:outputLabel value="#{msgs.username}" for="username" />
+						<h:inputText binding="#{usernameField}" class="form-control" id="username"
+							pt:placeholder="#{msgs.username}" required="true" requiredMessage="#{msgs.profile_error}" />
 					</div>
 					
-					<div class="form-group">
-						<label for="password">#{msgs.old_password}</label>
-						<h:inputSecret binding="#{old_passwordField}" class="form-control" id="old_password"
-							pt:placeholder="#{msgs.old_pass_hint}" />
+					<div class="form-group" >
+						<h:outputLabel value="#{msgs.name}" for="name" />
+						<h:inputText binding="#{nameField}" class="form-control" id="name"
+							pt:placeholder="#{msgs.name}" required="true" requiredMessage="#{msgs.profile_error}" />
 					</div>
 					
 					<div class="form-group">
 						<label for="password">#{msgs.new_password}</label>
 						<h:inputSecret binding="#{new_passwordField}" class="form-control" id="new_password"
-							pt:placeholder="#{msgs.new_pass_hint}" />
+							pt:placeholder="#{msgs.new_pass_hint}" rendered="#{employee.admin}" required="true" requiredMessage="#{msgs.profile_error}" />
 					</div>
 					
 					<div class="form-group">
 						<label for="password">#{msgs.confirm_password}</label>
 						<h:inputSecret binding="#{confirm_passwordField}" class="form-control" id="confirm_password"
-							pt:placeholder="#{msgs.confirm_pass_hint}" />	
+							pt:placeholder="#{msgs.confirm_pass_hint}" rendered="#{employee.admin}" required="true" requiredMessage="#{msgs.profile_error}"/>	
 					</div>
 
-					<h:commandButton value="#{msgs.save}" action="#{employee.updateEmployee(nameField.value, old_passwordField.value,
+					<h:commandButton value="#{msgs.create_user}" action="#{employee.createEmployee(usernameField.value, nameField.value,
 						new_passwordField.value, confirm_passwordField.value)}" />
 				</h:form>
 		</ui:define>

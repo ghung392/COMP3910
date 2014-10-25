@@ -63,4 +63,13 @@
     TARGET="rules:#adminViewProfile.xhtml" TITLE="updatefail" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#createEmployee.xhtml"
+  PATH="/createEmployee.xhtml" SHAPE="48,449,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#createEmployee.xhtml:0" NAME="item"
+   PATH="/createEmployee.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="createsuccess::#userAdmin.xhtml"
+    NAME="output" PATH="/userAdmin.xhtml"
+    TARGET="rules:#userAdmin.xhtml" TITLE="createsuccess" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
 </PROCESS>

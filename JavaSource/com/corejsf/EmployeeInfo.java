@@ -101,7 +101,14 @@ public class EmployeeInfo implements Serializable {
         
     }
 
-    public void addEmployee(Employee newEmployee) {
+    public String createEmployee(final String username, final String name,
+            final String newPassword, final String confirmPassword) {
+    	int counter = employeeList.getCounter();
+    	EmployeeModel newEmployee = new EmployeeModel(name, counter + 1, username, false, newPassword);
+    	addEmployeeToList(newEmployee);
+    	employeeList.setCounter(counter + 1);
+    	
+    	return "createsuccess";
     }
     
     public void addEmployeeToList(EmployeeModel newEmployee) {
