@@ -58,6 +58,10 @@ public class EmployeeModel extends Employee implements Serializable {
     
     @Override
     public boolean equals(Object o) {
+		if (o == null && !(o instanceof Employee)) {
+			return false;
+		}
+
     	Employee emp = (Employee) o;
     	return emp.getEmpNumber() == this.getEmpNumber();
     }
