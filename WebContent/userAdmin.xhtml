@@ -21,15 +21,16 @@
 		</ui:define>
 		<ui:define name="content">
 			<h:form>
-				<h:commandButton value="#{msgs.create_user}" action="createEmployee" />
-				<h:dataTable value="#{employee.employeeList}" var="user"
-					class="table">
+				<h:commandButton value="#{msgs.create_user}" action="createEmployee" styleClass="btn btn-primary" />
+				<h:dataTable value="#{employee.employeeList}" var="user" styleClass="table">
 					<h:column>
 						<f:facet name="header">#{msgs.change}</f:facet>
-						<h:commandLink value="#{user.userName} - #{user.name} - E Num: #{user.empNumber}" class="list-group-item" action="#{employee.changeEmployee(user.userName)}" />
+						<h:commandLink value="#{user.userName} - #{user.name} - E Num: #{user.empNumber}" 
+							action="#{employee.changeEmployee(user.userName)}" styleClass="list-group-item" />
 					</h:column>
 					<h:column>
-						<h:commandButton value="#{msgs.delete_user}" action="#{employee.deleteEmployee(user)}" />
+						<h:commandButton value="#{msgs.delete_user}" action="#{employee.deleteEmployee(user)}" 
+							styleClass="btn btn-default" />
 					</h:column>
 				</h:dataTable>
 			</h:form>

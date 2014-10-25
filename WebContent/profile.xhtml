@@ -24,8 +24,11 @@
 			</h:outputFormat>
 		</ui:define>
 		<ui:define name="content">
-		<h3>#{msgs.profile_msg}</h3>
+		<h4>#{msgs.profile_msg}</h4>
 			<h:form id="profileForm">
+				<h:messages fatalClass="text-danger" errorClass="text-danger" warnClass="text-warning" infoClass="text-primary"  />
+				
+			<div class="col-sm-6">
 					<div class="form-group" >
 						<h:outputLabel value="#{msgs.username}" for="username" rendered="#{employee.admin}"/>
 						<h:inputText binding="#{nameField}" class="form-control" id="username"
@@ -51,7 +54,8 @@
 					</div>
 
 					<h:commandButton value="#{msgs.save}" action="#{employee.updateEmployee(nameField.value, old_passwordField.value,
-						new_passwordField.value, confirm_passwordField.value)}" />
+						new_passwordField.value, confirm_passwordField.value)}"  styleClass="btn btn-primary" />
+				</div>
 				</h:form>
 		</ui:define>
 	</ui:composition>
