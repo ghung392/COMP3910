@@ -28,6 +28,9 @@
 						<f:facet name="header">#{msgs.change}</f:facet>
 						<h:commandLink value="#{user.userName} - #{user.name} - E Num: #{user.empNumber}" class="list-group-item" action="#{employee.changeEmployee(user.userName)}" />
 					</h:column>
+					<h:column>
+						<h:commandButton value="#{msgs.delete_user}" action="#{employee.deleteEmployee(user)}" />
+					</h:column>
 				</h:dataTable>
 			</h:form>
 		</ui:define>

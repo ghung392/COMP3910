@@ -66,6 +66,20 @@
 			<to-view-id>/userAdmin.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/userAdmin.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>deletesuccess</from-outcome>
+			<to-view-id>/userAdmin.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/userAdmin.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>deletefail</from-outcome>
+			<to-view-id>/userAdmin.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 	<application>
 		<locale-config>
 			<default-locale>en</default-locale>

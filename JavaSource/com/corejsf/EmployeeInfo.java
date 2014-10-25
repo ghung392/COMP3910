@@ -96,9 +96,15 @@ public class EmployeeInfo implements Serializable {
         return "logout";
     }
 
-    public void deleteEmpoyee(Employee userToDelete) {
-        employeeList.remove(userToDelete);
+    public String deleteEmployee(EmployeeModel employee) {
+    	if(employee == currentEmployee) {
+    		FacesContext.getCurrentInstance().addMessage("profileForm", 
+                    new FacesMessage("You cannot delete yourself. You are the admin."));
+            return "deletefail";
+    	}
+        employeeList.remove(employee); 
         
+        return "deletesuccess";
     }
 
     public String createEmployee(final String username, final String name,
