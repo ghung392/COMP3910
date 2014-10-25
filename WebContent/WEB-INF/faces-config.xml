@@ -38,6 +38,27 @@
 			<to-view-id>/profile.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/userAdmin.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>viewprofile</from-outcome>
+			<to-view-id>/adminViewProfile.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/adminViewProfile.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>updatesuccess</from-outcome>
+			<to-view-id>/userAdmin.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/adminViewProfile.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>updatefail</from-outcome>
+			<to-view-id>/adminViewProfile.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 	<application>
 		<locale-config>
 			<default-locale>en</default-locale>

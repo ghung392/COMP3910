@@ -26,15 +26,12 @@ import ca.bcit.infosys.employee.EmployeeList;
  */
 @Named("employee")
 @SessionScoped
-public class EmployeeInfo implements Serializable, EmployeeList {
+public class EmployeeInfo implements Serializable {
    
     @Inject private EmployeeTracker employeeList;
-    private EmployeeModel currentEmployee;    
+    private EmployeeModel currentEmployee;   
+    private EmployeeModel focusedEmployee;
 
-    @Override
-    public List<Employee> getEmployees() {
-        return null;
-    }
     /**
      * Method to get the list of employees
      * @return arraylist of employees
@@ -42,17 +39,15 @@ public class EmployeeInfo implements Serializable, EmployeeList {
     public ArrayList<EmployeeModel> getEmployeeList() {
         return employeeList.getEmployees();
     }
-    @Override
+
     /**
      * @param name the name of the employee
      * @return the employee
      */
-    public Employee getEmployee(String name) {
-        return employeeList.find(name);
-        
+    public EmployeeModel getEmployee(String username) {
+        return employeeList.find(username);     
     }
 
-    @Override
     /**
      * @return the Map containing the valid (userName, password) combinations.
      */
@@ -60,7 +55,6 @@ public class EmployeeInfo implements Serializable, EmployeeList {
         return null;
     }
 
-    @Override
     /**
      * Method to return the current employee signed in
      * @return current employee
@@ -68,27 +62,15 @@ public class EmployeeInfo implements Serializable, EmployeeList {
     public Employee getCurrentEmployee() {
         return currentEmployee;
     }
-
-    @Override
-    public Employee getAdministrator() {
-        // TODO Auto-generated method stub
-        return null;
+    
+    public Employee getFocusedEmployee() {
+        return focusedEmployee;
     }
     
     public boolean getAdmin() {
         return currentEmployee.isAdmin();
     }
 
-    @Override
-    /**
-     * Verifies that the loginID and password is a valid combination.
-     *
-     * @param credential (userName, Password) pair
-     * @return true if it is, false if it is not.
-     */
-    public boolean verifyUser(Credentials credential) {
-        return false;
-    }
     /**
      * Authenticates user and sets current employee depending on matching credentials.
      * @param username input username
@@ -104,27 +86,21 @@ public class EmployeeInfo implements Serializable, EmployeeList {
         }
     }
 
-    @Override
-    public String logout(Employee employee) {
-        currentEmployee = null;
-        return "logout";
-    }
     /**
      * Logs out the current employee.
      * @return logout for navigation
      */
     public String employeeLogout() {
         currentEmployee = null;
+        focusedEmployee = null;
         return "logout";
     }
 
-    @Override
     public void deleteEmpoyee(Employee userToDelete) {
         employeeList.remove(userToDelete);
         
     }
 
-    @Override
     public void addEmployee(Employee newEmployee) {
     }
     
@@ -134,12 +110,6 @@ public class EmployeeInfo implements Serializable, EmployeeList {
     
     public String updateEmployee(final String username, final String oldPassword,
             final String newPassword, final String confirmPassword ) {
-        if(!(currentEmployee.isPassStatus()) && !(currentEmployee.isAdmin())) {
-            FacesContext.getCurrentInstance().addMessage("profileForm:old_password", 
-                    new FacesMessage("You have already changed your password once. Contact "
-                            + "your administrator for details."));
-            return "updatefail";
-        }
         
         if((oldPassword.compareTo(currentEmployee.getPassword())) != 0) {
             FacesContext.getCurrentInstance().addMessage("profileForm:old_password", 
@@ -155,11 +125,39 @@ public class EmployeeInfo implements Serializable, EmployeeList {
             return "updatefail";
         }
         
-        currentEmployee.setUserName(username);
+        if((username.compareTo("")) != 0)
+        {
+            currentEmployee.setUserName(username);
+        }
+        
         currentEmployee.setPassword(newPassword);
-        currentEmployee.setPassStatus(false);
         
         return "updatesuccess";
+    }
+    
+    public String updateFocusedEmployee(final String username,
+            final String newPassword, final String confirmPassword ) {
+      
+        if((newPassword.compareTo(confirmPassword)) != 0) {
+            FacesContext.getCurrentInstance().addMessage("profileForm:confirm_password", 
+                    new FacesMessage("Your password confirmation did not match. Try again."));
+            return "updatefail";
+        } 
+        
+        if((username.compareTo("")) != 0)
+        {
+            focusedEmployee.setUserName(username);
+        }
+        
+        focusedEmployee.setPassword(newPassword);
+        
+        return "updatesuccess";
+    }
+    
+    public String changeEmployee(final String username) {
+        focusedEmployee = getEmployee(username);
+        
+        return "viewprofile";
     }
     
 }

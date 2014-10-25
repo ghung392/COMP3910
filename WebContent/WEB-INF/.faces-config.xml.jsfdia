@@ -39,4 +39,28 @@
     TITLE="updatefail" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#userAdmin.xhtml" PATH="/userAdmin.xhtml"
+  SHAPE="48,305,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#userAdmin.xhtml:0" NAME="item"
+   PATH="/userAdmin.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="viewprofile::#adminViewProfile.xhtml"
+    NAME="output" PATH="/adminViewProfile.xhtml"
+    TARGET="rules:#adminViewProfile.xhtml" TITLE="viewprofile" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#adminViewProfile.xhtml"
+  PATH="/adminViewProfile.xhtml" SHAPE="240,321,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#adminViewProfile.xhtml:0" NAME="item"
+   PATH="/adminViewProfile.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="updatesuccess::#userAdmin.xhtml"
+    NAME="output" PATH="/userAdmin.xhtml"
+    TARGET="rules:#userAdmin.xhtml" TITLE="updatesuccess" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+  <PROCESS-ITEM ID="rules:#adminViewProfile.xhtml:1" NAME="item1"
+   PATH="/adminViewProfile.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="updatefail::#adminViewProfile.xhtml"
+    NAME="output" PATH="/adminViewProfile.xhtml"
+    TARGET="rules:#adminViewProfile.xhtml" TITLE="updatefail" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
 </PROCESS>

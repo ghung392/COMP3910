@@ -33,9 +33,9 @@ public class EmployeeTracker implements Serializable {
      * @param id employee number
      * @return employee if find or null
      */
-    public EmployeeModel find(final String name) {
+    public EmployeeModel find(final String username) {
         for(int i = 0; i < employees.size(); i++) {
-            if(employees.get(i).getName().compareTo(name) == 0) {
+            if(employees.get(i).getUserName().compareTo(username) == 0) {
                 return employees.get(i);
             }
         }

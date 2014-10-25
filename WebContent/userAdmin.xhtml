@@ -21,13 +21,11 @@
 		</ui:define>
 		<ui:define name="content">
 			<h:form>
-				<h:dataTable value="#{timesheetData.allTimesheets}" var="timesheet"
+				<h:dataTable value="#{employee.employeeList}" var="user"
 					class="table">
 					<h:column>
-						<h:commandLink
-							value="Timesheet of week ending on #{timesheet.weekEnding}"
-							action="#{timesheetData.viewTimesheet(timesheet.endWeek)}"
-							class="list-group-item " />
+						<f:facet name="header">#{msgs.change}</f:facet>
+						<h:commandLink value="#{user.userName} - #{user.name} - E Num: #{user.empNumber}" class="list-group-item" action="#{employee.changeEmployee(user.userName)}" />
 					</h:column>
 				</h:dataTable>
 			</h:form>

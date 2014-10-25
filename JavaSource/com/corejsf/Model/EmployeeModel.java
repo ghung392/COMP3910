@@ -13,7 +13,7 @@ public class EmployeeModel extends Employee implements Serializable {
     private String password;
     /** Employee admin status */
     private boolean admin;
-    private boolean passStatus = true;
+    
     /**
      * Constructor to instantiate an employee
      * @param empName employee name
@@ -54,14 +54,6 @@ public class EmployeeModel extends Employee implements Serializable {
      */
     public boolean isAdmin() {
         return admin;
-    }
-    
-    public void setPassStatus(boolean newValue) {
-        passStatus = newValue;
-    }
-    
-    public boolean isPassStatus() {
-        return passStatus;
     }
     
     @Override
