@@ -44,13 +44,38 @@
 							<h:outputText value="#{detail.sum}" class="vcenter" />
 						</h:column>
 						<h:column>
+							<f:facet name="header">SAT</f:facet>
+							<h:inputText value="#{detail.hourSat}"
+								class="form-control" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">SUN</f:facet>
+							<h:inputText value="#{detail.hourSun}"
+								class="form-control" />
+						</h:column>
+						<h:column>
 							<f:facet name="header">MON</f:facet>
-							<h:inputText value="#{detail.hoursForWeek[2]}"
+							<h:inputText value="#{detail.hourMon}"
 								class="form-control" />
 						</h:column>
 						<h:column>
 							<f:facet name="header">TUE</f:facet>
-							<h:inputText value="#{detail.hoursForWeek[3]}"
+							<h:inputText value="#{detail.hourTue}"
+								class="form-control" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">WED</f:facet>
+							<h:inputText value="#{detail.hourWed}"
+								class="form-control" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">THU</f:facet>
+							<h:inputText value="#{detail.hourThur}"
+								class="form-control" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">FRI</f:facet>
+							<h:inputText value="#{detail.hourFri}"
 								class="form-control" />
 						</h:column>
 						<h:column>

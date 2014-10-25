@@ -1,5 +1,6 @@
 package com.corejsf.Model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,19 @@ public class TimesheetModel extends Timesheet {
 
 	public TimesheetModel() {
 		super();
+		
+		ArrayList<TimesheetRow> newDetails = new ArrayList<TimesheetRow>() {
+            private static final long serialVersionUID = 1L;
+            {
+                add(new TimesheetRowModel());
+                add(new TimesheetRowModel());
+                add(new TimesheetRowModel());
+                add(new TimesheetRowModel());
+                add(new TimesheetRowModel());
+            }
+		};
+		
+		setDetails(newDetails);
 	}
 
 	public TimesheetModel(final Employee user, final Date end, final List<TimesheetRow> charges) {

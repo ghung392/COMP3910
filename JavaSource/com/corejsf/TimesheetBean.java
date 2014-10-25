@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ca.bcit.infosys.employee.Employee;
-import ca.bcit.infosys.timesheet.Timesheet;
 
 import com.corejsf.Access.TimesheetManager;
 import com.corejsf.Model.TimesheetModel;
@@ -27,9 +26,9 @@ public class TimesheetBean implements Serializable {
 
 	private Date currEndWeek;
 
-	public Timesheet getTimesheet() {
+	public TimesheetModel getTimesheet() {
 		Employee currEmployee = employeeSession.getCurrentEmployee();
-		Timesheet timesheet = timesheetManager.getTimesheet(currEmployee, currEndWeek);
+		TimesheetModel timesheet = timesheetManager.getTimesheet(currEmployee, currEndWeek);
 		return timesheet;
 	}
 	
