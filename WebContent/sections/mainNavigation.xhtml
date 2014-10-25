@@ -20,7 +20,6 @@
 					<li><h:commandLink value="#{msgs.nav_fill_timesheet}"  action="#{timesheetData.currTimesheet}" /></li>
 					<li><h:commandLink value="#{msgs.nav_history}" action="history" /></li>
 					<li><h:commandLink value="#{msgs.nav_profile}" action="profile" /></li>
-					<!-- // TODO show/hide based on if user admin -->
 					<li><h:commandLink value="#{msgs.nav_admin}" action="userAdmin" rendered="#{employee.admin}" /></li>
 					<li><h:commandLink value="#{msgs.nav_logout}" action="#{employee.employeeLogout}" /></li>
 				</ul>

@@ -38,13 +38,7 @@ public class TimesheetBean implements Serializable {
 	}
 	
 	public String currTimesheet() {
-		Calendar c = new GregorianCalendar();
-        int currentDay = c.get(Calendar.DAY_OF_WEEK);
-        int leftDays = Calendar.FRIDAY - currentDay;
-        c.add(Calendar.DATE, leftDays);
-
-        currEndWeek = c.getTime();
-
+        currEndWeek = TimesheetModel.getCurrDate();
 		return "createTimesheet";
 	}
 	
