@@ -52,7 +52,7 @@ public class TimesheetManager{
 		TimesheetModel timesheet = null;
 
 		for (TimesheetModel t : employeeTimesheets) {
-			if (t.getEndWeek() == weekEnd) {
+			if (t.isSameWeekEnd(weekEnd)) {
 				timesheet = t;
 				System.out.println("Found timesheet for " + weekEnd.toString());
 			}
