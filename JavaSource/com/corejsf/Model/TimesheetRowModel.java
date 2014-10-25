@@ -55,7 +55,7 @@ public class TimesheetRowModel extends TimesheetRow {
 		setHour(TimesheetRow.WED, hour);
 	}
 
-	public void setHourThu(final BigDecimal hour) {
+	public void setHourThur(final BigDecimal hour) {
 		setHour(TimesheetRow.THU, hour);
 	}
 
