@@ -29,7 +29,6 @@ import ca.bcit.infosys.employee.EmployeeList;
 public class EmployeeInfo implements Serializable, EmployeeList {
    
     @Inject private EmployeeTracker employeeList;
-    //@Inject private Employee employee;
     private EmployeeModel currentEmployee;    
 
     @Override
@@ -133,8 +132,15 @@ public class EmployeeInfo implements Serializable, EmployeeList {
         employeeList.add(newEmployee);
     }
     
-    public String updateEmployee(final String name, final String oldPassword,
+    public String updateEmployee(final String username, final String oldPassword,
             final String newPassword, final String confirmPassword ) {
+        if(!(currentEmployee.isPassStatus()) && !(currentEmployee.isAdmin())) {
+            FacesContext.getCurrentInstance().addMessage("profileForm:old_password", 
+                    new FacesMessage("You have already changed your password once. Contact "
+                            + "your administrator for details."));
+            return "updatefail";
+        }
+        
         if((oldPassword.compareTo(currentEmployee.getPassword())) != 0) {
             FacesContext.getCurrentInstance().addMessage("profileForm:old_password", 
                     new FacesMessage("You did not enter a match with your old password. Try again."));
@@ -149,8 +155,9 @@ public class EmployeeInfo implements Serializable, EmployeeList {
             return "updatefail";
         }
         
-        currentEmployee.setName(name);
+        currentEmployee.setUserName(username);
         currentEmployee.setPassword(newPassword);
+        currentEmployee.setPassStatus(false);
         
         return "updatesuccess";
     }

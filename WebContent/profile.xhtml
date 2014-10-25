@@ -30,28 +30,28 @@
 					<div class="form-group" >
 						<h:outputLabel value="#{msgs.username}" for="username" rendered="#{employee.admin}"/>
 						<h:inputText binding="#{nameField}" class="form-control" id="username"
-							pt:placeholder="#{msgs.username}" rendered="#{employee.admin}" />
+							pt:placeholder="#{msgs.username}" rendered="#{employee.admin}" required="true" requiredMessage="#{msgs.profile_error}" />
 					</div>
 					
 					<div class="form-group">
 						<label for="password">#{msgs.old_password}</label>
 						<h:inputSecret binding="#{old_passwordField}" class="form-control" id="old_password"
-							pt:placeholder="#{msgs.old_pass_hint}" />
+							pt:placeholder="#{msgs.old_pass_hint}" required="true" requiredMessage="#{msgs.profile_error}" />
 					</div>
 					
 					<div class="form-group">
 						<label for="password">#{msgs.new_password}</label>
 						<h:inputSecret binding="#{new_passwordField}" class="form-control" id="new_password"
-							pt:placeholder="#{msgs.new_pass_hint}" />
+							pt:placeholder="#{msgs.new_pass_hint}" required="true" requiredMessage="#{msgs.profile_error}" />
 					</div>
 					
 					<div class="form-group">
 						<label for="password">#{msgs.confirm_password}</label>
 						<h:inputSecret binding="#{confirm_passwordField}" class="form-control" id="confirm_password"
-							pt:placeholder="#{msgs.confirm_pass_hint}" />	
+							pt:placeholder="#{msgs.confirm_pass_hint}" required="true" requiredMessage="#{msgs.profile_error}" />	
 					</div>
 
-					<h:commandButton value="#{msgs.save}" action="#{employee.updateEmployee(employee.currentEmployee.name, old_passwordField.value,
+					<h:commandButton value="#{msgs.save}" action="#{employee.updateEmployee(employee.currentEmployee.userName, old_passwordField.value,
 						new_passwordField.value, confirm_passwordField.value)}" />
 				</h:form>
 		</ui:define>
