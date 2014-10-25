@@ -31,7 +31,8 @@
 							pt:placeholder="Password" />
 					</div>
 
-					<h:commandButton id="loginbutton" value="#{msgs.login}" action="#{employee.verifyEmployee(usernameField.value, passwordField.value)}" />
+					<h:commandButton id="loginbutton" value="#{msgs.login}" styleClass="btn btn-primary"
+						action="#{employee.verifyEmployee(usernameField.value, passwordField.value)}" />
 					<h:message for="loginbutton" />
 				</h:form>
 			</div>
