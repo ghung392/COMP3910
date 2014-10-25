@@ -1,5 +1,6 @@
 package com.corejsf.Model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,7 +13,7 @@ import ca.bcit.infosys.timesheet.TimesheetRow;
 
 public class TimesheetModel extends Timesheet {
 
-	public TimesheetModel() {
+	public TimesheetModel(final Employee e) {
 		super();
 		
 		ArrayList<TimesheetRow> newDetails = new ArrayList<TimesheetRow>() {
@@ -25,8 +26,8 @@ public class TimesheetModel extends Timesheet {
                 add(new TimesheetRowModel());
             }
 		};
-		
 		setDetails(newDetails);
+		setEmployee(e);
 	}
 
 	public TimesheetModel(final Employee user, final Date end, final List<TimesheetRow> charges) {
@@ -44,5 +45,23 @@ public class TimesheetModel extends Timesheet {
 
 	public int getWeekNum() {
 		return getWeekNumber();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null && !(obj instanceof Timesheet)) {
+			return false;
+		}
+		
+		final Timesheet testSheet = (Timesheet) obj;
+		final EmployeeModel testEmp = (EmployeeModel) this.getEmployee();
+		final boolean isSameUser = testEmp.equals(testSheet.getEmployee());
+
+		final SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+		final String date1 = fmt.format(this.getEndWeek());
+		final String date2 = fmt.format(testSheet.getEndWeek());
+		final boolean isSameWeek = date1.equals(date2);
+		
+		return isSameUser && isSameWeek;
 	}
 }

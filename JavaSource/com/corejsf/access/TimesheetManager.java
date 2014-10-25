@@ -49,21 +49,6 @@ public class TimesheetManager{
 		return employeeTimesheets;
 	}
 
-	public TimesheetModel getCurrentTimesheet(Employee e) {
-		Calendar c = new GregorianCalendar();
-        int currentDay = c.get(Calendar.DAY_OF_WEEK);
-        int leftDays = Calendar.FRIDAY - currentDay;
-        c.add(Calendar.DATE, leftDays);
-        Date currEndWeek = c.getTime();
-
-        TimesheetModel currWeek = getTimesheet(e, currEndWeek);
-		if (currWeek == null) {
-			currWeek = new TimesheetModel();
-		}
-		
-		return currWeek;
-	}
-	
 	public TimesheetModel getTimesheet(final Employee e, final Date weekEnd) {
 		List<TimesheetModel> employeeTimesheets = getTimesheets(e);
 		TimesheetModel timesheet = null;
@@ -71,13 +56,26 @@ public class TimesheetManager{
 		for (TimesheetModel t : employeeTimesheets) {
 			if (t.getEndWeek() == weekEnd) {
 				timesheet = t;
+				System.out.println("Found timesheet for " + weekEnd.toString());
 			}
 		}
 		if (timesheet == null) {
-			timesheet = new TimesheetModel();
+			timesheet = new TimesheetModel(e);
+			addTimesheet(timesheet);
 		}
 		
 		return timesheet;
+	}
+	
+	public void addTimesheet(final TimesheetModel timesheet) {
+		if (timesheet == null) return;
+
+		// only add timesheet if it doesn't exist
+		List <TimesheetModel> employeeTimesheets = getTimesheets(timesheet.getEmployee());
+		if (! employeeTimesheets.contains(timesheet) ) {
+			timesheetCollection.add(timesheet);
+			System.out.println("Creating timesheet for " + timesheet.getEndWeek().toString());
+		}
 	}
 
 	private void populateTimesheetCollection() {

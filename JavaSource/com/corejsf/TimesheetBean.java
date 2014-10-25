@@ -11,9 +11,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ca.bcit.infosys.employee.Employee;
+import ca.bcit.infosys.timesheet.Timesheet;
+import ca.bcit.infosys.timesheet.TimesheetRow;
 
 import com.corejsf.Access.TimesheetManager;
 import com.corejsf.Model.TimesheetModel;
+import com.corejsf.Model.TimesheetRowModel;
 
 @Named("timesheetData")
 @SessionScoped
