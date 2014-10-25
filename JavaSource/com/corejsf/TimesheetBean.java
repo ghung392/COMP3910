@@ -1,8 +1,6 @@
 package com.corejsf;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -14,10 +12,9 @@ import javax.inject.Named;
 
 import ca.bcit.infosys.employee.Employee;
 import ca.bcit.infosys.timesheet.Timesheet;
-import ca.bcit.infosys.timesheet.TimesheetCollection;
-import ca.bcit.infosys.timesheet.TimesheetRow;
 
 import com.corejsf.Access.TimesheetManager;
+import com.corejsf.Model.TimesheetModel;
 
 @Named("timesheetData")
 @SessionScoped
@@ -36,7 +33,7 @@ public class TimesheetBean implements Serializable {
 		return timesheet;
 	}
 	
-	public List<Timesheet> getAllTimesheets() {
+	public List<TimesheetModel> getAllTimesheets() {
 		Employee currEmployee = employeeSession.getCurrentEmployee();
 		return timesheetManager.getTimesheets(currEmployee);
 	}
