@@ -3,9 +3,7 @@ package com.corejsf.Access;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -74,7 +72,7 @@ public class TimesheetManager{
 		List <TimesheetModel> employeeTimesheets = getTimesheets(timesheet.getEmployee());
 		if (! employeeTimesheets.contains(timesheet) ) {
 			timesheetCollection.add(timesheet);
-			System.out.println("Creating timesheet for " + timesheet.getEndWeek().toString());
+			System.out.println("Create timesheet for " + timesheet.getEndWeek().toString());
 		}
 	}
 
@@ -84,11 +82,11 @@ public class TimesheetManager{
 		final List<TimesheetRow> e1Rows = new LinkedList<TimesheetRow>();
 
 		TimesheetRowModel row;
-		BigDecimal[] h1 = {null, null, null, new BigDecimal(4), null, null, null};
+		BigDecimal[] h1 = {null, null, null, new BigDecimal(4.0), null, null, null};
 		row = new TimesheetRowModel(P1, "AA123", h1, "");
 		e1Rows.add(row);
 		
-		BigDecimal[] h2 = {null, null, new BigDecimal(8), null, new BigDecimal(4), null, null};		
+		BigDecimal[] h2 = {null, null, new BigDecimal(8.0), null, new BigDecimal(4.0), null, null};		
 		row = new TimesheetRowModel(P1, "AB112", h2, "");
 		e1Rows.add(row);
 		

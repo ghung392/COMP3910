@@ -47,20 +47,25 @@ public class TimesheetModel extends Timesheet {
 		return getWeekNumber();
 	}
 	
+	public boolean isSameWeekEnd(final Date reference) {
+		final SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+		final String date1 = fmt.format(this.getEndWeek());
+		final String date2 = fmt.format(reference);
+		
+		return date1.equals(date2);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null && !(obj instanceof Timesheet)) {
 			return false;
 		}
 		
-		final Timesheet testSheet = (Timesheet) obj;
+		final Timesheet referenceSheet = (Timesheet) obj;
 		final EmployeeModel testEmp = (EmployeeModel) this.getEmployee();
-		final boolean isSameUser = testEmp.equals(testSheet.getEmployee());
 
-		final SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
-		final String date1 = fmt.format(this.getEndWeek());
-		final String date2 = fmt.format(testSheet.getEndWeek());
-		final boolean isSameWeek = date1.equals(date2);
+		final boolean isSameUser = testEmp.equals(referenceSheet.getEmployee());
+		final boolean isSameWeek = isSameWeekEnd(referenceSheet.getEndWeek());
 		
 		return isSameUser && isSameWeek;
 	}

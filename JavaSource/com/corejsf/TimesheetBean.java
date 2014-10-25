@@ -1,9 +1,7 @@
 package com.corejsf;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
@@ -11,12 +9,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ca.bcit.infosys.employee.Employee;
-import ca.bcit.infosys.timesheet.Timesheet;
-import ca.bcit.infosys.timesheet.TimesheetRow;
 
 import com.corejsf.Access.TimesheetManager;
+import com.corejsf.Model.EmployeeModel;
 import com.corejsf.Model.TimesheetModel;
-import com.corejsf.Model.TimesheetRowModel;
 
 @Named("timesheetData")
 @SessionScoped
@@ -27,27 +23,61 @@ public class TimesheetBean implements Serializable {
 	@Inject
 	private EmployeeInfo employeeSession;
 
+	private List<TimesheetModel> allTimesheets;
+	private TimesheetModel timesheet;
 	private Date currEndWeek;
 
+	public List<TimesheetModel> getAllTimesheets() {
+		// refresh timesheetList only if not initialized, empty or current
+		// employee changed.
+		if (allTimesheets == null) {
+			refreshTimesheetList();
+		} else {
+			if (allTimesheets.size() == 0) {
+				refreshTimesheetList();
+			} else {
+				EmployeeModel reference = (EmployeeModel) allTimesheets.get(0).getEmployee();
+				if (!reference.equals(employeeSession.getCurrentEmployee())) {
+					refreshTimesheetList();
+				}
+
+			}
+		}
+
+		return allTimesheets;
+	}
+
 	public TimesheetModel getTimesheet() {
-		Employee currEmployee = employeeSession.getCurrentEmployee();
-		TimesheetModel timesheet = timesheetManager.getTimesheet(currEmployee, currEndWeek);
+		// refresh timesheet only if not initialized or currEndWeek changed
+		final boolean isSameCurrEndWeek = timesheet != null && timesheet.isSameWeekEnd(currEndWeek);
+		if (timesheet == null || !isSameCurrEndWeek) {
+			refreshTimesheet();
+		}
+
 		return timesheet;
 	}
-	
-	public List<TimesheetModel> getAllTimesheets() {
+
+	private void refreshTimesheetList() {
+		System.out.println("Refreshing employee's TimesheetList");
 		Employee currEmployee = employeeSession.getCurrentEmployee();
-		return timesheetManager.getTimesheets(currEmployee);
+		allTimesheets = timesheetManager.getTimesheets(currEmployee);
 	}
-	
+
+	private void refreshTimesheet() {
+		System.out.println("Refreshing current timesheet.");
+		Employee currEmployee = employeeSession.getCurrentEmployee();
+		TimesheetModel newSheet = timesheetManager.getTimesheet(currEmployee, currEndWeek);
+		timesheet = newSheet;
+	}
+
 	public String currTimesheet() {
-        currEndWeek = TimesheetModel.getCurrDate();
+		currEndWeek = TimesheetModel.getCurrDate();
 		return "createTimesheet";
 	}
-	
+
 	public String viewTimesheet(final Date endWeek) {
 		currEndWeek = endWeek;
-		
+
 		// TODO return proper view page of timesheet
 		return "createTimesheet";
 	}
