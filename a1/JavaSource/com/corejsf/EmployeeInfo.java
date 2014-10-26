@@ -2,38 +2,37 @@ package com.corejsf;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import ca.bcit.infosys.employee.Employee;
+
 import com.corejsf.Access.EmployeeTracker;
 import com.corejsf.Model.EmployeeModel;
 
-import ca.bcit.infosys.employee.Credentials;
-import ca.bcit.infosys.employee.Employee;
-import ca.bcit.infosys.employee.EmployeeList;
-
 /**
- * Backing bean to handle user authentication and to keep track of all the existing users
+ * Backing bean to handle user authentication and to keep track of all the
+ * existing users.
  * @author Gabriel
  *
  */
 @Named("employee")
 @SessionScoped
 public class EmployeeInfo implements Serializable {
-   
+
+	/**EmployeeTracker object that holds all the sample database objects. */
     @Inject private EmployeeTracker employeeList;
-    private EmployeeModel currentEmployee;   
+    /**The current employee object using the session. */
+    private EmployeeModel currentEmployee;
+    /**The employee that the admin is focused on. */
     private EmployeeModel focusedEmployee;
 
     /**
-     * Method to get the list of employees
+     * Method to get the list of employees.
      * @return arraylist of employees
      */
     public ArrayList<EmployeeModel> getEmployeeList() {
@@ -41,45 +40,48 @@ public class EmployeeInfo implements Serializable {
     }
 
     /**
-     * @param name the name of the employee
+     * Method to get an employee.
+     * @param username the name of the employee
      * @return the employee
      */
     public EmployeeModel getEmployee(String username) {
-        return employeeList.find(username);     
+        return employeeList.find(username);
     }
 
     /**
-     * @return the Map containing the valid (userName, password) combinations.
-     */
-    public Map<String, String> getLoginCombos() {
-        return null;
-    }
-
-    /**
-     * Method to return the current employee signed in
+     * Method to return the current employee signed in.
      * @return current employee
      */
     public Employee getCurrentEmployee() {
         return currentEmployee;
     }
-    
+
+    /**
+     * Method to return the focused employee.
+     * @return focused employee
+     */
     public Employee getFocusedEmployee() {
         return focusedEmployee;
     }
-    
+
+    /**
+     * Checks whether the current employee is an admin or not.
+     * @return employee's admin status
+     */
     public boolean getAdmin() {
         return currentEmployee.isAdmin();
     }
 
     /**
-     * Authenticates user and sets current employee depending on matching credentials.
+     * Authenticates user and sets current employee depending on matching
+     * credentials.
      * @param username input username
      * @param password input password
      */
     public String verifyEmployee(final String username, final String password) {
         currentEmployee = employeeList.auth(username, password);
-        
-        if( currentEmployee == null ) {
+
+        if (currentEmployee == null) {
             return "faillogin";
         } else {
             return "successlogin";
@@ -96,98 +98,152 @@ public class EmployeeInfo implements Serializable {
         return "logout";
     }
 
+    /**
+     * Removes the employee from the employee list.
+     * @param employee
+     * @return string depending on fail/success for navigation
+     */
     public String deleteEmployee(EmployeeModel employee) {
-    	if(employee == currentEmployee) {
-    		FacesContext.getCurrentInstance().addMessage("profileForm", 
-                    new FacesMessage("You cannot delete yourself. You are the admin."));
+    	if (employee == currentEmployee) {
+    		FacesContext.getCurrentInstance().addMessage("profileForm",
+                    new FacesMessage("You cannot delete yourself. "
+                    		+ "You are the admin."));
             return "deletefail";
     	}
-        employeeList.remove(employee); 
-        
+        employeeList.remove(employee);
+
         return "deletesuccess";
     }
 
+    /**
+     * Receives new employee info and creates it.
+     * @param username of new employee
+     * @param name of new employee
+     * @param newPassword of new employee
+     * @param confirmPassword of new employee
+     * @return string for navigation
+     */
     public String createEmployee(final String username, final String name,
             final String newPassword, final String confirmPassword) {
     	int counter = employeeList.getCounter();
-    	EmployeeModel newEmployee = new EmployeeModel(name, counter + 1, username, false, newPassword);
+    	EmployeeModel newEmployee = new EmployeeModel(name, counter + 1,
+    			username, false, newPassword);
     	addEmployeeToList(newEmployee);
     	employeeList.setCounter(counter + 1);
-    	
+
     	return "createsuccess";
     }
-    
+
+    /**
+     * Adds employee to the employee list.
+     * @param newEmployee to add to list
+     */
     public void addEmployeeToList(EmployeeModel newEmployee) {
         employeeList.add(newEmployee);
     }
-    
+    /**
+     * Updates the employee's password.
+     * @param oldPassword for update
+     * @param newPassword for update
+     * @param confirmPassword for update
+     * @return sring for navigation
+     */
     public String updateEmployee(final String oldPassword,
-            final String newPassword, final String confirmPassword ) {
-        
-        if((oldPassword.compareTo(currentEmployee.getPassword())) != 0) {
-            FacesContext.getCurrentInstance().addMessage("passwordForm:old_password", 
-                    new FacesMessage("You did not enter a match with your old password. Try again."));
+            final String newPassword, final String confirmPassword) {
+
+        if ((oldPassword.compareTo(currentEmployee.getPassword())) != 0) {
+            FacesContext.getCurrentInstance().addMessage(
+            		"passwordForm:old_password",
+                    new FacesMessage("You did not enter a match with your "
+                    		+ "old password. Try again."));
             return "updatefail";
-        } else if((newPassword.compareTo(confirmPassword)) != 0) {
-            FacesContext.getCurrentInstance().addMessage("passwordForm:confirm_password", 
-                    new FacesMessage("Your password confirmation did not match. Try again."));
+        } else if ((newPassword.compareTo(confirmPassword)) != 0) {
+            FacesContext.getCurrentInstance().addMessage(
+            		"passwordForm:confirm_password",
+                    new FacesMessage("Your password confirmation did not "
+                    		+ "match. Try again."));
             return "updatefail";
-        } else if((oldPassword.compareTo(newPassword)) == 0) {
-            FacesContext.getCurrentInstance().addMessage("passwordForm:new_password", 
-                    new FacesMessage("Your new password did not change. Try again."));
+        } else if ((oldPassword.compareTo(newPassword)) == 0) {
+            FacesContext.getCurrentInstance().addMessage(
+            		"passwordForm:new_password",
+                    new FacesMessage("Your new password did not "
+                    		+ "change. Try again."));
             return "updatefail";
         }
-        
+
         currentEmployee.setPassword(newPassword);
-        
+
         return "updatesuccess";
     }
-    
+
+    /**
+     * Updates the employee's info.
+     * @param username to update
+     * @param name to update
+     * @return string for navigation
+     */
     public String updateInfo(final String username, final String name) {
-    	if((username.compareTo("")) != 0)
-        {
+    	if ((username.compareTo("")) != 0) {
             currentEmployee.setUserName(username);
         }
-    	
-    	if((name.compareTo("")) != 0)
-        {
+
+    	if ((name.compareTo("")) != 0) {
             currentEmployee.setName(name);
         }
-    	
+
     	return "updatesuccess";
     }
-    
-    public String updateFocusedEmployee(final String newPassword, final String confirmPassword ) {
-      
-        if((newPassword.compareTo(confirmPassword)) != 0) {
-            FacesContext.getCurrentInstance().addMessage("passwordForm:confirm_password", 
-                    new FacesMessage("Your password confirmation did not match. Try again."));
+
+    /**
+     * Updates the focused employee's password.
+     * @param newPassword to update
+     * @param confirmPassword to update
+     * @return string for navigation
+     */
+    public String updateFocusedEmployee(final String newPassword,
+    		final String confirmPassword) {
+
+        if ((newPassword.compareTo(confirmPassword)) != 0) {
+            FacesContext.getCurrentInstance().addMessage(
+            		"passwordForm:confirm_password",
+                    new FacesMessage("Your password confirmation did not "
+                    		+ "match. Try again."));
             return "updatefail";
-        } 
-               
+        }
+
         focusedEmployee.setPassword(newPassword);
-        
+
         return "updatesuccess";
     }
-    
-    public String updateFocusedEmployeeInfo(final String username, final String name) {
-    	if((username.compareTo("")) != 0)
-        {
+
+    /**
+     * Updates focused employee's info.
+     * @param username to update
+     * @param name to update
+     * @return string for navigation
+     */
+    public String updateFocusedEmployeeInfo(final String username,
+    		final String name) {
+    	if ((username.compareTo("")) != 0) {
             focusedEmployee.setUserName(username);
         }
-    	
-    	if((username.compareTo("")) != 0)
-        {
+
+    	if ((username.compareTo("")) != 0) {
             focusedEmployee.setName(name);
         }
-    	
+
     	return "updatesuccess";
     }
-    
+
+    /**
+     * Change to a different focused employee.
+     * @param username of new focused employee
+     * @return string for navigation
+     */
     public String changeEmployee(final String username) {
         focusedEmployee = getEmployee(username);
-        
+
         return "viewprofile";
     }
-    
+
 }
