@@ -114,6 +114,11 @@ public class TimesheetBean implements Serializable {
 
 		return null;
 	}
+	
+	public String addRow() {
+	    timesheet.addRow();
+	    return null;
+	}
 
 	public String currTimesheet() {
 		showMessages = false;
