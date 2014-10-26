@@ -23,14 +23,14 @@
 			<h:form>
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<b>Current Week of Year: #{timesheetData.timesheet.weekNum}</b>  <!--  TODO should get weekNumber instead of weekNum  -->
+						<b>Current Week of Year: #{timesheetData.timesheet.weekNum}</b>
 						<div class="pull-right">
 							<b>Week ends on: #{timesheetData.timesheet.weekEnding}</b>
 						</div>
 					</div>
 					<div class="panel-body"></div>
-					<h:dataTable value="#{timesheetData.timesheet.details}"
-						var="detail" class="table timesheet-table">
+					<h:dataTable value="#{timesheetData.timesheet.details}" var="detail" 
+						styleClass="table timesheet-table" footerClass="table-footer">
 						<h:column>
 							<f:facet name="header">Project</f:facet>
 							<h:inputText value="#{detail.projectID}" class="form-control" />
@@ -38,51 +38,91 @@
 						<h:column>
 							<f:facet name="header">WP#</f:facet>
 							<h:inputText value="#{detail.workPackage}" class="form-control" />
+							<f:facet name="footer">
+								<h:outputText value="Total" styleClass="vcenter text-right" />
+							</f:facet>
 						</h:column>
 						<h:column>
 							<f:facet name="header">Total</f:facet>
-							<h:outputText value="#{detail.sum}" class="vcenter" />
+							<h:outputText value="#{detail.sum}" class="vcenter text-center" />
+							<f:facet name="footer">
+								<h:outputText value="#{timesheetData.timesheet.totalHours}" 
+									styleClass="vcenter text-center" />
+							</f:facet>
 						</h:column>
 						<h:column>
 							<f:facet name="header">SAT</f:facet>
 							<h:inputText value="#{detail.hourSat}"
 								class="form-control" />
+							<f:facet name="footer">
+								<h:outputText value="#{timesheetData.timesheet.satHours}" 
+									styleClass="vcenter text-center" />
+							</f:facet>
 						</h:column>
 						<h:column>
 							<f:facet name="header">SUN</f:facet>
 							<h:inputText value="#{detail.hourSun}"
 								class="form-control" />
+							<f:facet name="footer">
+								<h:outputText value="#{timesheetData.timesheet.sunHours}" 
+									styleClass="vcenter text-center" />
+							</f:facet>
 						</h:column>
 						<h:column>
 							<f:facet name="header">MON</f:facet>
 							<h:inputText value="#{detail.hourMon}"
 								class="form-control" />
+							<f:facet name="footer">
+								<h:outputText value="#{timesheetData.timesheet.monHours}" 
+									styleClass="vcenter text-center" />
+							</f:facet>
 						</h:column>
 						<h:column>
 							<f:facet name="header">TUE</f:facet>
 							<h:inputText value="#{detail.hourTue}"
 								class="form-control" />
+							<f:facet name="footer">
+								<h:outputText value="#{timesheetData.timesheet.tueHours}" 
+									styleClass="vcenter text-center" />
+							</f:facet>
 						</h:column>
 						<h:column>
 							<f:facet name="header">WED</f:facet>
 							<h:inputText value="#{detail.hourWed}"
 								class="form-control" />
+							<f:facet name="footer">
+								<h:outputText value="#{timesheetData.timesheet.wedHours}" 
+									styleClass="vcenter text-center" />
+							</f:facet>
 						</h:column>
 						<h:column>
 							<f:facet name="header">THU</f:facet>
 							<h:inputText value="#{detail.hourThur}"
 								class="form-control" />
+							<f:facet name="footer">
+								<h:outputText value="#{timesheetData.timesheet.thuHours}" 
+									styleClass="vcenter text-center" />
+							</f:facet>
 						</h:column>
 						<h:column>
 							<f:facet name="header">FRI</f:facet>
 							<h:inputText value="#{detail.hourFri}"
 								class="form-control" />
+							<f:facet name="footer">
+								<h:outputText value="#{timesheetData.timesheet.friHours}" 
+									styleClass="vcenter text-center" />
+							</f:facet>
 						</h:column>
 						<h:column>
 							<f:facet name="header">Note</f:facet>
 							<h:inputText value="#{detail.notes}" class="form-control note-field" />
 						</h:column>
 					</h:dataTable>
+					
+					<div class="panel-body">
+						<h:commandLink value="Add New Row" styleClass="btn btn-default" />
+						<h:commandLink value="Save Timesheet" styleClass="btn btn-primary pull-right" />
+				    </div>
 				</div>
 			</h:form>
 		</ui:define>

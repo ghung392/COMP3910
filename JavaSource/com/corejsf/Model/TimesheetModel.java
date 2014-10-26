@@ -1,5 +1,6 @@
 package com.corejsf.Model;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,6 +46,63 @@ public class TimesheetModel extends Timesheet {
 
 	public int getWeekNum() {
 		return getWeekNumber();
+	}
+	
+	public BigDecimal getSatHours() {
+		BigDecimal hours = getDailyHours()[TimesheetRow.SAT];
+		if (hours == null) {
+			hours = new BigDecimal(0.0);
+		}
+		System.out.println("Hours: " + hours);
+		return hours;
+	}
+	
+	public BigDecimal getSunHours() {
+		BigDecimal hours = getDailyHours()[TimesheetRow.SUN];
+		if (hours == null) {
+			hours = new BigDecimal(0.0);
+		}
+		return hours;
+	}
+	
+	public BigDecimal getMonHours() {
+		BigDecimal hours = getDailyHours()[TimesheetRow.MON];
+		if (hours == null) {
+			hours = new BigDecimal(0.0);
+		}
+		return hours;
+	}
+	
+	public BigDecimal getTueHours() {
+		BigDecimal hours = getDailyHours()[TimesheetRow.TUE];
+		if (hours == null) {
+			hours = new BigDecimal(0.0);
+		}
+		return hours;
+	}
+	
+	public BigDecimal getWedHours() {
+		BigDecimal hours = getDailyHours()[TimesheetRow.WED];
+		if (hours == null) {
+			hours = new BigDecimal(0.0);
+		}
+		return hours;
+	}
+	
+	public BigDecimal getThuHours() {
+		BigDecimal hours = getDailyHours()[TimesheetRow.THU];
+		if (hours == null) {
+			hours = new BigDecimal(0.0);
+		}
+		return hours;
+	}
+	
+	public BigDecimal getFriHours() {
+		BigDecimal hours = getDailyHours()[TimesheetRow.FRI];
+		if (hours == null) {
+			hours = new BigDecimal(0.0);
+		}
+		return hours;
 	}
 	
 	public boolean isSameWeekEnd(final Date reference) {
