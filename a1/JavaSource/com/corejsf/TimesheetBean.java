@@ -1,6 +1,7 @@
 package com.corejsf;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,21 @@ public class TimesheetBean implements Serializable {
 	private List<TimesheetModel> allTimesheets;
 	private TimesheetModel timesheet;
 	private Date currEndWeek;
+	private boolean saveSuccess = false;
+	private boolean showMessages = false;
+	private List<String> errorMessages = new ArrayList<String>();
+	
+	public boolean getSaveSuccess() {
+		return saveSuccess;
+	}
+
+	public boolean getShowMessages() {
+		return showMessages;
+	}
+	
+	public List<String> getErrorMessages(){
+		return errorMessages;
+	}
 
 	public List<TimesheetModel> getAllTimesheets() {
 		// refresh timesheetList only if not initialized, empty or current
@@ -73,16 +89,24 @@ public class TimesheetBean implements Serializable {
 	public String addTimesheet() {
 		boolean isValid = true;
 
+		errorMessages.clear();
+		showMessages = true;
+		
 		if (!timesheet.isValid()) {
 			isValid = false;
-			System.out.println("Work hours must add up to 40."); // show error
+			saveSuccess = false;
+			errorMessages.add("Work hours must add up to 40.");
+			System.out.println("Work hours must add up to 40.");
 		}
 		if (!timesheet.isRowsValid()) {
 			isValid = false;
-			System.out.println("A combination of project id + workpage must be unique for each row."); // show error			
+			saveSuccess = false;
+			errorMessages.add("A combination of project id + workpage must be filled and unique for each row.");
+			System.out.println("A combination of project id + workpage must be filled and unique for each row.");			
 		}
 		if (isValid) {
 			timesheetManager.saveTimesheet(timesheet);
+			saveSuccess = true;
 			System.out.println("Saving timesheet");
 		}
 
@@ -90,6 +114,7 @@ public class TimesheetBean implements Serializable {
 	}
 
 	public String currTimesheet() {
+		showMessages = false;
 		currEndWeek = TimesheetModel.getCurrDate();
 		return "createTimesheet";
 	}

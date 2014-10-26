@@ -28,16 +28,28 @@
 							<b>Week ends on: #{timesheetData.timesheet.weekEnding}</b>
 						</div>
 					</div>
-					<div class="panel-body"></div>
+					<div class="panel-body">
+						<h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{timesheetData.showMessages and !timesheetData.saveSuccess}" >
+							<ul>
+								<ui:repeat value="#{timesheetData.errorMessages}" var="errMsg">
+									<li>#{errMsg}</li>
+								</ui:repeat>
+							</ul>
+						</h:panelGroup>
+						<h:panelGroup layout="block" styleClass="alert alert-success" rendered="#{timesheetData.showMessages and timesheetData.saveSuccess}" >
+							<h:outputText value="Timesheet successfully saved." />
+						</h:panelGroup>
+						<h:messages infoClass="text-danger"/>
+					</div>
 					<h:dataTable value="#{timesheetData.timesheet.details}" var="detail" 
 						styleClass="table timesheet-table" footerClass="table-footer">
 						<h:column>
-							<f:facet name="header">Project</f:facet>
-							<h:inputText value="#{detail.projectID}" class="form-control" />
+							<f:facet name="header">ProjectID</f:facet>
+							<h:inputText value="#{detail.projectID}" label="ProjectID" class="form-control" />
 						</h:column>
 						<h:column>
 							<f:facet name="header">WP#</f:facet>
-							<h:inputText value="#{detail.workPackage}" class="form-control" />
+							<h:inputText value="#{detail.workPackage}" label="WP#" class="form-control" />
 							<f:facet name="footer">
 								<h:outputText value="Total" styleClass="vcenter text-right" />
 							</f:facet>
@@ -52,17 +64,19 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">SAT</f:facet>
-							<h:inputText value="#{detail.hourSat}"
-								class="form-control" />
+							<h:inputText value="#{detail.hourSat}" label="Hour" class="form-control">
+								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+							</h:inputText>
 							<f:facet name="footer">
-								<h:outputText value="#{timesheetData.timesheet.satHours}" 
+								<h:outputText value="#{timesheetData.timesheet.satHours}"
 									styleClass="vcenter text-center" />
 							</f:facet>
 						</h:column>
 						<h:column>
 							<f:facet name="header">SUN</f:facet>
-							<h:inputText value="#{detail.hourSun}"
-								class="form-control" />
+							<h:inputText value="#{detail.hourSun}" label="hour" class="form-control">
+								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+							</h:inputText>
 							<f:facet name="footer">
 								<h:outputText value="#{timesheetData.timesheet.sunHours}" 
 									styleClass="vcenter text-center" />
@@ -70,8 +84,9 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">MON</f:facet>
-							<h:inputText value="#{detail.hourMon}"
-								class="form-control" />
+							<h:inputText value="#{detail.hourMon}" label="hour" class="form-control">
+								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+							</h:inputText>
 							<f:facet name="footer">
 								<h:outputText value="#{timesheetData.timesheet.monHours}" 
 									styleClass="vcenter text-center" />
@@ -79,8 +94,9 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">TUE</f:facet>
-							<h:inputText value="#{detail.hourTue}"
-								class="form-control" />
+							<h:inputText value="#{detail.hourTue}" label="hour" class="form-control">
+								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+							</h:inputText>
 							<f:facet name="footer">
 								<h:outputText value="#{timesheetData.timesheet.tueHours}" 
 									styleClass="vcenter text-center" />
@@ -88,8 +104,9 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">WED</f:facet>
-							<h:inputText value="#{detail.hourWed}"
-								class="form-control" />
+							<h:inputText value="#{detail.hourWed}" label="hour" class="form-control">
+								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+							</h:inputText>
 							<f:facet name="footer">
 								<h:outputText value="#{timesheetData.timesheet.wedHours}" 
 									styleClass="vcenter text-center" />
@@ -97,8 +114,9 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">THU</f:facet>
-							<h:inputText value="#{detail.hourThur}"
-								class="form-control" />
+							<h:inputText value="#{detail.hourThur}" label="hour" class="form-control">
+								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+							</h:inputText>
 							<f:facet name="footer">
 								<h:outputText value="#{timesheetData.timesheet.thuHours}" 
 									styleClass="vcenter text-center" />
@@ -106,8 +124,9 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">FRI</f:facet>
-							<h:inputText value="#{detail.hourFri}"
-								class="form-control" />
+							<h:inputText value="#{detail.hourFri}" label="hour" class="form-control">
+								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
+							</h:inputText>
 							<f:facet name="footer">
 								<h:outputText value="#{timesheetData.timesheet.friHours}" 
 									styleClass="vcenter text-center" />
@@ -115,7 +134,7 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">Note</f:facet>
-							<h:inputText value="#{detail.notes}" class="form-control note-field" />
+							<h:inputText value="#{detail.notes}"  label="Note" class="form-control note-field" />
 						</h:column>
 					</h:dataTable>
 					

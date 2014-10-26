@@ -44,33 +44,42 @@ public class TimesheetRowModel extends TimesheetRow {
 	}
 
 	public void setHourMon(final BigDecimal hour) {
-		setHour(TimesheetRow.MON, hour);
+		setHourOnDay(TimesheetRow.MON, hour);
 	}
 
 	public void setHourTue(final BigDecimal hour) {
-		setHour(TimesheetRow.TUE, hour);
+		setHourOnDay(TimesheetRow.TUE, hour);
 	}
 
 	public void setHourWed(final BigDecimal hour) {
-		setHour(TimesheetRow.WED, hour);
+		setHourOnDay(TimesheetRow.WED, hour);
 	}
 
 	public void setHourThur(final BigDecimal hour) {
-		setHour(TimesheetRow.THU, hour);
+		setHourOnDay(TimesheetRow.THU, hour);
 	}
 
 	public void setHourFri(final BigDecimal hour) {
-		setHour(TimesheetRow.FRI, hour);
+		setHourOnDay(TimesheetRow.FRI, hour);
 	}
 
 	public void setHourSat(final BigDecimal hour) {
-		setHour(TimesheetRow.SAT, hour);
+		setHourOnDay(TimesheetRow.SAT, hour);
 	}
 
 	public void setHourSun(final BigDecimal hour) {
-		setHour(TimesheetRow.SUN, hour);
+		setHourOnDay(TimesheetRow.SUN, hour);
 	}
 	
+	private void setHourOnDay(final int day, final BigDecimal hour) {
+		try {
+			setHour(day, hour);
+		}
+		catch(IllegalArgumentException e) {
+			// catch error
+		}
+	}
+
 	public boolean isDuplicate(final TimesheetRowModel reference) {
 		boolean isDuplicate = true;
 
