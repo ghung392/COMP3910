@@ -24,30 +24,52 @@
 			</h:outputFormat>
 		</ui:define>
 		<ui:define name="content">
-		<h3>#{msgs.profile_msg}</h3>
-		<h:outputText value="#{msgs.profile_warning}" rendered="#{not employee.admin}" />
+
+			<div class="container" >
 			<h:form id="profileForm">
+			<div class="panel panel-default">
+			<div class="panel-heading"><h4>#{msgs.profile_msg}</h4></div>
+			<div class="panel-body" >
 					<div class="form-group" >
 						<h:outputLabel value="#{msgs.username}" for="username" rendered="#{employee.admin}"/>
-						<h:inputText binding="#{nameField}" class="form-control" id="username"
+						<h:inputText binding="#{usernameField}" class="form-control" id="username"
 							pt:placeholder="#{msgs.username}" rendered="#{employee.admin}" />
 					</div>
+					<div class="form-group" >
+						<h:outputLabel value="#{msgs.name}" for="name" rendered="#{employee.admin}"/>
+						<h:inputText binding="#{nameField}" class="form-control" id="name"
+							pt:placeholder="#{msgs.name}" rendered="#{employee.admin}" />
+					</div>
+					<h:commandButton value="#{msgs.save}" action="#{employee.updateFocusedEmployeeInfo(employee.focusedEmployee.userName,
+						employee.focusedEmployee.name)}" class="btn btn-primary pull-right" />
+			</div>
+			</div>
+			</h:form>
 					
+			<h:form id="passwordForm">
+			<div class="panel panel-default">
+			<div class="panel-heading"><h4>#{msgs.password_msg}</h4></div>
+			<div class="panel-body" >
 					<div class="form-group">
 						<label for="password">#{msgs.new_password}</label>
 						<h:inputSecret binding="#{new_passwordField}" class="form-control" id="new_password"
 							pt:placeholder="#{msgs.new_pass_hint}" required="true" requiredMessage="#{msgs.profile_error}" />
+						<h:message for="new_password" fatalClass="text-danger" errorClass="text-danger" warnClass="text-warning" infoClass="text-primary"  />
 					</div>
 					
 					<div class="form-group">
 						<label for="password">#{msgs.confirm_password}</label>
 						<h:inputSecret binding="#{confirm_passwordField}" class="form-control" id="confirm_password"
-							pt:placeholder="#{msgs.confirm_pass_hint}" required="true" requiredMessage="#{msgs.profile_error}" />	
+							pt:placeholder="#{msgs.confirm_pass_hint}" required="true" requiredMessage="#{msgs.profile_error}" />
+						<h:message for="confirm_password" fatalClass="text-danger" errorClass="text-danger" warnClass="text-warning" infoClass="text-primary"  />	
 					</div>
 
-					<h:commandButton value="#{msgs.save}" action="#{employee.updateFocusedEmployee(employee.focusedEmployee.userName,
-						new_passwordField.value, confirm_passwordField.value)}" />
-				</h:form>
+					<h:commandButton value="#{msgs.save}" action="#{employee.updateFocusedEmployee(new_passwordField.value, confirm_passwordField.value)}" 
+						class="btn btn-primary pull-right" />
+			</div>
+			</div>
+			</h:form>
+			</div>
 		</ui:define>
 	</ui:composition>
 </body>

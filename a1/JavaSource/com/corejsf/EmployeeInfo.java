@@ -121,26 +121,21 @@ public class EmployeeInfo implements Serializable {
         employeeList.add(newEmployee);
     }
     
-    public String updateEmployee(final String username, final String oldPassword,
+    public String updateEmployee(final String oldPassword,
             final String newPassword, final String confirmPassword ) {
         
         if((oldPassword.compareTo(currentEmployee.getPassword())) != 0) {
-            FacesContext.getCurrentInstance().addMessage("profileForm:old_password", 
+            FacesContext.getCurrentInstance().addMessage("passwordForm:old_password", 
                     new FacesMessage("You did not enter a match with your old password. Try again."));
             return "updatefail";
         } else if((newPassword.compareTo(confirmPassword)) != 0) {
-            FacesContext.getCurrentInstance().addMessage("profileForm:confirm_password", 
+            FacesContext.getCurrentInstance().addMessage("passwordForm:confirm_password", 
                     new FacesMessage("Your password confirmation did not match. Try again."));
             return "updatefail";
         } else if((oldPassword.compareTo(newPassword)) == 0) {
-            FacesContext.getCurrentInstance().addMessage("profileForm:new_password", 
+            FacesContext.getCurrentInstance().addMessage("passwordForm:new_password", 
                     new FacesMessage("Your new password did not change. Try again."));
             return "updatefail";
-        }
-        
-        if((username.compareTo("")) != 0)
-        {
-            currentEmployee.setUserName(username);
         }
         
         currentEmployee.setPassword(newPassword);
@@ -148,23 +143,45 @@ public class EmployeeInfo implements Serializable {
         return "updatesuccess";
     }
     
-    public String updateFocusedEmployee(final String username,
-            final String newPassword, final String confirmPassword ) {
+    public String updateInfo(final String username, final String name) {
+    	if((username.compareTo("")) != 0)
+        {
+            currentEmployee.setUserName(username);
+        }
+    	
+    	if((name.compareTo("")) != 0)
+        {
+            currentEmployee.setName(name);
+        }
+    	
+    	return "updatesuccess";
+    }
+    
+    public String updateFocusedEmployee(final String newPassword, final String confirmPassword ) {
       
         if((newPassword.compareTo(confirmPassword)) != 0) {
-            FacesContext.getCurrentInstance().addMessage("profileForm:confirm_password", 
+            FacesContext.getCurrentInstance().addMessage("passwordForm:confirm_password", 
                     new FacesMessage("Your password confirmation did not match. Try again."));
             return "updatefail";
         } 
-        
-        if((username.compareTo("")) != 0)
-        {
-            focusedEmployee.setUserName(username);
-        }
-        
+               
         focusedEmployee.setPassword(newPassword);
         
         return "updatesuccess";
+    }
+    
+    public String updateFocusedEmployeeInfo(final String username, final String name) {
+    	if((username.compareTo("")) != 0)
+        {
+            focusedEmployee.setUserName(username);
+        }
+    	
+    	if((username.compareTo("")) != 0)
+        {
+            focusedEmployee.setName(name);
+        }
+    	
+    	return "updatesuccess";
     }
     
     public String changeEmployee(final String username) {
