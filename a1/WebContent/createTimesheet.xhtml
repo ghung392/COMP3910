@@ -45,11 +45,11 @@
 						styleClass="table timesheet-table" footerClass="table-footer">
 						<h:column>
 							<f:facet name="header">#{msgs.project_id}</f:facet>
-							<h:inputText value="#{detail.projectID}" label="ProjectID" class="form-control" />
+							<h:inputText value="#{detail.projectID}" label="#{msgs.project_id}" class="form-control" />
 						</h:column>
 						<h:column>
 							<f:facet name="header">#{msgs.work_p}</f:facet>
-							<h:inputText value="#{detail.workPackage}" label="WP#" class="form-control" />
+							<h:inputText value="#{detail.workPackage}" label="#{msgs.work_p}" class="form-control" />
 							<f:facet name="footer">
 								<h:outputText value="Total" styleClass="vcenter text-right" />
 							</f:facet>
@@ -64,7 +64,7 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">#{msgs.sat}</f:facet>
-							<h:inputText value="#{detail.hourSat}" label="Hour" class="form-control">
+							<h:inputText value="#{detail.hourSat}" label="#{msgs.sat}" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
 							<f:facet name="footer">
@@ -74,7 +74,7 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">#{msgs.sun}</f:facet>
-							<h:inputText value="#{detail.hourSun}" label="hour" class="form-control">
+							<h:inputText value="#{detail.hourSun}" label="#{msgs.sun}" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
 							<f:facet name="footer">
@@ -84,7 +84,7 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">#{msgs.mon}</f:facet>
-							<h:inputText value="#{detail.hourMon}" label="hour" class="form-control">
+							<h:inputText value="#{detail.hourMon}" label="#{msgs.mon}" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
 							<f:facet name="footer">
@@ -94,7 +94,7 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">#{msgs.tue}</f:facet>
-							<h:inputText value="#{detail.hourTue}" label="hour" class="form-control">
+							<h:inputText value="#{detail.hourTue}" label="#{msgs.tue}" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
 							<f:facet name="footer">
@@ -104,7 +104,7 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">#{msgs.wed}</f:facet>
-							<h:inputText value="#{detail.hourWed}" label="hour" class="form-control">
+							<h:inputText value="#{detail.hourWed}" label="#{msgs.wed}" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
 							<f:facet name="footer">
@@ -114,7 +114,7 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">#{msgs.thu}</f:facet>
-							<h:inputText value="#{detail.hourThur}" label="hour" class="form-control">
+							<h:inputText value="#{detail.hourThur}" label="#{msgs.thu}" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
 							<f:facet name="footer">
@@ -124,7 +124,7 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">#{msgs.fri}</f:facet>
-							<h:inputText value="#{detail.hourFri}" label="hour" class="form-control">
+							<h:inputText value="#{detail.hourFri}" label="#{msgs.fri}" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
 							<f:facet name="footer">
@@ -134,8 +134,23 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">#{msgs.note}</f:facet>
-							<h:inputText value="#{detail.notes}"  label="Note" class="form-control note-field" />
+							<h:inputText value="#{detail.notes}"  label="#{msgs.note}" class="form-control note-field" />
 						</h:column>
+						<f:facet name="footer">
+					        <div class="col-sm-8 form-inline">
+					        <div>
+					        	#{msgs.overtime}
+					        	<h:inputText value="#{timesheetData.timesheet.overtime}" label="#{msgs.overtime}" 
+					        		styleClass="form-control hour-field" />
+					        		
+					        	<div class="flex-hour">
+					        	#{msgs.flex_hour}
+					        	<h:inputText value="#{timesheetData.timesheet.flextime}" label="#{msgs.flex_hour}" 
+					        		styleClass="form-control hour-field" />
+					        	</div>
+					        </div>
+					        </div>
+					    </f:facet>
 					</h:dataTable>
 					
 					<div class="panel-body">

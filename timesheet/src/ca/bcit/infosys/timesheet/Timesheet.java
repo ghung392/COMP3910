@@ -32,16 +32,15 @@ public class Timesheet implements java.io.Serializable {
     public static final int DAYS_IN_WEEK = 7;
 
     /** Number of hours in a day. */
-    public static final BigDecimal HOURS_IN_DAY =
-            new BigDecimal(24.0).setScale(1, BigDecimal.ROUND_HALF_UP);
+    public static final BigDecimal HOURS_IN_DAY = new BigDecimal(24.0)
+            .setScale(1, BigDecimal.ROUND_HALF_UP);
 
     /** Full work week */
-    public static final BigDecimal FULL_WORK_WEEK =
-            new BigDecimal(40.0).setScale(1, BigDecimal.ROUND_HALF_UP);
+    public static final BigDecimal FULL_WORK_WEEK = new BigDecimal(40.0)
+            .setScale(1, BigDecimal.ROUND_HALF_UP);
 
     /**
-     * Constructor for Timesheet.
-     * Initialize a Timesheet with 5 empty rows and
+     * Constructor for Timesheet. Initialize a Timesheet with 5 empty rows and
      * to the current date.
      */
     public Timesheet() {
@@ -65,9 +64,13 @@ public class Timesheet implements java.io.Serializable {
     /**
      * Creates a Timesheet object with all fields set. Used to create sample
      * data.
-     * @param user The owner of the timesheet
-     * @param end The date of the end of the week for the timesheet (Friday)
-     * @param charges The detailed hours charged for the week for this timesheet
+     * 
+     * @param user
+     *            The owner of the timesheet
+     * @param end
+     *            The date of the end of the week for the timesheet (Friday)
+     * @param charges
+     *            The detailed hours charged for the week for this timesheet
      */
     public Timesheet(final Employee user, final Date end,
             final List<TimesheetRow> charges) {
@@ -90,7 +93,7 @@ public class Timesheet implements java.io.Serializable {
     public void setEmployee(final Employee user) {
         employee = user;
     }
-    
+
     /**
      * @return the endWeek
      */
@@ -107,8 +110,10 @@ public class Timesheet implements java.io.Serializable {
         }
 
     }
+
     /**
-     * @param end the endWeek to set. Must be a Friday
+     * @param end
+     *            the endWeek to set. Must be a Friday
      */
     public void setEndWeek(final Date end) {
         checkFriday(end);
@@ -128,8 +133,10 @@ public class Timesheet implements java.io.Serializable {
     /**
      * Sets the end of week based on the week number.
      *
-     * @param weekNo the week number of the timesheet week
-     * @param weekYear the year of the timesheet
+     * @param weekNo
+     *            the week number of the timesheet week
+     * @param weekYear
+     *            the year of the timesheet
      */
     public void setWeekNumber(final int weekNo, final int weekYear) {
         Calendar c = new GregorianCalendar();
@@ -162,7 +169,8 @@ public class Timesheet implements java.io.Serializable {
     /**
      * Sets the details of the timesheet.
      *
-     * @param newDetails new weekly charges to set
+     * @param newDetails
+     *            new weekly charges to set
      */
     public void setDetails(final ArrayList<TimesheetRow> newDetails) {
         details = newDetails;
@@ -176,10 +184,17 @@ public class Timesheet implements java.io.Serializable {
     }
 
     /**
-     * @param ot the overtime to set
+     * @param ot
+     *            the overtime to set
      */
     public void setOvertime(final BigDecimal ot) {
-        overtime = ot.setScale(1, BigDecimal.ROUND_HALF_UP);
+        BigDecimal scaledHour = BigDecimal.ZERO.setScale(1,
+                BigDecimal.ROUND_HALF_UP);
+        if (ot != null) {
+            overtime = scaledHour.add(ot);
+        } else {
+            overtime = ot;
+        }
     }
 
     /**
@@ -193,7 +208,13 @@ public class Timesheet implements java.io.Serializable {
      * @param flex the flextime to set
      */
     public void setFlextime(final BigDecimal flex) {
-        flextime = flex.setScale(1, BigDecimal.ROUND_HALF_UP);
+        BigDecimal scaledHour = BigDecimal.ZERO.setScale(1,
+                BigDecimal.ROUND_HALF_UP);
+        if (flex != null) {
+            flextime = scaledHour.add(flex);
+        } else {
+            flextime = flex;
+        }
     }
 
     /**
@@ -233,6 +254,7 @@ public class Timesheet implements java.io.Serializable {
 
     /**
      * Checks to see if timesheet total nets 40 hours.
+     *
      * @return true if FULL_WORK_WEEK == hours -flextime - overtime
      */
     public boolean isValid() {
@@ -260,7 +282,7 @@ public class Timesheet implements java.io.Serializable {
      * Add an empty to to the timesheet.
      */
     public void addRow() {
-		details.add(new TimesheetRow());
+        details.add(new TimesheetRow());
     }
 
 }

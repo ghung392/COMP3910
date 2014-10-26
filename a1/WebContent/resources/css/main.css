@@ -25,6 +25,13 @@
 }
 
 .hour-field {
+	min-width: 80px;
+	max-width: 100px;
+}
+
+.flex-hour {
+	margin-left: 100px;
+	display:inline-block;
 }
 
 .table-footer {
