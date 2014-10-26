@@ -16,16 +16,16 @@ public class TimesheetModel extends Timesheet {
 
 	public TimesheetModel(final Employee e) {
 		super();
-		
+
 		ArrayList<TimesheetRow> newDetails = new ArrayList<TimesheetRow>() {
-            private static final long serialVersionUID = 1L;
-            {
-                add(new TimesheetRowModel());
-                add(new TimesheetRowModel());
-                add(new TimesheetRowModel());
-                add(new TimesheetRowModel());
-                add(new TimesheetRowModel());
-            }
+			private static final long serialVersionUID = 1L;
+			{
+				add(new TimesheetRowModel());
+				add(new TimesheetRowModel());
+				add(new TimesheetRowModel());
+				add(new TimesheetRowModel());
+				add(new TimesheetRowModel());
+			}
 		};
 		setDetails(newDetails);
 		setEmployee(e);
@@ -36,10 +36,10 @@ public class TimesheetModel extends Timesheet {
 	}
 
 	public static Date getCurrDate() {
-        Calendar c = new GregorianCalendar();
-        int currentDay = c.get(Calendar.DAY_OF_WEEK);
-        int leftDays = Calendar.FRIDAY - currentDay;
-        c.add(Calendar.DATE, leftDays);
+		Calendar c = new GregorianCalendar();
+		int currentDay = c.get(Calendar.DAY_OF_WEEK);
+		int leftDays = Calendar.FRIDAY - currentDay;
+		c.add(Calendar.DATE, leftDays);
 
 		return c.getTime();
 	}
@@ -47,83 +47,113 @@ public class TimesheetModel extends Timesheet {
 	public int getWeekNum() {
 		return getWeekNumber();
 	}
-	
+
+	private BigDecimal getHourOn(final int day) {
+		BigDecimal scaledHour = BigDecimal.ZERO.setScale(1, BigDecimal.ROUND_HALF_UP);
+		BigDecimal hour = getDailyHours()[day];
+		if (hour != null) {
+			scaledHour = scaledHour.add(hour);
+		}
+
+		return scaledHour;
+	}
+
 	public BigDecimal getSatHours() {
-		BigDecimal hours = getDailyHours()[TimesheetRow.SAT];
-		if (hours == null) {
-			hours = new BigDecimal(0.0);
-		}
-		return hours;
+		return getHourOn(TimesheetRow.SAT);
 	}
-	
+
 	public BigDecimal getSunHours() {
-		BigDecimal hours = getDailyHours()[TimesheetRow.SUN];
-		if (hours == null) {
-			hours = new BigDecimal(0.0);
-		}
-		return hours;
+		return getHourOn(TimesheetRow.SUN);
 	}
-	
+
 	public BigDecimal getMonHours() {
-		BigDecimal hours = getDailyHours()[TimesheetRow.MON];
-		if (hours == null) {
-			hours = new BigDecimal(0.0);
-		}
-		return hours;
+		return getHourOn(TimesheetRow.MON);
 	}
-	
+
 	public BigDecimal getTueHours() {
-		BigDecimal hours = getDailyHours()[TimesheetRow.TUE];
-		if (hours == null) {
-			hours = new BigDecimal(0.0);
-		}
-		return hours;
+		return getHourOn(TimesheetRow.TUE);
 	}
-	
+
 	public BigDecimal getWedHours() {
-		BigDecimal hours = getDailyHours()[TimesheetRow.WED];
-		if (hours == null) {
-			hours = new BigDecimal(0.0);
-		}
-		return hours;
+		return getHourOn(TimesheetRow.WED);
 	}
-	
+
 	public BigDecimal getThuHours() {
-		BigDecimal hours = getDailyHours()[TimesheetRow.THU];
-		if (hours == null) {
-			hours = new BigDecimal(0.0);
-		}
-		return hours;
+		return getHourOn(TimesheetRow.THU);
 	}
-	
+
 	public BigDecimal getFriHours() {
-		BigDecimal hours = getDailyHours()[TimesheetRow.FRI];
-		if (hours == null) {
-			hours = new BigDecimal(0.0);
-		}
-		return hours;
+		return getHourOn(TimesheetRow.FRI);
 	}
-	
+
+	public List<TimesheetRow> trimmedDetails() {
+		List<TimesheetRow> trimmedList = new ArrayList<TimesheetRow>();
+		final List<TimesheetRow> rows = getDetails();
+		for (TimesheetRow row : rows) {
+			if (row.getSum().compareTo(BigDecimal.ZERO) > 0) {
+				trimmedList.add(row);
+			}
+
+		}
+		return trimmedList;
+	}
+
+	public boolean isRowsValid() {
+		boolean rowsValid = true;
+
+		final List<TimesheetRow> rows = trimmedDetails();
+		final int size = rows.size();
+
+		// if only 1 row is filled, then check it has workPackage
+		// else check project id + WP is unique
+		// note 0 is considered valid project id number
+		if (size == 1) {
+			final String wp = rows.get(0).getWorkPackage();
+			rowsValid = !(wp == null || (wp != null && wp.length() == 0));
+		} else {
+			rowsValid = hasCollision(rows);
+		}
+
+		return rowsValid;
+	}
+
+	private boolean hasCollision(final List<TimesheetRow> rows) {
+		TimesheetRowModel row1, row2;
+		final int size = rows.size();
+
+		for (int i = 0; i < size - 1; i++) {
+			for (int j = i + 1; j < size; j++) {
+				row1 = (TimesheetRowModel) rows.get(i);
+				row2 = (TimesheetRowModel) rows.get(j);
+				if (row1.isDuplicate(row2)) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
 	public boolean isSameWeekEnd(final Date reference) {
 		final SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
 		final String date1 = fmt.format(this.getEndWeek());
 		final String date2 = fmt.format(reference);
-		
+
 		return date1.equals(date2);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null && !(obj instanceof Timesheet)) {
 			return false;
 		}
-		
+
 		final Timesheet referenceSheet = (Timesheet) obj;
 		final EmployeeModel testEmp = (EmployeeModel) this.getEmployee();
 
 		final boolean isSameUser = testEmp.equals(referenceSheet.getEmployee());
 		final boolean isSameWeek = isSameWeekEnd(referenceSheet.getEndWeek());
-		
+
 		return isSameUser && isSameWeek;
 	}
 }

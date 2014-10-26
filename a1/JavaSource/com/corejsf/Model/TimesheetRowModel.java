@@ -70,5 +70,22 @@ public class TimesheetRowModel extends TimesheetRow {
 	public void setHourSun(final BigDecimal hour) {
 		setHour(TimesheetRow.SUN, hour);
 	}
+	
+	public boolean isDuplicate(final TimesheetRowModel reference) {
+		boolean isDuplicate = true;
+
+		final String wp1 = getWorkPackage();
+		final String wp2 = reference.getWorkPackage();
+
+		if ((wp1 != null && wp1.length() > 0) && (wp2 != null && wp2.length() > 0)) {
+			final String id1 = getProjectID() + wp1;
+			final String id2 = reference.getProjectID() + wp2;
+			if (!id1.equals(id2)) {
+				isDuplicate = false;
+			}
+		}
+
+		return isDuplicate;
+	}
 
 }

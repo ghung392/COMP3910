@@ -69,10 +69,23 @@ public class TimesheetBean implements Serializable {
 		TimesheetModel newSheet = timesheetManager.getTimesheet(currEmployee, currEndWeek);
 		timesheet = newSheet;
 	}
-	
+
 	public String addTimesheet() {
-		timesheetManager.addTimesheet(timesheet);
-		
+		boolean isValid = true;
+
+		if (!timesheet.isValid()) {
+			isValid = false;
+			System.out.println("Work hours must add up to 40."); // show error
+		}
+		if (!timesheet.isRowsValid()) {
+			isValid = false;
+			System.out.println("A combination of project id + workpage must be unique for each row."); // show error			
+		}
+		if (isValid) {
+			timesheetManager.saveTimesheet(timesheet);
+			System.out.println("Saving timesheet");
+		}
+
 		return null;
 	}
 
@@ -87,5 +100,5 @@ public class TimesheetBean implements Serializable {
 		// TODO return proper view page of timesheet
 		return "createTimesheet";
 	}
-	
+
 }

@@ -202,7 +202,7 @@ public class Timesheet implements java.io.Serializable {
      * @return total hours for timesheet.
      */
     public BigDecimal getTotalHours() {
-        BigDecimal sum = BigDecimal.ZERO;
+        BigDecimal sum = BigDecimal.ZERO.setScale(1, BigDecimal.ROUND_HALF_UP);
         for (TimesheetRow row : details) {
             sum = sum.add(row.getSum());
         }
