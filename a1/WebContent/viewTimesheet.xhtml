@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<head>
+<title>IGNORED</title>
+</head>
+
+<body>
+	<ui:composition template="/templates/masterLayout.xhtml">
+		<ui:define name="windowTitle">
+			#{msgs.history_title}
+		</ui:define>
+		<ui:define name="pageTitle">
+			#{msgs.timesheet_title}
+		</ui:define>
+		<ui:define name="content">
+			<h:form>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<b>#{msgs.current_week} #{timesheetData.timesheet.weekNum}</b>
+						<div class="pull-right">
+							<b>#{msgs.week_end} #{timesheetData.timesheet.weekEnding}</b>
+						</div>
+					</div>
+					<div class="panel-body">
+						<h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{timesheetData.showMessages and !timesheetData.saveSuccess}" >
+							<ul>
+								<ui:repeat value="#{timesheetData.errorMessages}" var="errMsg">
+									<li>#{errMsg}</li>
+								</ui:repeat>
+							</ul>
+						</h:panelGroup>
+						<h:panelGroup layout="block" styleClass="alert alert-success" rendered="#{timesheetData.showMessages and timesheetData.saveSuccess}" >
+							<h:outputText value="#{msgs.timesheet_save}" />
+						</h:panelGroup>
+						<h:messages infoClass="text-danger"/>
+					</div>
+					<h:dataTable value="#{timesheetData.timesheet.details}" var="detail" 
+						styleClass="table timesheet-table" footerClass="table-footer">
+						<h:column>
+							<f:facet name="header">#{msgs.project_id}</f:facet>
+							#{detail.projectID}
+						</h:column>
+						<h:column>
+							<f:facet name="header">#{msgs.work_p}</f:facet>
+							#{detail.workPackage}
+							<f:facet name="footer">#{msgs.total}</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">#{msgs.total}</f:facet>
+							#{detail.sum}
+							<f:facet name="footer">#{timesheetData.timesheet.totalHours}</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">#{msgs.sat}</f:facet>
+							#{detail.hourSat}
+							<f:facet name="footer">#{timesheetData.timesheet.satHours}</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">#{msgs.sun}</f:facet>
+							#{detail.hourSun}
+							<f:facet name="footer">#{timesheetData.timesheet.sunHours}</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">#{msgs.mon}</f:facet>
+							#{detail.hourMon}
+							<f:facet name="footer">#{timesheetData.timesheet.monHours}</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">#{msgs.tue}</f:facet>
+							#{detail.hourTue}
+							<f:facet name="footer">#{timesheetData.timesheet.tueHours}</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">#{msgs.wed}</f:facet>
+							#{detail.hourWed}
+							<f:facet name="footer">#{timesheetData.timesheet.wedHours}</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">#{msgs.thu}</f:facet>
+							#{detail.hourThur}
+							<f:facet name="footer">#{timesheetData.timesheet.thuHours}</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">#{msgs.fri}</f:facet>
+							#{detail.hourFri}
+							<f:facet name="footer">#{timesheetData.timesheet.friHours}</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">#{msgs.note}</f:facet>
+							#{detail.notes}
+						</h:column>
+						<f:facet name="footer">
+							<dl class="dl-horizontal">
+					        	<dt>#{msgs.overtime}</dt>
+					        	<dd>#{timesheetData.timesheet.overtime}</dd>
+					        	<dt>#{msgs.flex_hour}</dt>
+					        	<dd>#{timesheetData.timesheet.flextime}</dd>
+							</dl>
+					    </f:facet>
+					</h:dataTable>
+					
+					<div class="panel-body">
+						<h:commandLink value="#{msgs.btn_back}" action="history" 
+						styleClass="btn btn-primary pull-right" />
+				    </div>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

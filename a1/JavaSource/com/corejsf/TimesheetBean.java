@@ -196,7 +196,7 @@ public class TimesheetBean implements Serializable {
         currEndWeek = endWeek;
 
         // TODO return proper view page of timesheet
-        return "createTimesheet";
+        return "viewTimesheet";
     }
 
 }

@@ -180,7 +180,12 @@ public class Timesheet implements java.io.Serializable {
      * @return the overtime
      */
     public BigDecimal getOvertime() {
-        return overtime;
+        BigDecimal scaledHour = BigDecimal.ZERO.setScale(1,
+                BigDecimal.ROUND_HALF_UP);
+        if (overtime != null) {
+            scaledHour = scaledHour.add(overtime);
+        }
+        return scaledHour;
     }
 
     /**
@@ -201,7 +206,12 @@ public class Timesheet implements java.io.Serializable {
      * @return the flextime
      */
     public BigDecimal getFlextime() {
-        return flextime;
+        BigDecimal scaledHour = BigDecimal.ZERO.setScale(1,
+                BigDecimal.ROUND_HALF_UP);
+        if (flextime != null) {
+            scaledHour = scaledHour.add(flextime);
+        }
+        return scaledHour;
     }
 
     /**
