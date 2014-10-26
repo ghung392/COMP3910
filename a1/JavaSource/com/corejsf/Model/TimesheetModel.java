@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 import ca.bcit.infosys.employee.Employee;
@@ -35,6 +36,15 @@ public class TimesheetModel extends Timesheet {
 		super(user, end, charges);
 	}
 
+	@Override
+	public void addRow() {
+		getDetails().add(new TimesheetRowModel());
+	}
+
+	public int getWeekNum() {
+		return getWeekNumber();
+	}
+
 	public static Date getCurrDate() {
 		Calendar c = new GregorianCalendar();
 		int currentDay = c.get(Calendar.DAY_OF_WEEK);
@@ -42,10 +52,6 @@ public class TimesheetModel extends Timesheet {
 		c.add(Calendar.DATE, leftDays);
 
 		return c.getTime();
-	}
-
-	public int getWeekNum() {
-		return getWeekNumber();
 	}
 
 	private BigDecimal getHourOn(final int day) {
@@ -86,22 +92,23 @@ public class TimesheetModel extends Timesheet {
 		return getHourOn(TimesheetRow.FRI);
 	}
 
-	public List<TimesheetRow> trimmedDetails() {
-		List<TimesheetRow> trimmedList = new ArrayList<TimesheetRow>();
-		final List<TimesheetRow> rows = getDetails();
-		for (TimesheetRow row : rows) {
-			if (row.getSum().compareTo(BigDecimal.ZERO) > 0) {
-				trimmedList.add(row);
+	public void trimmedDetails() {
+		Iterator<TimesheetRow> iterator = getDetails().iterator();
+		while (iterator.hasNext()) {
+			if (iterator.next().getSum().compareTo(BigDecimal.ZERO) == 0) {
+				iterator.remove();
 			}
-
 		}
-		return trimmedList;
+
+		if (getDetails().size() == 0) {
+			addRow();
+		}
 	}
 
 	public boolean isRowsValid() {
 		boolean rowsValid = true;
 
-		final List<TimesheetRow> rows = trimmedDetails();
+		final List<TimesheetRow> rows = getDetails();
 		final int size = rows.size();
 
 		// if only 1 row is filled, then check it has workPackage

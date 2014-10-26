@@ -34,8 +34,9 @@ public class TimesheetManager {
 	}
 
 	public List<TimesheetModel> getTimesheets(Employee e) {
-		if (e == null)
-			return null;
+		if (e == null) {
+            return null;
+        }
 
 		List<TimesheetModel> employeeTimesheets = new LinkedList<TimesheetModel>();
 		for (TimesheetModel t : timesheetCollection) {
@@ -64,9 +65,11 @@ public class TimesheetManager {
 		return timesheet;
 	}
 
-	public boolean saveTimesheet(final TimesheetModel timesheet) {
-		if (timesheet == null)
-			return false;
+	public void saveTimesheet(final TimesheetModel timesheet) {
+		if (timesheet == null) {
+		    System.out.println("Error: null passed in as timesheet to be saved.");
+            return;
+        }
 
 		boolean saved = false;
 
@@ -85,8 +88,6 @@ public class TimesheetManager {
 			timesheetCollection.add(timesheet);
 			System.out.println("Timesheet added.");
 		}
-
-		return saved;
 	}
 
 	private void populateTimesheetCollection() {

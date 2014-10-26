@@ -92,6 +92,8 @@ public class TimesheetBean implements Serializable {
 		errorMessages.clear();
 		showMessages = true;
 		
+		timesheet.trimmedDetails();
+		
 		if (!timesheet.isValid()) {
 			isValid = false;
 			saveSuccess = false;

@@ -260,7 +260,7 @@ public class Timesheet implements java.io.Serializable {
      * Add an empty to to the timesheet.
      */
     public void addRow() {
-        details.add(new TimesheetRow());
+		details.add(new TimesheetRow());
     }
 
 }
