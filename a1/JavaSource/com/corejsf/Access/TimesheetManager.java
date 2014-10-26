@@ -59,7 +59,8 @@ public class TimesheetManager{
 		}
 		if (timesheet == null) {
 			timesheet = new TimesheetModel(e);
-			addTimesheet(timesheet);
+			System.out.println("Create timesheet for " + timesheet.getEndWeek().toString());
+//			addTimesheet(timesheet);
 		}
 		
 		return timesheet;
@@ -72,7 +73,7 @@ public class TimesheetManager{
 		List <TimesheetModel> employeeTimesheets = getTimesheets(timesheet.getEmployee());
 		if (! employeeTimesheets.contains(timesheet) ) {
 			timesheetCollection.add(timesheet);
-			System.out.println("Create timesheet for " + timesheet.getEndWeek().toString());
+			System.out.println("Timesheet added.");
 		}
 	}
 

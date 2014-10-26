@@ -53,7 +53,6 @@ public class TimesheetModel extends Timesheet {
 		if (hours == null) {
 			hours = new BigDecimal(0.0);
 		}
-		System.out.println("Hours: " + hours);
 		return hours;
 	}
 	

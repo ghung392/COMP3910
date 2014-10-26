@@ -69,6 +69,12 @@ public class TimesheetBean implements Serializable {
 		TimesheetModel newSheet = timesheetManager.getTimesheet(currEmployee, currEndWeek);
 		timesheet = newSheet;
 	}
+	
+	public String addTimesheet() {
+		timesheetManager.addTimesheet(timesheet);
+		
+		return null;
+	}
 
 	public String currTimesheet() {
 		currEndWeek = TimesheetModel.getCurrDate();
@@ -81,4 +87,5 @@ public class TimesheetBean implements Serializable {
 		// TODO return proper view page of timesheet
 		return "createTimesheet";
 	}
+	
 }
