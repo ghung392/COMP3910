@@ -24,7 +24,7 @@ import com.corejsf.Model.EmployeeModel;
 @SessionScoped
 public class EmployeeInfo implements Serializable {
 
-	/**EmployeeTracker object that holds all the sample database objects. */
+    /**EmployeeTracker object that holds all the sample database objects. */
     @Inject private EmployeeTracker employeeList;
     /**The current employee object using the session. */
     private EmployeeModel currentEmployee;
@@ -35,7 +35,7 @@ public class EmployeeInfo implements Serializable {
      * Method to get the list of employees.
      * @return arraylist of employees
      */
-    public ArrayList<EmployeeModel> getEmployeeList() {
+    public final ArrayList<EmployeeModel> getEmployeeList() {
         return employeeList.getEmployees();
     }
 
@@ -44,7 +44,7 @@ public class EmployeeInfo implements Serializable {
      * @param username the name of the employee
      * @return the employee
      */
-    public EmployeeModel getEmployee(String username) {
+    public final EmployeeModel getEmployee(final String username) {
         return employeeList.find(username);
     }
 
@@ -52,7 +52,7 @@ public class EmployeeInfo implements Serializable {
      * Method to return the current employee signed in.
      * @return current employee
      */
-    public Employee getCurrentEmployee() {
+    public final Employee getCurrentEmployee() {
         return currentEmployee;
     }
 
@@ -60,7 +60,7 @@ public class EmployeeInfo implements Serializable {
      * Method to return the focused employee.
      * @return focused employee
      */
-    public Employee getFocusedEmployee() {
+    public final Employee getFocusedEmployee() {
         return focusedEmployee;
     }
 
@@ -68,7 +68,7 @@ public class EmployeeInfo implements Serializable {
      * Checks whether the current employee is an admin or not.
      * @return employee's admin status
      */
-    public boolean getAdmin() {
+    public final boolean getAdmin() {
         return currentEmployee.isAdmin();
     }
 
@@ -77,8 +77,10 @@ public class EmployeeInfo implements Serializable {
      * credentials.
      * @param username input username
      * @param password input password
+     * @return string for navigation
      */
-    public String verifyEmployee(final String username, final String password) {
+    public final String verifyEmployee(final String username,
+            final String password) {
         currentEmployee = employeeList.auth(username, password);
 
         if (currentEmployee == null) {
@@ -92,7 +94,7 @@ public class EmployeeInfo implements Serializable {
      * Logs out the current employee.
      * @return logout for navigation
      */
-    public String employeeLogout() {
+    public final String employeeLogout() {
         currentEmployee = null;
         focusedEmployee = null;
         return "logout";
@@ -100,16 +102,16 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * Removes the employee from the employee list.
-     * @param employee
+     * @param employee to be deleted
      * @return string depending on fail/success for navigation
      */
-    public String deleteEmployee(EmployeeModel employee) {
-    	if (employee == currentEmployee) {
-    		FacesContext.getCurrentInstance().addMessage("profileForm",
+    public final String deleteEmployee(final EmployeeModel employee) {
+        if (employee == currentEmployee) {
+            FacesContext.getCurrentInstance().addMessage("profileForm",
                     new FacesMessage("You cannot delete yourself. "
-                    		+ "You are the admin."));
+                            + "You are the admin."));
             return "deletefail";
-    	}
+        }
         employeeList.remove(employee);
 
         return "deletesuccess";
@@ -123,22 +125,22 @@ public class EmployeeInfo implements Serializable {
      * @param confirmPassword of new employee
      * @return string for navigation
      */
-    public String createEmployee(final String username, final String name,
+    public final String createEmployee(final String username, final String name,
             final String newPassword, final String confirmPassword) {
-    	int counter = employeeList.getCounter();
-    	EmployeeModel newEmployee = new EmployeeModel(name, counter + 1,
-    			username, false, newPassword);
-    	addEmployeeToList(newEmployee);
-    	employeeList.setCounter(counter + 1);
+        int counter = employeeList.getCounter();
+        EmployeeModel newEmployee = new EmployeeModel(name, counter + 1,
+                username, false, newPassword);
+        addEmployeeToList(newEmployee);
+        employeeList.setCounter(counter + 1);
 
-    	return "createsuccess";
+        return "createsuccess";
     }
 
     /**
      * Adds employee to the employee list.
      * @param newEmployee to add to list
      */
-    public void addEmployeeToList(EmployeeModel newEmployee) {
+    public final void addEmployeeToList(final EmployeeModel newEmployee) {
         employeeList.add(newEmployee);
     }
     /**
@@ -148,26 +150,26 @@ public class EmployeeInfo implements Serializable {
      * @param confirmPassword for update
      * @return sring for navigation
      */
-    public String updateEmployee(final String oldPassword,
+    public final String updateEmployee(final String oldPassword,
             final String newPassword, final String confirmPassword) {
 
         if ((oldPassword.compareTo(currentEmployee.getPassword())) != 0) {
             FacesContext.getCurrentInstance().addMessage(
-            		"passwordForm:old_password",
+                    "passwordForm:old_password",
                     new FacesMessage("You did not enter a match with your "
-                    		+ "old password. Try again."));
+                            + "old password. Try again."));
             return "updatefail";
         } else if ((newPassword.compareTo(confirmPassword)) != 0) {
             FacesContext.getCurrentInstance().addMessage(
-            		"passwordForm:confirm_password",
+                    "passwordForm:confirm_password",
                     new FacesMessage("Your password confirmation did not "
-                    		+ "match. Try again."));
+                            + "match. Try again."));
             return "updatefail";
         } else if ((oldPassword.compareTo(newPassword)) == 0) {
             FacesContext.getCurrentInstance().addMessage(
-            		"passwordForm:new_password",
+                    "passwordForm:new_password",
                     new FacesMessage("Your new password did not "
-                    		+ "change. Try again."));
+                            + "change. Try again."));
             return "updatefail";
         }
 
@@ -182,16 +184,16 @@ public class EmployeeInfo implements Serializable {
      * @param name to update
      * @return string for navigation
      */
-    public String updateInfo(final String username, final String name) {
-    	if ((username.compareTo("")) != 0) {
+    public final String updateInfo(final String username, final String name) {
+        if ((username.compareTo("")) != 0) {
             currentEmployee.setUserName(username);
         }
 
-    	if ((name.compareTo("")) != 0) {
+        if ((name.compareTo("")) != 0) {
             currentEmployee.setName(name);
         }
 
-    	return "updatesuccess";
+        return "updatesuccess";
     }
 
     /**
@@ -200,14 +202,14 @@ public class EmployeeInfo implements Serializable {
      * @param confirmPassword to update
      * @return string for navigation
      */
-    public String updateFocusedEmployee(final String newPassword,
-    		final String confirmPassword) {
+    public final String updateFocusedEmployee(final String newPassword,
+            final String confirmPassword) {
 
         if ((newPassword.compareTo(confirmPassword)) != 0) {
             FacesContext.getCurrentInstance().addMessage(
-            		"passwordForm:confirm_password",
+                    "passwordForm:confirm_password",
                     new FacesMessage("Your password confirmation did not "
-                    		+ "match. Try again."));
+                            + "match. Try again."));
             return "updatefail";
         }
 
@@ -222,17 +224,17 @@ public class EmployeeInfo implements Serializable {
      * @param name to update
      * @return string for navigation
      */
-    public String updateFocusedEmployeeInfo(final String username,
-    		final String name) {
-    	if ((username.compareTo("")) != 0) {
+    public final String updateFocusedEmployeeInfo(final String username,
+            final String name) {
+        if ((username.compareTo("")) != 0) {
             focusedEmployee.setUserName(username);
         }
 
-    	if ((username.compareTo("")) != 0) {
+        if ((username.compareTo("")) != 0) {
             focusedEmployee.setName(name);
         }
 
-    	return "updatesuccess";
+        return "updatesuccess";
     }
 
     /**
@@ -240,7 +242,7 @@ public class EmployeeInfo implements Serializable {
      * @param username of new focused employee
      * @return string for navigation
      */
-    public String changeEmployee(final String username) {
+    public final String changeEmployee(final String username) {
         focusedEmployee = getEmployee(username);
 
         return "viewprofile";
