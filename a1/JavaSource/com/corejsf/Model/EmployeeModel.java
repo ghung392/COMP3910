@@ -33,33 +33,33 @@ public class EmployeeModel extends Employee implements Serializable {
      * Getter for password.
      * @return employee password
      */
-    public final String getPassword() {
+    public String getPassword() {
         return password;
     }
     /**
      * Setter for password.
      * @param pass new password
      */
-    public final void setPassword(final String pass) {
+    public void setPassword(final String pass) {
         password = pass;
     }
     /**
      * Setter for admin status.
      * @param newValue new admin status
      */
-    public final void setAdmin(final boolean newValue) {
+    public void setAdmin(final boolean newValue) {
         admin = newValue;
     }
     /**
      * Getter for admin status.
      * @return current admin status
      */
-    public final boolean isAdmin() {
+    public boolean isAdmin() {
         return admin;
     }
 
     @Override
-    public final boolean equals(final Object o) {
+    public boolean equals(final Object o) {
         if (o == null && !(o instanceof Employee)) {
             return false;
         }

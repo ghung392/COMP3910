@@ -25,7 +25,7 @@
 					class="table">
 					<h:column>
 						<h:commandLink
-							value="Timesheet of week ending on #{timesheet.weekEnding}"
+							value="#{msgs.timesheet_end} #{timesheet.weekEnding}"
 							action="#{timesheetData.viewTimesheet(timesheet.endWeek)}"
 							class="list-group-item " />
 					</h:column>

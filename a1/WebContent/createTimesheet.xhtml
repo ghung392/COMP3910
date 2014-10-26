@@ -23,9 +23,9 @@
 			<h:form>
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<b>Current Week of Year: #{timesheetData.timesheet.weekNum}</b>
+						<b>#{msgs.current_week} #{timesheetData.timesheet.weekNum}</b>
 						<div class="pull-right">
-							<b>Week ends on: #{timesheetData.timesheet.weekEnding}</b>
+							<b>#{msgs.week_end} #{timesheetData.timesheet.weekEnding}</b>
 						</div>
 					</div>
 					<div class="panel-body">
@@ -37,25 +37,25 @@
 							</ul>
 						</h:panelGroup>
 						<h:panelGroup layout="block" styleClass="alert alert-success" rendered="#{timesheetData.showMessages and timesheetData.saveSuccess}" >
-							<h:outputText value="Timesheet successfully saved." />
+							<h:outputText value="#{msgs.timesheet_save}" />
 						</h:panelGroup>
 						<h:messages infoClass="text-danger"/>
 					</div>
 					<h:dataTable value="#{timesheetData.timesheet.details}" var="detail" 
 						styleClass="table timesheet-table" footerClass="table-footer">
 						<h:column>
-							<f:facet name="header">ProjectID</f:facet>
+							<f:facet name="header">#{msgs.project_id}</f:facet>
 							<h:inputText value="#{detail.projectID}" label="ProjectID" class="form-control" />
 						</h:column>
 						<h:column>
-							<f:facet name="header">WP#</f:facet>
+							<f:facet name="header">#{msgs.work_p}</f:facet>
 							<h:inputText value="#{detail.workPackage}" label="WP#" class="form-control" />
 							<f:facet name="footer">
 								<h:outputText value="Total" styleClass="vcenter text-right" />
 							</f:facet>
 						</h:column>
 						<h:column>
-							<f:facet name="header">Total</f:facet>
+							<f:facet name="header">#{msgs.total}</f:facet>
 							<h:outputText value="#{detail.sum}" class="vcenter text-center" />
 							<f:facet name="footer">
 								<h:outputText value="#{timesheetData.timesheet.totalHours}" 
@@ -63,7 +63,7 @@
 							</f:facet>
 						</h:column>
 						<h:column>
-							<f:facet name="header">SAT</f:facet>
+							<f:facet name="header">#{msgs.sat}</f:facet>
 							<h:inputText value="#{detail.hourSat}" label="Hour" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
@@ -73,7 +73,7 @@
 							</f:facet>
 						</h:column>
 						<h:column>
-							<f:facet name="header">SUN</f:facet>
+							<f:facet name="header">#{msgs.sun}</f:facet>
 							<h:inputText value="#{detail.hourSun}" label="hour" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
@@ -83,7 +83,7 @@
 							</f:facet>
 						</h:column>
 						<h:column>
-							<f:facet name="header">MON</f:facet>
+							<f:facet name="header">#{msgs.mon}</f:facet>
 							<h:inputText value="#{detail.hourMon}" label="hour" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
@@ -93,7 +93,7 @@
 							</f:facet>
 						</h:column>
 						<h:column>
-							<f:facet name="header">TUE</f:facet>
+							<f:facet name="header">#{msgs.tue}</f:facet>
 							<h:inputText value="#{detail.hourTue}" label="hour" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
@@ -103,7 +103,7 @@
 							</f:facet>
 						</h:column>
 						<h:column>
-							<f:facet name="header">WED</f:facet>
+							<f:facet name="header">#{msgs.wed}</f:facet>
 							<h:inputText value="#{detail.hourWed}" label="hour" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
@@ -113,7 +113,7 @@
 							</f:facet>
 						</h:column>
 						<h:column>
-							<f:facet name="header">THU</f:facet>
+							<f:facet name="header">#{msgs.thu}</f:facet>
 							<h:inputText value="#{detail.hourThur}" label="hour" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
@@ -123,7 +123,7 @@
 							</f:facet>
 						</h:column>
 						<h:column>
-							<f:facet name="header">FRI</f:facet>
+							<f:facet name="header">#{msgs.fri}</f:facet>
 							<h:inputText value="#{detail.hourFri}" label="hour" class="form-control">
 								<f:validateDoubleRange minimum="0.0" maximum="24.0" />
 							</h:inputText>
@@ -133,14 +133,14 @@
 							</f:facet>
 						</h:column>
 						<h:column>
-							<f:facet name="header">Note</f:facet>
+							<f:facet name="header">#{msgs.note}</f:facet>
 							<h:inputText value="#{detail.notes}"  label="Note" class="form-control note-field" />
 						</h:column>
 					</h:dataTable>
 					
 					<div class="panel-body">
-						<h:commandLink value="Add New Row" action="#{timesheetData.addRow}" styleClass="btn btn-default" />
-						<h:commandLink value="Save Timesheet" action="#{timesheetData.addTimesheet}" 
+						<h:commandLink value="#{msgs.add_row}" action="#{timesheetData.addRow}" styleClass="btn btn-default" />
+						<h:commandLink value="#{msgs.save_timesheet}" action="#{timesheetData.addTimesheet}" 
 						styleClass="btn btn-primary pull-right" />
 				    </div>
 				</div>

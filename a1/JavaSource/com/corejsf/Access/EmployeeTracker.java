@@ -37,7 +37,7 @@ public class EmployeeTracker implements Serializable {
      * @param username of employee to find
      * @return employee if found or null
      */
-    public final EmployeeModel find(final String username) {
+    public EmployeeModel find(final String username) {
         for (int i = 0; i < employees.size(); i++) {
             if (employees.get(i).getUserName().compareTo(username) == 0) {
                 return employees.get(i);
@@ -49,7 +49,7 @@ public class EmployeeTracker implements Serializable {
      * Remove an employee from the list.
      * @param employee to remove
      */
-    public final void remove(final Employee employee) {
+    public void remove(final Employee employee) {
         for (int i = 0; i < employees.size(); i++) {
             if (employees.get(i).getEmpNumber() == employee.getEmpNumber()) {
                 employees.remove(i);
@@ -61,7 +61,7 @@ public class EmployeeTracker implements Serializable {
      * Add an employee to the list.
      * @param newEmployee new employee model
      */
-    public final void add(final EmployeeModel newEmployee) {
+    public void add(final EmployeeModel newEmployee) {
         employees.add(newEmployee);
 
         return;
@@ -70,7 +70,7 @@ public class EmployeeTracker implements Serializable {
      * Gets the whole list of employees.
      * @return list of employees
      */
-    public final ArrayList<EmployeeModel> getEmployees() {
+    public ArrayList<EmployeeModel> getEmployees() {
         return employees;
     }
     /**
@@ -79,7 +79,7 @@ public class EmployeeTracker implements Serializable {
      * @param password password input
      * @return employee if correct validation or else null
      */
-    public final EmployeeModel auth(final String username,
+    public EmployeeModel auth(final String username,
             final String password) {
         for (int i = 0; i < employees.size(); i++) {
             if ((employees.get(i).getUserName().compareTo(username) == 0)
@@ -98,7 +98,7 @@ public class EmployeeTracker implements Serializable {
      * Get the id counter.
      * @return the counter
      */
-    public final int getCounter() {
+    public int getCounter() {
         return counter;
     }
 
@@ -106,7 +106,7 @@ public class EmployeeTracker implements Serializable {
      * Set the id counter.
      * @param number to be set
      */
-    public final void setCounter(final int number) {
+    public void setCounter(final int number) {
         counter = number;
     }
 
