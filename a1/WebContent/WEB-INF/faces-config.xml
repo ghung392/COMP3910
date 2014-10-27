@@ -83,6 +83,7 @@
 	<application>
 		<locale-config>
 			<default-locale>en</default-locale>
+			<supported-locale>zh</supported-locale>
 		</locale-config>
 		<resource-bundle>
 			<base-name>com.corejsf.messages</base-name>
