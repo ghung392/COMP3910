@@ -26,10 +26,11 @@
 		<ui:define name="content">
 			<h:form>
 				<div class="top-padding list-group">
-					<h:commandLink class="list-group-item " value="#{msgs.nav_fill_timesheet}"/>
-					<h:commandLink class="list-group-item " value="#{msgs.nav_fill_timesheet}" />
-					<h:commandLink class="list-group-item " value="#{msgs.nav_fill_timesheet}" />
-					<h:commandLink class="list-group-item " value="#{msgs.nav_fill_timesheet}" />
+					<h:commandLink value="#{msgs.nav_fill_timesheet}"  action="#{timesheetData.currTimesheet}" styleClass="list-group-item"/>
+					<h:commandLink value="#{msgs.nav_history}" action="history" styleClass="list-group-item"/>
+					<h:commandLink value="#{msgs.nav_profile}" action="profile" styleClass="list-group-item"/>
+					<h:commandLink value="#{msgs.nav_admin}" action="userAdmin" rendered="#{employee.admin}" styleClass="list-group-item"/>
+					<h:commandLink value="#{msgs.nav_logout}" action="#{employee.employeeLogout}" styleClass="list-group-item"/>
 				</div>
 			</h:form>
 		</ui:define>
