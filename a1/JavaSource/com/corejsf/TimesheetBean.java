@@ -194,9 +194,9 @@ public class TimesheetBean implements Serializable {
      * @return navigation outcome - viewTimesheet page.
      */
     public String viewTimesheet(final Date endWeek) {
+        showMessages = false;
         currEndWeek = endWeek;
 
-        // TODO return proper view page of timesheet
         return "viewTimesheet";
     }
 
