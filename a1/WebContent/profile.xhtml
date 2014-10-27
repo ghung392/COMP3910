@@ -26,7 +26,7 @@
 		<ui:define name="content">
 			
 			<div class="container">
-			<h:form id="profileForm">
+			<h:form id="profileForm" rendered="#{employee.admin}" >
 			<div class="panel panel-default">
 			<div class="panel-heading"><h4>#{msgs.profile_msg}</h4></div>
 			<div class="panel-body" >
