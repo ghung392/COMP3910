@@ -95,8 +95,6 @@ public class EmployeeInfo implements Serializable {
      * @return logout for navigation
      */
     public String employeeLogout() {
-        currentEmployee = null;
-        focusedEmployee = null;
         return "logout";
     }
 
@@ -230,7 +228,7 @@ public class EmployeeInfo implements Serializable {
             focusedEmployee.setUserName(username);
         }
 
-        if ((username.compareTo("")) != 0) {
+        if ((name.compareTo("")) != 0) {
             focusedEmployee.setName(name);
         }
 

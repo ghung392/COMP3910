@@ -40,8 +40,8 @@
 						<h:inputText binding="#{nameField}" class="form-control" id="name"
 							pt:placeholder="#{msgs.name}" rendered="#{employee.admin}" />
 					</div>
-					<h:commandButton value="#{msgs.save}" action="#{employee.updateFocusedEmployeeInfo(employee.focusedEmployee.userName,
-						employee.focusedEmployee.name)}" class="btn btn-primary pull-right" />
+					<h:commandButton value="#{msgs.save}" action="#{employee.updateFocusedEmployeeInfo(usernameField.value,
+						nameField.value)}" class="btn btn-primary pull-right" />
 			</div>
 			</div>
 			</h:form>
