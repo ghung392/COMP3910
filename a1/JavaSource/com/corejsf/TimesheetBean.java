@@ -145,7 +145,7 @@ public class TimesheetBean implements Serializable {
         if (!timesheet.isValid()) {
             isValid = false;
             saveSuccess = false;
-            errorMessages.add("Work hours must add up to 40. Please add " 
+            errorMessages.add("Work hours must add up to 40. Please add "
                     + "additional hours into overtime or flexible hour field");
             System.out.println("Work hours must add up to 40.");
         }
@@ -159,6 +159,7 @@ public class TimesheetBean implements Serializable {
         }
         if (isValid) {
             timesheetManager.saveTimesheet(timesheet);
+            refreshTimesheetList();
             saveSuccess = true;
             System.out.println("Saving timesheet");
         }
