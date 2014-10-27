@@ -35,7 +35,7 @@ public class Timesheet implements java.io.Serializable {
     public static final BigDecimal HOURS_IN_DAY = new BigDecimal(24.0)
             .setScale(1, BigDecimal.ROUND_HALF_UP);
 
-    /** Full work week */
+    /** Full work week. */
     public static final BigDecimal FULL_WORK_WEEK = new BigDecimal(40.0)
             .setScale(1, BigDecimal.ROUND_HALF_UP);
 
@@ -64,7 +64,7 @@ public class Timesheet implements java.io.Serializable {
     /**
      * Creates a Timesheet object with all fields set. Used to create sample
      * data.
-     * 
+     *
      * @param user
      *            The owner of the timesheet
      * @param end
@@ -88,7 +88,8 @@ public class Timesheet implements java.io.Serializable {
     }
 
     /**
-     * @return the employee.
+     * Set owner of timesheet.
+     * @param user owner of timesheet.
      */
     public void setEmployee(final Employee user) {
         employee = user;
@@ -101,6 +102,10 @@ public class Timesheet implements java.io.Serializable {
         return endWeek;
     }
 
+    /**
+     * Check if given day is on Friday.
+     * @param end date to check
+     */
     private void checkFriday(final Date end) {
         Calendar c = new GregorianCalendar();
         c.setTime(end);
@@ -112,8 +117,7 @@ public class Timesheet implements java.io.Serializable {
     }
 
     /**
-     * @param end
-     *            the endWeek to set. Must be a Friday
+     * @param end the endWeek to set. Must be a Friday
      */
     public void setEndWeek(final Date end) {
         checkFriday(end);
