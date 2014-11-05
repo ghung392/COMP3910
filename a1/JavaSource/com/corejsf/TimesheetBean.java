@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -21,9 +22,11 @@ import com.corejsf.Model.TimesheetModel;
  *
  */
 @Named("timesheetData")
-@SessionScoped
+@ConversationScoped
 public class TimesheetBean implements Serializable {
 
+    @Inject
+    private Conversation conversation;
     /** Manages access and persistence of timesheets in data layer. */
     @Inject
     private TimesheetManager timesheetManager;
@@ -34,7 +37,7 @@ public class TimesheetBean implements Serializable {
     /** All timesheets belonging to current employee. */
     private List<TimesheetModel> allTimesheets;
     /** End of week of the timesheet to view or viewing. */
-    private Date currEndWeek;
+    private Date currEndWeek = TimesheetModel.getCurrDate(); // TODO producer inject 
     /** A timesheet belonging to current employee, specified by currEndWeek. */
     private TimesheetModel timesheet;
     /** Flag indicate whether successfully saved timesheet. */
@@ -73,21 +76,8 @@ public class TimesheetBean implements Serializable {
      * @return all timesheets belonging to currently logged in employee.
      */
     public List<TimesheetModel> getAllTimesheets() {
-        // refresh timesheetList only if not initialized, empty or current
-        // employee changed.
         if (allTimesheets == null) {
             refreshTimesheetList();
-        } else {
-            if (allTimesheets.size() == 0) {
-                refreshTimesheetList();
-            } else {
-                EmployeeModel reference = (EmployeeModel) allTimesheets.get(0)
-                        .getEmployee();
-                if (!reference.equals(employeeSession.getCurrentEmployee())) {
-                    refreshTimesheetList();
-                }
-
-            }
         }
 
         return allTimesheets;
@@ -99,10 +89,7 @@ public class TimesheetBean implements Serializable {
      * @return a timesheet.
      */
     public TimesheetModel getTimesheet() {
-        // refresh timesheet only if not initialized or currEndWeek changed
-        final boolean isSameCurrEndWeek = timesheet != null
-                && timesheet.isSameWeekEnd(currEndWeek);
-        if (timesheet == null || !isSameCurrEndWeek) {
+        if (timesheet == null) {
             refreshTimesheet();
         }
 
@@ -164,6 +151,7 @@ public class TimesheetBean implements Serializable {
             System.out.println("Saving timesheet");
         }
 
+        endConversation();
         return null;
     }
 
@@ -182,8 +170,7 @@ public class TimesheetBean implements Serializable {
      * @return navigation outcome - createTimesheet page.
      */
     public String currTimesheet() {
-        showMessages = false;
-        currEndWeek = TimesheetModel.getCurrDate();
+        beginConversation();
         return "createTimesheet";
     }
 
@@ -194,10 +181,33 @@ public class TimesheetBean implements Serializable {
      * @return navigation outcome - viewTimesheet page.
      */
     public String viewTimesheet(final Date endWeek) {
-        showMessages = false;
+        beginConversation();
         currEndWeek = endWeek;
-
-        return "viewTimesheet";
+        
+        return "viewHistory";
     }
 
+    public String back() {
+        endConversation();
+        return "complete";
+    }
+    
+    public String viewTimesheetList() {
+        endConversation();
+        return "history";
+    }
+
+    private void beginConversation() {
+        if (conversation.isTransient()) {
+            System.out.println("conversation began.");
+            conversation.begin();
+        }
+    }
+
+    private void endConversation() {
+        if (!conversation.isTransient()) {
+            System.out.println("conversation end.");
+            conversation.end();
+        }
+    }
 }

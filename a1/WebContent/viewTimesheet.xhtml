@@ -29,17 +29,6 @@
 						</div>
 					</div>
 					<div class="panel-body">
-						<h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{timesheetData.showMessages and !timesheetData.saveSuccess}" >
-							<ul>
-								<ui:repeat value="#{timesheetData.errorMessages}" var="errMsg">
-									<li>#{errMsg}</li>
-								</ui:repeat>
-							</ul>
-						</h:panelGroup>
-						<h:panelGroup layout="block" styleClass="alert alert-success" rendered="#{timesheetData.showMessages and timesheetData.saveSuccess}" >
-							<h:outputText value="#{msgs.timesheet_save}" />
-						</h:panelGroup>
-						<h:messages infoClass="text-danger"/>
 					</div>
 					<h:dataTable value="#{timesheetData.timesheet.details}" var="detail" 
 						styleClass="table timesheet-table" footerClass="table-footer">
@@ -107,7 +96,7 @@
 					</h:dataTable>
 					
 					<div class="panel-body">
-						<h:commandLink value="#{msgs.btn_back}" action="history" 
+						<h:commandLink value="#{msgs.btn_back}" action="#{timesheetData.back}" 
 						styleClass="btn btn-primary pull-right" />
 				    </div>
 				</div>
