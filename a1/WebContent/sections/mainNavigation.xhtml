@@ -17,8 +17,8 @@
 			<div class="navbar navbar-default">
 				<h:commandLink class="navbar-brand" value="#{msgs.site_name}" action="landing" />
 				<ul class="nav navbar-nav">
-					<li><h:commandLink value="#{msgs.nav_fill_timesheet}"  action="#{timesheetData.currTimesheet}" /></li>
-					<li><h:commandLink value="#{msgs.nav_history}" action="#{timesheetData.viewTimesheetList}" /></li>
+					<li><h:commandLink value="#{msgs.nav_fill_timesheet}"  action="createTimesheet" /></li>
+					<li><h:commandLink value="#{msgs.nav_history}" action="history" /></li>
 					<li><h:commandLink value="#{msgs.nav_profile}" action="profile" /></li>
 					<li><h:commandLink value="#{msgs.nav_admin}" action="userAdmin" rendered="#{employee.admin}" /></li>
 					<li><h:commandLink value="#{msgs.nav_logout}" action="#{employee.employeeLogout}" /></li>

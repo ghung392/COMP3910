@@ -5,15 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import ca.bcit.infosys.employee.Employee;
 
 import com.corejsf.Access.TimesheetManager;
-import com.corejsf.Model.EmployeeModel;
 import com.corejsf.Model.TimesheetModel;
 
 /**
@@ -22,11 +20,11 @@ import com.corejsf.Model.TimesheetModel;
  *
  */
 @Named("timesheetData")
-@ConversationScoped
+@RequestScoped
 public class TimesheetBean implements Serializable {
 
-    @Inject
-    private Conversation conversation;
+//    @Inject
+//    private Conversation conversation;
     /** Manages access and persistence of timesheets in data layer. */
     @Inject
     private TimesheetManager timesheetManager;
@@ -151,7 +149,6 @@ public class TimesheetBean implements Serializable {
             System.out.println("Saving timesheet");
         }
 
-        endConversation();
         return null;
     }
 
@@ -165,49 +162,14 @@ public class TimesheetBean implements Serializable {
     }
 
     /**
-     * Go to Fill timesheet page to create / edit current week's timesheet.
-     * Set currEndWeek to current week's Friday.
-     * @return navigation outcome - createTimesheet page.
-     */
-    public String currTimesheet() {
-        beginConversation();
-        return "createTimesheet";
-    }
-
-    /**
      * Go to View a past timesheet page. Set currEndWeek to specified
      * week's Friday.
      * @param endWeek specified week's Friday.
      * @return navigation outcome - viewTimesheet page.
      */
     public String viewTimesheet(final Date endWeek) {
-        beginConversation();
         currEndWeek = endWeek;
-        
-        return "viewHistory";
+        return "viewTimesheet";
     }
 
-    public String back() {
-        endConversation();
-        return "complete";
-    }
-    
-    public String viewTimesheetList() {
-        endConversation();
-        return "history";
-    }
-
-    private void beginConversation() {
-        if (conversation.isTransient()) {
-            System.out.println("conversation began.");
-            conversation.begin();
-        }
-    }
-
-    private void endConversation() {
-        if (!conversation.isTransient()) {
-            System.out.println("conversation end.");
-            conversation.end();
-        }
-    }
 }
