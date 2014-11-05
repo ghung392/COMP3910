@@ -24,13 +24,24 @@
 				<h:commandButton value="#{msgs.create_user}" action="createEmployee" styleClass="btn btn-primary" />
 				<h:dataTable value="#{employee.employeeList}" var="user" styleClass="table">
 					<h:column>
-						<f:facet name="header">#{msgs.change}</f:facet>
-						<h:commandLink value="#{user.userName} - #{user.name} - E Num: #{user.empNumber}" 
-							action="#{employee.changeEmployee(user.userName)}" styleClass="list-group-item" />
+						<f:facet name="header">#{msgs.emp_num}</f:facet>
+						#{user.empNumber}
+					</h:column>
+					<h:column>
+						<f:facet name="header">#{msgs.username}</f:facet>
+						#{user.userName}
+					</h:column>
+					<h:column>
+						<f:facet name="header">#{msgs.name}</f:facet>
+						#{user.name}
+					</h:column>
+					<h:column>
+						<h:commandLink value="#{msgs.edit_user}" 
+							action="#{employee.changeEmployee(user.userName)}" styleClass="btn btn-default" />
 					</h:column>
 					<h:column>
 						<h:commandButton value="#{msgs.delete_user}" action="#{employee.deleteEmployee(user)}" 
-							styleClass="btn btn-default" />
+							styleClass="btn btn-danger" />
 					</h:column>
 				</h:dataTable>
 			</h:form>
