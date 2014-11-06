@@ -80,13 +80,12 @@ public class TimesheetManager {
         for (TimesheetModel t : employeeTimesheets) {
             if (t.isSameWeekEnd(weekEnd)) {
                 timesheet = t;
-                System.out.println("Found timesheet for " + weekEnd.toString());
+                System.out.println("Found timesheet: \n" + timesheet);
             }
         }
         if (timesheet == null) {
             timesheet = new TimesheetModel(e);
-            System.out.println("Create timesheet for "
-                    + timesheet.getEndWeek().toString());
+            System.out.println("Create timesheet: \n" + timesheet);
         }
 
         return timesheet;
@@ -112,14 +111,14 @@ public class TimesheetManager {
             if (timesheet.equals(timesheetCollection.get(i))) {
                 saved = true;
                 timesheetCollection.set(i, timesheet);
-                System.out.println("Timesheet replaced.");
+                System.out.println("Timesheet replaced: \n" + timesheet);
                 break;
             }
         }
         // add timesheet only if it is not found in collection
         if (!saved) {
             timesheetCollection.add(timesheet);
-            System.out.println("Timesheet added.");
+            System.out.println("Timesheet added: \n" + timesheet);
         }
     }
 
