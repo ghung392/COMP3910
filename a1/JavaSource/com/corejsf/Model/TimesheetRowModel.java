@@ -173,4 +173,20 @@ public class TimesheetRowModel extends TimesheetRow {
         return isDuplicate;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append(getProjectID()).append(getWorkPackage());
+        sb.append(": MON: ").append(getHourMon());
+        sb.append(", TUE: ").append(getHourTue());
+        sb.append(", WED: ").append(getHourWed());
+        sb.append(", THU: ").append(getHourThur());
+        sb.append(", FRI: ").append(getHourFri());
+        sb.append(", SAT: ").append(getHourSat());
+        sb.append(", SUN: ").append(getHourSun());
+        sb.append("\n");
+        
+        return sb.toString();
+    }
 }

@@ -231,4 +231,18 @@ public class TimesheetModel extends Timesheet {
 
         return isSameUser && isSameWeek;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("Week of ").append(getWeekEnding()).append("\n");
+        sb.append("EMP#: ").append(getEmployee().getUserName()).append("\n");
+
+        List<TimesheetRow> rows = getDetails();
+        for (TimesheetRow r : rows) {
+            sb.append(r.toString());
+        }
+
+        return sb.toString();
+    }
 }
