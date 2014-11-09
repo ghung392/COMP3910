@@ -146,13 +146,13 @@ public class TimesheetManager {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             Date end = sdf.parse("10/10/2014");
 
-            final List<EmployeeModel> elist = employeeManager.getEmployees();
-            if (elist != null && elist.size() >= 2) {
-                final Employee e1 = elist.get(0);
+            final EmployeeModel[] elist = employeeManager.getEmployees();
+            if (elist != null && elist.length >= 2) {
+                final Employee e1 = elist[0];
                 final TimesheetModel t1 = new TimesheetModel(e1, end, e1Rows);
                 saveTimesheet(t1);
 
-                final Employee e2 = elist.get(1);
+                final Employee e2 = elist[1];
                 final TimesheetModel t2 = new TimesheetModel(e2, end, e1Rows);
                 saveTimesheet(t2);
             } else {

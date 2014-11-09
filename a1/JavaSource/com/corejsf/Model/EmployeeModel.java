@@ -2,6 +2,11 @@ package com.corejsf.Model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import ca.bcit.infosys.employee.Employee;
 /**
  * Employee Model that extends Employee to add password and admin status
@@ -9,11 +14,27 @@ import ca.bcit.infosys.employee.Employee;
  * @author Gabriel
  * @version 1.0
  */
+@Entity
+@Table(name = "Employees")
 public class EmployeeModel extends Employee implements Serializable {
+    /** Serial Version UID. */
+    private static final long serialVersionUID = 1L;
     /** Employee password. */
+    @Column(name = "Pass")
     private String password;
     /** Employee admin status. */
+    @Column(name = "IsAdmin")
     private boolean admin;
+    /** Employee number. */
+    @Id
+    @Column(name = "EmpID")
+    private int empNumber;
+    /** Employee name. */
+    @Column(name = "EmpName")
+    private String name;
+    /** Employee username. */
+    @Column(name = "UserName")
+    private String userName;
 
     /**
      * Constructor to instantiate an employee.
@@ -25,9 +46,58 @@ public class EmployeeModel extends Employee implements Serializable {
      */
     public EmployeeModel(final String empName, final int number,
             final String id, final boolean isSuper, final String pass) {
+
         super(empName, number, id);
         admin = isSuper;
         password = pass;
+    }
+    /**
+     * Getter for employee name.
+     * @return employee name
+     */
+    @Override
+    public String getName() {
+        return super.getName();
+    }
+    /**
+     * Setter for employee name.
+     * @param empName new employee name
+     */
+    @Override
+    public void setName(final String empName) {
+        name = empName;
+    }
+    /**
+     * Getter for employee number.
+     * @return employee number
+     */
+    @Override
+    public int getEmpNumber() {
+        return super.getEmpNumber();
+    }
+    /**
+     * Setter for employee number.
+     * @param number new employee number
+     */
+    @Override
+    public void setEmpNumber(final int number) {
+        empNumber = number;
+    }
+    /**
+     * Getter for employee username.
+     * @return employee username
+     */
+    @Override
+    public String getUserName() {
+        return super.getUserName();
+    }
+    /**
+     * Setter for employee username.
+     * @param id new employee username
+     */
+    @Override
+    public void setUserName(final String id) {
+        userName = id;
     }
     /**
      * Getter for password.

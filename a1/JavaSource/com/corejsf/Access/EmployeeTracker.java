@@ -1,12 +1,14 @@
 package com.corejsf.Access;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-import javax.enterprise.context.SessionScoped;
+import javax.ejb.Stateless;
+import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import ca.bcit.infosys.employee.Employee;
 
@@ -18,17 +20,11 @@ import com.corejsf.Model.EmployeeModel;
  * @author Gabriel
  * @version 1.0
  */
-@SessionScoped
+@Dependent
+@Stateless
 public class EmployeeTracker implements Serializable {
-    /**ArrayList holding employees. Initially defined with a superuser and a
-     * normal user. */
-    private ArrayList<EmployeeModel> employees =
-            new ArrayList<EmployeeModel>(Arrays.asList(
-            new EmployeeModel("Johne Doe", 1, "test", false, "test"),
-            new EmployeeModel("Bob Smith", 2, "testadmin", true, "testadmin"),
-            new EmployeeModel("Gabriel", 3, "ghung392", true, "toohardtoguess"),
-            new EmployeeModel("Angela", 4, "starangelam", false, "qwerty")
-            ));
+    /** Entity Manager. */
+    @PersistenceContext(unitName = "a1") EntityManager em;
     /**Counter to keep track which ID number to add to a new employee to
      * prevent overlap. */
     private int counter = 4;
@@ -38,40 +34,37 @@ public class EmployeeTracker implements Serializable {
      * @return employee if found or null
      */
     public EmployeeModel find(final String username) {
-        for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).getUserName().compareTo(username) == 0) {
-                return employees.get(i);
-            }
-        }
-        return null;
+        return em.find(EmployeeModel.class, username);
     }
     /**
      * Remove an employee from the list.
      * @param employee to remove
      */
-    public void remove(final Employee employee) {
-        for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).getEmpNumber() == employee.getEmpNumber()) {
-                employees.remove(i);
-            }
-        }
-        return;
+    public void remove(Employee employee) {
+        employee = find(employee.getUserName());
+        em.remove(employee);
     }
     /**
      * Add an employee to the list.
      * @param newEmployee new employee model
      */
-    public void add(final EmployeeModel newEmployee) {
-        employees.add(newEmployee);
-
-        return;
+    public void persist(final EmployeeModel newEmployee) {
+        em.persist(newEmployee);
+        counter++;
     }
     /**
      * Gets the whole list of employees.
      * @return list of employees
      */
-    public ArrayList<EmployeeModel> getEmployees() {
-        return employees;
+    public EmployeeModel[] getEmployees() {
+        TypedQuery<EmployeeModel> query = em.createQuery("select s "
+                + "from EmployeeModel s", EmployeeModel.class);
+        java.util.List<EmployeeModel> employees = query.getResultList();
+        EmployeeModel[] emparray = new EmployeeModel[employees.size()];
+        for (int i = 0; i < emparray.length; i++) {
+            emparray[i] = employees.get(i);
+        }
+        return emparray;
     }
     /**
      * Authenticates a user.
@@ -81,11 +74,12 @@ public class EmployeeTracker implements Serializable {
      */
     public EmployeeModel auth(final String username,
             final String password) {
-        for (int i = 0; i < employees.size(); i++) {
-            if ((employees.get(i).getUserName().compareTo(username) == 0)
-                    && (employees.get(i).getPassword().compareTo(password)
+
+        for (int i = 0; i < getEmployees().length; i++) {
+            if ((getEmployees()[i].getUserName().compareTo(username) == 0)
+                    && (getEmployees()[i].getPassword().compareTo(password)
                             == 0)) {
-                return employees.get(i);
+                return getEmployees()[i];
             }
         }
         FacesContext.getCurrentInstance().addMessage("loginform:password",
