@@ -171,6 +171,7 @@ public class EmployeeInfo implements Serializable {
         }
 
         currentEmployee.setPassword(newPassword);
+        employeeList.merge(currentEmployee);
 
         return "updatesuccess";
     }
@@ -184,10 +185,12 @@ public class EmployeeInfo implements Serializable {
     public String updateInfo(final String username, final String name) {
         if ((username.compareTo("")) != 0) {
             currentEmployee.setUserName(username);
+            employeeList.merge(currentEmployee);
         }
 
         if ((name.compareTo("")) != 0) {
             currentEmployee.setName(name);
+            employeeList.merge(currentEmployee);
         }
 
         return "updatesuccess";
@@ -211,6 +214,7 @@ public class EmployeeInfo implements Serializable {
         }
 
         focusedEmployee.setPassword(newPassword);
+        employeeList.merge(focusedEmployee);
 
         return "updatesuccess";
     }
@@ -225,10 +229,12 @@ public class EmployeeInfo implements Serializable {
             final String name) {
         if ((username.compareTo("")) != 0) {
             focusedEmployee.setUserName(username);
+            employeeList.merge(focusedEmployee);
         }
 
         if ((name.compareTo("")) != 0) {
             focusedEmployee.setName(name);
+            employeeList.merge(focusedEmployee);
         }
 
         return "updatesuccess";

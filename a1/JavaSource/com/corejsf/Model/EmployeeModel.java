@@ -35,6 +35,12 @@ public class EmployeeModel extends Employee implements Serializable {
     /** Employee username. */
     @Column(name = "UserName")
     private String userName;
+    /**
+     * Default constructor.
+     */
+    public EmployeeModel() {
+
+    }
 
     /**
      * Constructor to instantiate an employee.
@@ -57,7 +63,7 @@ public class EmployeeModel extends Employee implements Serializable {
      */
     @Override
     public String getName() {
-        return super.getName();
+        return name;
     }
     /**
      * Setter for employee name.
@@ -73,7 +79,7 @@ public class EmployeeModel extends Employee implements Serializable {
      */
     @Override
     public int getEmpNumber() {
-        return super.getEmpNumber();
+        return empNumber;
     }
     /**
      * Setter for employee number.
@@ -89,7 +95,7 @@ public class EmployeeModel extends Employee implements Serializable {
      */
     @Override
     public String getUserName() {
-        return super.getUserName();
+        return userName;
     }
     /**
      * Setter for employee username.

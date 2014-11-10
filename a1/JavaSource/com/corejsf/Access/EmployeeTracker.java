@@ -45,6 +45,13 @@ public class EmployeeTracker implements Serializable {
         em.remove(employee);
     }
     /**
+     * Merge an employee for updating values.
+     * @param employee to merge
+     */
+    public void merge(final Employee employee) {
+        em.merge(employee);
+    }
+    /**
      * Add an employee to the list.
      * @param newEmployee new employee model
      */
@@ -57,8 +64,8 @@ public class EmployeeTracker implements Serializable {
      * @return list of employees
      */
     public EmployeeModel[] getEmployees() {
-        TypedQuery<EmployeeModel> query = em.createQuery("select s "
-                + "from EmployeeModel s", EmployeeModel.class);
+        TypedQuery<EmployeeModel> query = em.createQuery("select e "
+                + "from EmployeeModel e", EmployeeModel.class);
         java.util.List<EmployeeModel> employees = query.getResultList();
         EmployeeModel[] emparray = new EmployeeModel[employees.size()];
         for (int i = 0; i < emparray.length; i++) {
@@ -74,7 +81,6 @@ public class EmployeeTracker implements Serializable {
      */
     public EmployeeModel auth(final String username,
             final String password) {
-
         for (int i = 0; i < getEmployees().length; i++) {
             if ((getEmployees()[i].getUserName().compareTo(username) == 0)
                     && (getEmployees()[i].getPassword().compareTo(password)
