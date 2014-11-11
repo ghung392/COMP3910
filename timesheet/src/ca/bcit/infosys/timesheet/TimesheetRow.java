@@ -112,13 +112,7 @@ public class TimesheetRow implements java.io.Serializable {
      * @return charges in hours of specific day in week
      */
     public BigDecimal getHour(final int day) {
-    	BigDecimal newHour = BigDecimal.ZERO.setScale(1, BigDecimal.ROUND_HALF_UP);
-    	BigDecimal hour = hoursForWeek[day];
- 	   if (hour != null) {
-		   hour = newHour.add(hour);
-	   }
-
-        return hour;
+        return hoursForWeek[day];
     }
 
     /**
@@ -197,7 +191,7 @@ public class TimesheetRow implements java.io.Serializable {
      * @return the weekly hours
      */
     public BigDecimal getSum() {
-        BigDecimal sum = BigDecimal.ZERO.setScale(1, BigDecimal.ROUND_HALF_UP);
+        BigDecimal sum = BigDecimal.ZERO;
         for (BigDecimal next : hoursForWeek) {
             if (next != null) {
                 sum = sum.add(next);
