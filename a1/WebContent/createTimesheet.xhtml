@@ -29,23 +29,18 @@
 						</div>
 					</div>
 					<div class="panel-body">
-						<h:panelGroup layout="block" styleClass="alert alert-danger" rendered="#{timesheetData.showMessages and !timesheetData.saveSuccess}" >
-							<ul>
-								<ui:repeat value="#{timesheetData.errorMessages}" var="errMsg">
-									<li>#{errMsg}</li>
-								</ui:repeat>
-							</ul>
-						</h:panelGroup>
-						<h:panelGroup layout="block" styleClass="alert alert-success" rendered="#{timesheetData.showMessages and timesheetData.saveSuccess}" >
+						<h:panelGroup layout="block" styleClass="alert alert-success" rendered="#{timesheetData.saveSuccess}" >
 							<h:outputText value="#{msgs.timesheet_save}" />
 						</h:panelGroup>
-						<h:messages infoClass="text-danger"/>
+						<h:messages errorClass="text-danger" fatalclass="text-danger" />
 					</div>
 					<h:dataTable value="#{timesheetData.timesheet.details}" var="detail" 
 						styleClass="table timesheet-table" footerClass="table-footer">
 						<h:column>
 							<f:facet name="header">#{msgs.project_id}</f:facet>
-							<h:inputText value="#{detail.projectID}" label="#{msgs.project_id}" class="form-control" />
+							<h:inputText value="#{detail.projectID}" label="#{msgs.project_id}" class="form-control">
+							
+							</h:inputText>
 						</h:column>
 						<h:column>
 							<f:facet name="header">#{msgs.work_p}</f:facet>

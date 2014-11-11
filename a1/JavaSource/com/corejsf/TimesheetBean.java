@@ -40,8 +40,6 @@ public class TimesheetBean implements Serializable {
     private TimesheetModel timesheet;
     /** Flag indicate whether successfully saved timesheet. */
     private boolean saveSuccess = false;
-    /** Flag deciding whether to show message areas. */
-    private boolean showMessages = false;
     /** List of error messages related to saving timesheet. */
     private List<String> errorMessages = new ArrayList<String>();
 
@@ -51,14 +49,6 @@ public class TimesheetBean implements Serializable {
      */
     public boolean getSaveSuccess() {
         return saveSuccess;
-    }
-
-    /**
-     * Get showMessages flag.
-     * @return whether show message error on timesheet page.
-     */
-    public boolean getShowMessages() {
-        return showMessages;
     }
 
     /**
@@ -123,7 +113,6 @@ public class TimesheetBean implements Serializable {
         boolean isValid = true;
 
         errorMessages.clear();
-        showMessages = true;
 
         timesheet.trimmedDetails();
 
