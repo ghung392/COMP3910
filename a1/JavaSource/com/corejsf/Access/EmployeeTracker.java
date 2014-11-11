@@ -1,6 +1,7 @@
 package com.corejsf.Access;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
@@ -63,15 +64,11 @@ public class EmployeeTracker implements Serializable {
      * Gets the whole list of employees.
      * @return list of employees
      */
-    public EmployeeModel[] getEmployees() {
+    public List<EmployeeModel> getEmployees() {
         TypedQuery<EmployeeModel> query = em.createQuery("select e "
                 + "from EmployeeModel e", EmployeeModel.class);
-        java.util.List<EmployeeModel> employees = query.getResultList();
-        EmployeeModel[] emparray = new EmployeeModel[employees.size()];
-        for (int i = 0; i < emparray.length; i++) {
-            emparray[i] = employees.get(i);
-        }
-        return emparray;
+        List<EmployeeModel> employees = query.getResultList();
+        return employees;
     }
     /**
      * Authenticates a user.
@@ -81,11 +78,11 @@ public class EmployeeTracker implements Serializable {
      */
     public EmployeeModel auth(final String username,
             final String password) {
-        for (int i = 0; i < getEmployees().length; i++) {
-            if ((getEmployees()[i].getUserName().compareTo(username) == 0)
-                    && (getEmployees()[i].getPassword().compareTo(password)
-                            == 0)) {
-                return getEmployees()[i];
+        List<EmployeeModel> employeeList = getEmployees();
+        for(EmployeeModel employee : employeeList) {
+            if (username.compareTo(employee.getUserName()) == 0 
+                    && password.compareTo(employee.getPassword()) == 0) {
+                return employee;
             }
         }
         FacesContext.getCurrentInstance().addMessage("loginform:password",

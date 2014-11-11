@@ -1,6 +1,7 @@
 package com.corejsf;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -34,7 +35,7 @@ public class EmployeeInfo implements Serializable {
      * Method to get the list of employees.
      * @return arraylist of employees
      */
-    public EmployeeModel[] getEmployeeList() {
+    public List<EmployeeModel> getEmployeeList() {
         return employeeList.getEmployees();
     }
 
