@@ -23,8 +23,8 @@ import com.corejsf.Model.TimesheetModel;
 @RequestScoped
 public class TimesheetBean implements Serializable {
 
-//    @Inject
-//    private Conversation conversation;
+    // @Inject
+    // private Conversation conversation;
     /** Manages access and persistence of timesheets in data layer. */
     @Inject
     private TimesheetManager timesheetManager;
@@ -35,7 +35,8 @@ public class TimesheetBean implements Serializable {
     /** All timesheets belonging to current employee. */
     private List<TimesheetModel> allTimesheets;
     /** End of week of the timesheet to view or viewing. */
-    private Date currEndWeek = TimesheetModel.getCurrDate(); // TODO producer inject 
+    private Date currEndWeek = TimesheetModel.getCurrDate(); // TODO producer
+                                                             // inject
     /** A timesheet belonging to current employee, specified by currEndWeek. */
     private TimesheetModel timesheet;
     /** Flag indicate whether successfully saved timesheet. */
@@ -45,6 +46,7 @@ public class TimesheetBean implements Serializable {
 
     /**
      * Get saveSuccess flag.
+     * 
      * @return whether timesheet successfully saved.
      */
     public boolean getSaveSuccess() {
@@ -53,6 +55,7 @@ public class TimesheetBean implements Serializable {
 
     /**
      * Get list of error messages related to timesheet saving.
+     * 
      * @return list of timesheet saving error messages.
      */
     public List<String> getErrorMessages() {
@@ -61,6 +64,7 @@ public class TimesheetBean implements Serializable {
 
     /**
      * Get all timesheets belonging to currently logged in employee.
+     * 
      * @return all timesheets belonging to currently logged in employee.
      */
     public List<TimesheetModel> getAllTimesheets() {
@@ -74,6 +78,7 @@ public class TimesheetBean implements Serializable {
     /**
      * Get specified week's timesheet of current employee. Week dictated by
      * currEndWeek property.
+     * 
      * @return a timesheet.
      */
     public TimesheetModel getTimesheet() {
@@ -90,7 +95,7 @@ public class TimesheetBean implements Serializable {
     private void refreshTimesheetList() {
         System.out.println("Refreshing employee's TimesheetList");
         Employee currEmployee = employeeSession.getCurrentEmployee();
-        allTimesheets = timesheetManager.getTimesheets(currEmployee);
+        allTimesheets = timesheetManager.find(currEmployee.getEmpNumber());
     }
 
     /**
@@ -99,8 +104,8 @@ public class TimesheetBean implements Serializable {
     private void refreshTimesheet() {
         System.out.println("Refreshing current timesheet.");
         Employee currEmployee = employeeSession.getCurrentEmployee();
-        TimesheetModel newSheet = timesheetManager.getTimesheet(currEmployee,
-                currEndWeek);
+        TimesheetModel newSheet = timesheetManager.find(
+                currEmployee.getEmpNumber(), currEndWeek);
         timesheet = newSheet;
     }
 
@@ -132,7 +137,7 @@ public class TimesheetBean implements Serializable {
                     + "filled and unique for each row.");
         }
         if (isValid) {
-            timesheetManager.saveTimesheet(timesheet);
+            timesheetManager.merge(timesheet);
             refreshTimesheetList();
             saveSuccess = true;
             System.out.println("Saving timesheet");
@@ -143,6 +148,7 @@ public class TimesheetBean implements Serializable {
 
     /**
      * Add a new timesheetRow to timesheet table.
+     * 
      * @return navigation outcome - return to same page.
      */
     public String addRow() {
@@ -151,8 +157,9 @@ public class TimesheetBean implements Serializable {
     }
 
     /**
-     * Go to View a past timesheet page. Set currEndWeek to specified
-     * week's Friday.
+     * Go to View a past timesheet page. Set currEndWeek to specified week's
+     * Friday.
+     * 
      * @param endWeek specified week's Friday.
      * @return navigation outcome - viewTimesheet page.
      */
