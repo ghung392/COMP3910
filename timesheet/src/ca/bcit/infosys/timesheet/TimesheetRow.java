@@ -121,7 +121,9 @@ public class TimesheetRow implements java.io.Serializable {
     */
    public void setHour(final int day, final BigDecimal hour) {
        checkHour(hour);
-       hoursForWeek[day] = hour;
+       if (hour != null) {
+           hoursForWeek[day] = hour.setScale(1, BigDecimal.ROUND_HALF_UP);
+       }
    }
    /**
    * @param day The day of week to set the hour
