@@ -118,6 +118,7 @@ public class TimesheetBean implements Serializable {
         boolean isValid = true;
 
         errorMessages.clear();
+        System.out.println("DEBUG: " + timesheet.getDetails().size());
 
         timesheet.trimmedDetails();
 

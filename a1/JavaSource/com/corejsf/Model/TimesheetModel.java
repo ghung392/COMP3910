@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -51,16 +52,13 @@ public class TimesheetModel extends Timesheet {
     public TimesheetModel(final Employee e) {
         super();
 
-        ArrayList<TimesheetRow> newDetails = new ArrayList<TimesheetRow>() {
-            private static final long serialVersionUID = 1L;
-            {
-                add(new TimesheetRowModel());
-                add(new TimesheetRowModel());
-                add(new TimesheetRowModel());
-                add(new TimesheetRowModel());
-                add(new TimesheetRowModel());
-            }
-        };
+        ArrayList<TimesheetRow> newDetails = new ArrayList<TimesheetRow>();
+        newDetails.add(new TimesheetRowModel(this));
+        newDetails.add(new TimesheetRowModel(this));
+        newDetails.add(new TimesheetRowModel(this));
+        newDetails.add(new TimesheetRowModel(this));
+        newDetails.add(new TimesheetRowModel(this));
+
         setDetails(newDetails);
         setEmployee(e);
     }
@@ -126,7 +124,7 @@ public class TimesheetModel extends Timesheet {
         setFlextime(ftime);
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "timesheet", targetEntity = TimesheetRowModel.class)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "timesheet", targetEntity = TimesheetRowModel.class)
     public List<TimesheetRow> getTimesheetRows() {
         return getDetails();
     }
@@ -137,7 +135,7 @@ public class TimesheetModel extends Timesheet {
 
     @Override
     public final void addRow() {
-        getDetails().add(new TimesheetRowModel());
+        getDetails().add(new TimesheetRowModel(this));
     }
 
     /**

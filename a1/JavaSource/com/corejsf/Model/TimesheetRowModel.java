@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +31,12 @@ public class TimesheetRowModel extends TimesheetRow {
      * Creates a TimesheetRowModel object.
      */
     public TimesheetRowModel() {
+        this(null);
+    }
+    
+    public TimesheetRowModel(final TimesheetModel t) {
         super();
+        timesheet = t;
     }
 
     /**
@@ -61,7 +65,7 @@ public class TimesheetRowModel extends TimesheetRow {
         id = n;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "TimesheetID")
     public TimesheetModel getTimesheet() {
         return timesheet;
