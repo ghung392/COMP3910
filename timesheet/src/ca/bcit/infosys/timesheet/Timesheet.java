@@ -156,7 +156,7 @@ public class Timesheet implements java.io.Serializable {
      *
      * @param newDetails new weekly charges to set
      */
-    public void setDetails(final ArrayList<TimesheetRow> newDetails) {
+    public void setDetails(final List<TimesheetRow> newDetails) {
         details = newDetails;
     }
 

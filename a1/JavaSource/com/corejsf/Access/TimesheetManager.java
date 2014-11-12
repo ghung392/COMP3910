@@ -8,9 +8,11 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import ca.bcit.infosys.employee.Employee;
 import ca.bcit.infosys.timesheet.TimesheetRow;
 
 import com.corejsf.Model.TimesheetModel;
@@ -41,11 +43,11 @@ public class TimesheetManager {
      * @param employeeID employeeID of owner of timesheet.
      * @return all timesheet belonging to given employee
      */
-    public List<TimesheetModel> find(final int employeeID) {
+    public List<TimesheetModel> find(final Employee e) {
         TypedQuery<TimesheetModel> query = em.createQuery(
-                "SELECT t FROM TimesheetModel t WHERE t.employeeID = :empID",
+                "SELECT t FROM TimesheetModel t WHERE t.emp = :employee",
                 TimesheetModel.class);
-        query.setParameter("empID", employeeID);
+        query.setParameter("employee", e);
         return query.getResultList();
     }
 
@@ -56,13 +58,21 @@ public class TimesheetManager {
      * @param weekEnd timesheet's week end day
      * @return a timesheet of a given employee and given week.
      */
-    public TimesheetModel find(final int employeeID, final Date weekEnd) {
+    public TimesheetModel find(final Employee e, final Date weekEnd) {
         TypedQuery<TimesheetModel> query = em.createQuery(
-                "SELECT t FROM TimesheetModel t WHERE t.employeeID = :empID"
-                        + "AND t.weekEnd = :weekEnd", TimesheetModel.class);
-        query.setParameter("empID", employeeID);
-        query.setParameter("WeekEnd", weekEnd);
-        return query.getSingleResult();
+                "SELECT t FROM TimesheetModel t WHERE t.emp = :employee "
+                        + "AND t.weekEnd = :endWeek", TimesheetModel.class);
+        query.setParameter("employee", e);
+        query.setParameter("endWeek", weekEnd);
+        
+        TimesheetModel result;
+        try {
+            result = query.getSingleResult();
+        } catch(NoResultException nre) {
+            result = new TimesheetModel(e);
+        }
+        
+        return result;
     }
 
     /**

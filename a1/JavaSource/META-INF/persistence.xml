@@ -3,6 +3,8 @@
     <persistence-unit name="a1">
         <jta-data-source>java:jboss/datasources/Timesheet</jta-data-source>
         <class>com.corejsf.Model.EmployeeModel</class>
+        <class>com.corejsf.Model.TimesheetModel</class>
+        <class>com.corejsf.Model.TimesheetRowModel</class>
 
       <properties>
          <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>

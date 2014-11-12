@@ -95,7 +95,7 @@ public class TimesheetBean implements Serializable {
     private void refreshTimesheetList() {
         System.out.println("Refreshing employee's TimesheetList");
         Employee currEmployee = employeeSession.getCurrentEmployee();
-        allTimesheets = timesheetManager.find(currEmployee.getEmpNumber());
+        allTimesheets = timesheetManager.find(currEmployee);
     }
 
     /**
@@ -105,7 +105,7 @@ public class TimesheetBean implements Serializable {
         System.out.println("Refreshing current timesheet.");
         Employee currEmployee = employeeSession.getCurrentEmployee();
         TimesheetModel newSheet = timesheetManager.find(
-                currEmployee.getEmpNumber(), currEndWeek);
+                currEmployee, currEndWeek);
         timesheet = newSheet;
     }
 
