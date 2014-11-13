@@ -1,11 +1,11 @@
 package com.corejsf;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -20,11 +20,11 @@ import com.corejsf.Model.TimesheetModel;
  *
  */
 @Named("timesheetData")
-@RequestScoped
+@ConversationScoped
 public class TimesheetBean implements Serializable {
 
-    // @Inject
-    // private Conversation conversation;
+    @Inject
+    private Conversation conversation;
     /** Manages access and persistence of timesheets in data layer. */
     @Inject
     private TimesheetManager timesheetManager;
@@ -41,8 +41,6 @@ public class TimesheetBean implements Serializable {
     private TimesheetModel timesheet;
     /** Flag indicate whether successfully saved timesheet. */
     private boolean saveSuccess = false;
-    /** List of error messages related to saving timesheet. */
-    private List<String> errorMessages = new ArrayList<String>();
 
     /**
      * Get saveSuccess flag.
@@ -51,15 +49,6 @@ public class TimesheetBean implements Serializable {
      */
     public boolean getSaveSuccess() {
         return saveSuccess;
-    }
-
-    /**
-     * Get list of error messages related to timesheet saving.
-     * 
-     * @return list of timesheet saving error messages.
-     */
-    public List<String> getErrorMessages() {
-        return errorMessages;
     }
 
     /**
@@ -104,8 +93,8 @@ public class TimesheetBean implements Serializable {
     private void refreshTimesheet() {
         System.out.println("Refreshing current timesheet.");
         Employee currEmployee = employeeSession.getCurrentEmployee();
-        TimesheetModel newSheet = timesheetManager.find(
-                currEmployee, currEndWeek);
+        TimesheetModel newSheet = timesheetManager.find(currEmployee,
+                currEndWeek);
         timesheet = newSheet;
     }
 
@@ -114,10 +103,9 @@ public class TimesheetBean implements Serializable {
      *
      * @return navigation outcome - return to same page.
      */
-    public String addTimesheet() {
+    public String saveTimesheet() {
         boolean isValid = true;
 
-        errorMessages.clear();
         System.out.println("DEBUG: " + timesheet.getDetails().size());
 
         timesheet.trimmedDetails();
@@ -125,15 +113,15 @@ public class TimesheetBean implements Serializable {
         if (!timesheet.isValid()) {
             isValid = false;
             saveSuccess = false;
-            errorMessages.add("Work hours must add up to 40. Please add "
-                    + "additional hours into overtime or flexible hour field");
+//            errorMessages.add("Work hours must add up to 40. Please add "
+//                    + "additional hours into overtime or flexible hour field");
             System.out.println("Work hours must add up to 40.");
         }
         if (!timesheet.isRowsValid()) {
             isValid = false;
             saveSuccess = false;
-            errorMessages.add("A combination of project id & workpage must be"
-                    + "filled and unique for each row.");
+//            errorMessages.add("A combination of project id & workpage must be"
+//                    + "filled and unique for each row.");
             System.out.println("A combination of project id & workpage must be"
                     + "filled and unique for each row.");
         }
@@ -158,6 +146,16 @@ public class TimesheetBean implements Serializable {
     }
 
     /**
+     * Go to Fill timesheet page to create / edit current week's timesheet.
+     * Set currEndWeek to current week's Friday.
+     * @return navigation outcome - createTimesheet page.
+     */
+    public String currTimesheet() {
+        beginConversation();
+        return "createTimesheet";
+    }
+
+    /**
      * Go to View a past timesheet page. Set currEndWeek to specified week's
      * Friday.
      * 
@@ -167,6 +165,25 @@ public class TimesheetBean implements Serializable {
     public String viewTimesheet(final Date endWeek) {
         currEndWeek = endWeek;
         return "viewTimesheet";
+    }
+
+    public String viewTimesheetList() {
+        endConversation();
+        return "history";
+    }
+
+    private void beginConversation() {
+        if (conversation.isTransient()) {
+            System.out.println("conversation began.");
+            conversation.begin();
+        }
+    }
+
+    private void endConversation() {
+        if (!conversation.isTransient()) {
+            System.out.println("conversation end.");
+            conversation.end();
+        }
     }
 
 }
