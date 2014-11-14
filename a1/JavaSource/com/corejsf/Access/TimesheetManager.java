@@ -33,7 +33,8 @@ public class TimesheetManager {
      */
     public List<TimesheetModel> getTimesheets() {
         TypedQuery<TimesheetModel> query = em.createQuery("select t "
-                + "from TimesheetModel t", TimesheetModel.class);
+                + "from TimesheetModel t ORDER BY t.weekEnd DESC",
+                TimesheetModel.class);
         return query.getResultList();
     }
 
@@ -45,7 +46,8 @@ public class TimesheetManager {
      */
     public List<TimesheetModel> find(final Employee e) {
         TypedQuery<TimesheetModel> query = em.createQuery(
-                "SELECT t FROM TimesheetModel t WHERE t.emp = :employee",
+                "SELECT t FROM TimesheetModel t WHERE t.emp = :employee"
+                + " ORDER BY t.weekEnd DESC",
                 TimesheetModel.class);
         query.setParameter("employee", e);
         return query.getResultList();
