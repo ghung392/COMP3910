@@ -108,15 +108,12 @@ public class TimesheetBean implements Serializable {
     public String saveTimesheet() {
         boolean isValid = true;
 
+        timesheet.trimTimesheetRows();
         System.out.println("DEBUG: " + timesheet);
-
-        timesheet.trimmedDetails();
 
         if (!timesheet.isValid()) {
             isValid = false;
             saveSuccess = false;
-//            errorMessages.add("Work hours must add up to 40. Please add "
-//                    + "additional hours into overtime or flexible hour field");
             FacesMessage message = new FacesMessage("Work hours must add "
             		+ "up to 40. Please add "
                     + "additional hours into overtime or "
@@ -126,18 +123,14 @@ public class TimesheetBean implements Serializable {
                     "timesheet_form", message);
             System.out.println("Work hours must add up to 40.");
         }
-        if (!timesheet.isRowsValid()) {
+        if (!timesheet.areRowsValid()) {
             isValid = false;
             saveSuccess = false;
-//            errorMessages.add("A combination of project id & workpage must be"
-//                    + "filled and unique for each row.");
             FacesMessage message = new FacesMessage("A combination of project "
             		+ "id & workpage must be filled and unique for each row.");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
             FacesContext.getCurrentInstance().addMessage(
                     "timesheet_form", message);
-            System.out.println("A combination of project id & workpage must be"
-                    + "filled and unique for each row.");
         }
         if (isValid) {
             timesheetManager.merge(timesheet);

@@ -29,7 +29,7 @@ public class TimesheetRow implements java.io.Serializable {
     public static final int FRI = 6;
 
     /** The projectID. */
-    private int projectID;
+    private Integer projectID;
     /** The WorkPackage. Must be a unique for a given projectID. */
     private String workPackage;
 
@@ -67,14 +67,14 @@ public class TimesheetRow implements java.io.Serializable {
     /**
      * @return the projectID
      */
-    public int getProjectID() {
+    public Integer getProjectID() {
         return projectID;
     }
 
     /**
      * @param id the projectID to set
      */
-    public void setProjectID(final int id) {
+    public void setProjectID(final Integer id) {
         this.projectID = id;
     }
 

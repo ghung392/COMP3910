@@ -216,19 +216,37 @@ public class TimesheetModel extends Timesheet {
     }
 
     /**
-     * Remove TimesheetRows with 0 hours entered.
+     * Remove empty TimesheetRows.
      */
-    public final void trimmedDetails() {
+    public final void trimTimesheetRows() {
         Iterator<TimesheetRow> iterator = getDetails().iterator();
         while (iterator.hasNext()) {
-            if (iterator.next().getSum().compareTo(BigDecimal.ZERO) == 0) {
+            TimesheetRowModel row = (TimesheetRowModel) iterator.next();
+            if (row.getSum().compareTo(BigDecimal.ZERO) == 0
+                    && !row.isIdEmpty()) {
                 iterator.remove();
             }
         }
-
         if (getDetails().size() == 0) {
             addRow();
         }
+    }
+
+    /**
+     * return a list of 0-hour TimesheetRows.
+     */
+    @Transient
+    private final List<TimesheetRow> getEffectiveRows() {
+        final List<TimesheetRow> rows = getDetails();
+        List<TimesheetRow> trimmed = new ArrayList<TimesheetRow>();
+
+        for (TimesheetRow row : rows) {
+            if (row.getSum().compareTo(BigDecimal.ZERO) != 0) {
+                trimmed.add(row);
+            }
+        }
+
+        return trimmed;
     }
 
     /**
@@ -239,17 +257,18 @@ public class TimesheetModel extends Timesheet {
      * @return whether timesheet's rows all have valid projectID+workPackage.
      */
     @Transient
-    public final boolean isRowsValid() {
+    public final boolean areRowsValid() {
         boolean rowsValid = true;
 
-        final List<TimesheetRow> rows = getDetails();
+        final List<TimesheetRow> rows = getEffectiveRows();
         final int size = rows.size();
 
         // if only 1 row is filled, then check it has workPackage
         // else check project id + WP is unique
         if (size == 1) {
-            final String wp = rows.get(0).getWorkPackage();
-            rowsValid = !(wp == null || (wp != null && wp.length() == 0));
+            TimesheetRowModel row = (TimesheetRowModel) rows.get(0);
+            rowsValid = row.isIdEmpty();
+            System.out.println("projectId and work package must be filled.");
         } else {
             rowsValid = hasCollision(rows);
         }
@@ -270,10 +289,21 @@ public class TimesheetModel extends Timesheet {
         final int size = rows.size();
 
         for (int i = 0; i < size - 1; i++) {
+            row1 = (TimesheetRowModel) rows.get(i);
+            if (!row1.isIdEmpty()) {
+                System.out
+                        .println("1: projectId and work package must be filled.");
+                return false;
+            }
             for (int j = i + 1; j < size; j++) {
-                row1 = (TimesheetRowModel) rows.get(i);
                 row2 = (TimesheetRowModel) rows.get(j);
+                if (!row2.isIdEmpty()) {
+                    return false;
+                }
                 if (row1.isDuplicate(row2)) {
+                    System.out
+                            .println("A combination of project id & workpage "
+                                    + "must be unique for each row.");
                     return false;
                 }
             }
@@ -322,7 +352,7 @@ public class TimesheetModel extends Timesheet {
         for (TimesheetRow r : rows) {
             sb.append(r.toString());
         }
-        
+
         sb.append("Overtime: ").append(getOvertime()).append("\n");
         sb.append("FlexTime: ").append(getFlextime()).append("\n");
 

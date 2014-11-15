@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import ca.bcit.infosys.timesheet.TimesheetRow;
 
@@ -33,7 +34,7 @@ public class TimesheetRowModel extends TimesheetRow {
     public TimesheetRowModel() {
         this(null);
     }
-    
+
     public TimesheetRowModel(final TimesheetModel t) {
         super();
         timesheet = t;
@@ -76,11 +77,11 @@ public class TimesheetRowModel extends TimesheetRow {
     }
 
     @Column(name = "ProjectID", nullable = false)
-    public int getProjId() {
+    public Integer getProjId() {
         return getProjectID();
     }
 
-    public void setProjId(final int n) {
+    public void setProjId(final Integer n) {
         setProjectID(n);
     }
 
@@ -243,21 +244,29 @@ public class TimesheetRowModel extends TimesheetRow {
      * @return whether given row is a duplicate of current row
      */
     public final boolean isDuplicate(final TimesheetRowModel reference) {
-        boolean isDuplicate = true;
-
-        final String wp1 = getWorkPackage();
-        final String wp2 = reference.getWorkPackage();
-
-        if ((wp1 != null && wp1.length() > 0)
-                && (wp2 != null && wp2.length() > 0)) {
-            final String id1 = getProjectID() + wp1;
-            final String id2 = reference.getProjectID() + wp2;
-            if (!id1.equals(id2)) {
-                isDuplicate = false;
-            }
+        if (!this.isIdEmpty() || !reference.isIdEmpty()) {
+            System.out.println("ERROR (timesheeRowModel.isDuplicate): "
+                    + "projectId or workPackage cannot be null.");
+            return false;
         }
 
-        return isDuplicate;
+        final String id1 = getProjectID() + getWorkPackage();
+        final String id2 = reference.getProjectID()
+                + reference.getWorkPackage();
+
+        return id1.equals(id2);
+    }
+
+    /**
+     * Validate the timesheetRow's projectId and Work package are not empty.
+     * @return
+     */
+    @Transient
+    public final boolean isIdEmpty() {
+        final Integer id = getProjectID();
+        final String workPk = getWorkPackage();
+
+        return (id != null) && (workPk != null) && (workPk.length() > 0);
     }
 
     @Override
