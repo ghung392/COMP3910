@@ -34,15 +34,15 @@ public class EmployeeTracker implements Serializable {
      * @param username of employee to find
      * @return employee if found or null
      */
-    public EmployeeModel find(final String username) {
-        return em.find(EmployeeModel.class, username);
+    public EmployeeModel find(final int id) {
+        return em.find(EmployeeModel.class, id);
     }
     /**
      * Remove an employee from the list.
      * @param employee to remove
      */
     public void remove(Employee employee) {
-        employee = find(employee.getUserName());
+        employee = find(employee.getEmpNumber());
         em.remove(employee);
     }
     /**
@@ -56,7 +56,7 @@ public class EmployeeTracker implements Serializable {
      * Add an employee to the list.
      * @param newEmployee new employee model
      */
-    public void persist(final EmployeeModel newEmployee) {
+    public void persist(final Employee newEmployee) {
         em.persist(newEmployee);
         counter++;
     }

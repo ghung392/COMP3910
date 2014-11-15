@@ -44,8 +44,8 @@ public class EmployeeInfo implements Serializable {
      * @param username the name of the employee
      * @return the employee
      */
-    public EmployeeModel getEmployee(final String username) {
-        return employeeList.find(username);
+    public EmployeeModel getEmployee(final int id) {
+        return employeeList.find(id);
     }
 
     /**
@@ -126,6 +126,7 @@ public class EmployeeInfo implements Serializable {
     public String createEmployee(final String username, final String name,
             final String newPassword, final String confirmPassword) {
         int counter = employeeList.getCounter();
+        System.out.println(username + name + newPassword + confirmPassword);
         EmployeeModel newEmployee = new EmployeeModel(name, counter + 1,
                 username, false, newPassword);
         addEmployeeToList(newEmployee);
@@ -246,8 +247,8 @@ public class EmployeeInfo implements Serializable {
      * @param username of new focused employee
      * @return string for navigation
      */
-    public String changeEmployee(final String username) {
-        focusedEmployee = getEmployee(username);
+    public String changeEmployee(final int id) {
+        focusedEmployee = getEmployee(id);
 
         return "viewprofile";
     }

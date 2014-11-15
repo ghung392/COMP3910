@@ -27,6 +27,7 @@ public class EmployeeModel extends Employee implements Serializable {
     private boolean admin;
     /** Employee number. */
     @Id
+    //@GeneratedValue
     @Column(name = "EmpID")
     private int empNumber;
     /** Employee name. */
@@ -105,6 +106,7 @@ public class EmployeeModel extends Employee implements Serializable {
     public void setUserName(final String id) {
         userName = id;
     }
+
     /**
      * Getter for password.
      * @return employee password
