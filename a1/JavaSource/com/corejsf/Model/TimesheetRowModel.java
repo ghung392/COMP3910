@@ -250,9 +250,12 @@ public class TimesheetRowModel extends TimesheetRow {
             return false;
         }
 
-        final String id1 = getProjectID() + getWorkPackage();
-        final String id2 = reference.getProjectID()
+        String id1 = getProjectID() + getWorkPackage();
+        String id2 = reference.getProjectID()
                 + reference.getWorkPackage();
+        
+        id1 = id1.toUpperCase();
+        id2 = id2.toUpperCase();
 
         return id1.equals(id2);
     }

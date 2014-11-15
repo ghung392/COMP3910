@@ -238,23 +238,6 @@ public class TimesheetModel extends Timesheet {
     }
 
     /**
-     * return a list of 0-hour TimesheetRows.
-     */
-    @Transient
-    private final List<TimesheetRow> getEffectiveRows() {
-        final List<TimesheetRow> rows = getDetails();
-        List<TimesheetRow> trimmed = new ArrayList<TimesheetRow>();
-
-        for (TimesheetRow row : rows) {
-            if (row.getSum().compareTo(BigDecimal.ZERO) != 0) {
-                trimmed.add(row);
-            }
-        }
-
-        return trimmed;
-    }
-
-    /**
      * Check if Timesheet's rows all have unique combination of Project ID &
      * WokrPackage. Note 0 is considered valid project id number, and
      * WorkPackage must not be empty.
@@ -265,7 +248,7 @@ public class TimesheetModel extends Timesheet {
     public final boolean areRowsValid() {
         boolean rowsValid = true;
 
-        final List<TimesheetRow> rows = getEffectiveRows();
+        final List<TimesheetRow> rows = getDetails();
         final int size = rows.size();
 
         // if only 1 row is filled, then check it has workPackage
