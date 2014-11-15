@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -44,7 +46,7 @@ public class TimesheetBean implements Serializable {
 
     /**
      * Get saveSuccess flag.
-     * 
+     *
      * @return whether timesheet successfully saved.
      */
     public boolean getSaveSuccess() {
@@ -53,7 +55,7 @@ public class TimesheetBean implements Serializable {
 
     /**
      * Get all timesheets belonging to currently logged in employee.
-     * 
+     *
      * @return all timesheets belonging to currently logged in employee.
      */
     public List<TimesheetModel> getAllTimesheets() {
@@ -67,7 +69,7 @@ public class TimesheetBean implements Serializable {
     /**
      * Get specified week's timesheet of current employee. Week dictated by
      * currEndWeek property.
-     * 
+     *
      * @return a timesheet.
      */
     public TimesheetModel getTimesheet() {
@@ -115,6 +117,13 @@ public class TimesheetBean implements Serializable {
             saveSuccess = false;
 //            errorMessages.add("Work hours must add up to 40. Please add "
 //                    + "additional hours into overtime or flexible hour field");
+            FacesMessage message = new FacesMessage("Work hours must add "
+            		+ "up to 40. Please add "
+                    + "additional hours into overtime or "
+                    + "flexible hour field");
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            FacesContext.getCurrentInstance().addMessage(
+                    "timesheet_form", message);
             System.out.println("Work hours must add up to 40.");
         }
         if (!timesheet.isRowsValid()) {
@@ -122,6 +131,11 @@ public class TimesheetBean implements Serializable {
             saveSuccess = false;
 //            errorMessages.add("A combination of project id & workpage must be"
 //                    + "filled and unique for each row.");
+            FacesMessage message = new FacesMessage("A combination of project "
+            		+ "id & workpage must be filled and unique for each row.");
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            FacesContext.getCurrentInstance().addMessage(
+                    "timesheet_form", message);
             System.out.println("A combination of project id & workpage must be"
                     + "filled and unique for each row.");
         }
@@ -137,7 +151,7 @@ public class TimesheetBean implements Serializable {
 
     /**
      * Add a new timesheetRow to timesheet table.
-     * 
+     *
      * @return navigation outcome - return to same page.
      */
     public String addRow() {
@@ -158,7 +172,7 @@ public class TimesheetBean implements Serializable {
     /**
      * Go to View a past timesheet page. Set currEndWeek to specified week's
      * Friday.
-     * 
+     *
      * @param endWeek specified week's Friday.
      * @return navigation outcome - viewTimesheet page.
      */

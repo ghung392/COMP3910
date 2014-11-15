@@ -20,7 +20,7 @@
 			#{msgs.timesheet_title}
 		</ui:define>
 		<ui:define name="content">
-			<h:form>
+			<h:form id="timesheet_form">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<b>#{msgs.current_week} #{timesheetData.timesheet.weekNum}</b>
@@ -136,12 +136,16 @@
 					        <div>
 					        	#{msgs.overtime}
 					        	<h:inputText value="#{timesheetData.timesheet.overtime}" label="#{msgs.overtime}" 
-					        		styleClass="form-control hour-field" />
+					        		styleClass="form-control hour-field" >
+					        		<f:validateDoubleRange minimum="0.0" />
+					        	</h:inputText>
 					        		
 					        	<div class="flex-hour">
 					        	#{msgs.flex_hour}
 					        	<h:inputText value="#{timesheetData.timesheet.flextime}" label="#{msgs.flex_hour}" 
-					        		styleClass="form-control hour-field" />
+					        		styleClass="form-control hour-field" >
+					        		<f:validateDoubleRange minimum="0.0" />
+					        	</h:inputText>
 					        	</div>
 					        </div>
 					        </div>
