@@ -25,17 +25,7 @@ public class EmployeeModel extends Employee implements Serializable {
     private String password;
     /** Employee admin status. */
     private boolean admin;
-    /** Employee number. */
-    //@Id
-    //@GeneratedValue
-    //@Column(name = "EmpID")
-    //private int empNumber;
-    /** Employee name. */
-    //@Column(name = "EmpName")
-    //private String name;
-    /** Employee username. */
-    //@Column(name = "UserName")
-    //private String userName;
+
     /**
      * Default constructor.
      */
@@ -46,7 +36,6 @@ public class EmployeeModel extends Employee implements Serializable {
     /**
      * Constructor to instantiate an employee.
      * @param empName employee name
-     * @param number employee number
      * @param id employee username
      * @param isSuper boolean to determine whether user has admin status
      * @param pass employee password

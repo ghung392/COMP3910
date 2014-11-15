@@ -26,9 +26,7 @@ import com.corejsf.Model.EmployeeModel;
 public class EmployeeTracker implements Serializable {
     /** Entity Manager. */
     @PersistenceContext(unitName = "a1") EntityManager em;
-    /**Counter to keep track which ID number to add to a new employee to
-     * prevent overlap. */
-    private int counter = 4;
+
     /**
      * Method to find a employee.
      * @param id of employee to find
@@ -58,7 +56,6 @@ public class EmployeeTracker implements Serializable {
      */
     public void persist(final Employee newEmployee) {
         em.persist(newEmployee);
-        counter++;
     }
     /**
      * Gets the whole list of employees.
@@ -89,22 +86,6 @@ public class EmployeeTracker implements Serializable {
                 new FacesMessage("Username and/or password does not match! "
                         + "Please try again."));
         return null;
-    }
-
-    /**
-     * Get the id counter.
-     * @return the counter
-     */
-    public int getCounter() {
-        return counter;
-    }
-
-    /**
-     * Set the id counter.
-     * @param number to be set
-     */
-    public void setCounter(final int number) {
-        counter = number;
     }
 
 }

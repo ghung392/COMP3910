@@ -41,7 +41,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * Method to get an employee.
-     * @param username the name of the employee
+     * @param id the id of the employee
      * @return the employee
      */
     public EmployeeModel getEmployee(final int id) {
@@ -125,11 +125,9 @@ public class EmployeeInfo implements Serializable {
      */
     public String createEmployee(final String username, final String name,
             final String newPassword, final String confirmPassword) {
-        int counter = employeeList.getCounter();
         EmployeeModel newEmployee = new EmployeeModel(name,
                 username, false, newPassword);
         addEmployeeToList(newEmployee);
-        employeeList.setCounter(counter + 1);
 
         return "createsuccess";
     }
@@ -243,7 +241,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * Change to a different focused employee.
-     * @param username of new focused employee
+     * @param id of new focused employee
      * @return string for navigation
      */
     public String changeEmployee(final int id) {
