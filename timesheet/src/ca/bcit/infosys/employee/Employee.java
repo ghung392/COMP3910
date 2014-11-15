@@ -34,9 +34,9 @@ public class Employee implements Serializable {
      * @param number the empNumber of the user.
      * @param id the loginID of the user.
      */
-    public Employee(final String empName, final int number, final String id) {
+    public Employee(final String empName, final String id) {
         name = empName;
-        empNumber = number;
+        //empNumber = number;
         userName = id;
     }
 

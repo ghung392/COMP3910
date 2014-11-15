@@ -51,10 +51,10 @@ public class EmployeeModel extends Employee implements Serializable {
      * @param isSuper boolean to determine whether user has admin status
      * @param pass employee password
      */
-    public EmployeeModel(final String empName, final int number,
+    public EmployeeModel(final String empName,
             final String id, final boolean isSuper, final String pass) {
 
-        super(empName, number, id);
+        super(empName, id);
         admin = isSuper;
         password = pass;
     }
