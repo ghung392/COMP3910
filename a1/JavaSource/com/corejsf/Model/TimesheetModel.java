@@ -127,7 +127,9 @@ public class TimesheetModel extends Timesheet {
         setFlextime(ftime);
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "timesheet", targetEntity = TimesheetRowModel.class)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,
+            fetch = FetchType.EAGER, mappedBy = "timesheet", 
+            targetEntity = TimesheetRowModel.class)
     public List<TimesheetRow> getTimesheetRows() {
         return getDetails();
     }
