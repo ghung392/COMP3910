@@ -104,7 +104,7 @@ public class EmployeeInfo implements Serializable {
      * @return string depending on fail/success for navigation
      */
     public String deleteEmployee(final EmployeeModel employee) {
-        if (employee == currentEmployee) {
+        if (employee.equals(currentEmployee)) {
             FacesContext.getCurrentInstance().addMessage("profileForm",
                     new FacesMessage("You cannot delete yourself. "
                             + "You are the admin."));

@@ -139,11 +139,13 @@ public class EmployeeModel extends Employee implements Serializable {
 
     @Override
     public boolean equals(final Object o) {
-        if (o == null && !(o instanceof Employee)) {
+        if (o == null && !(o instanceof EmployeeModel)) {
             return false;
         }
 
-        Employee emp = (Employee) o;
-        return emp.getEmpNumber() == this.getEmpNumber();
+        System.out.println("comparing");
+
+        EmployeeModel emp = (EmployeeModel) o;
+        return emp.getId() == this.getId();
     }
 }
