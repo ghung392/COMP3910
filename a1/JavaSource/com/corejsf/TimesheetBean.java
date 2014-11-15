@@ -115,22 +115,22 @@ public class TimesheetBean implements Serializable {
             isValid = false;
             saveSuccess = false;
             FacesMessage message = new FacesMessage("Work hours must add "
-            		+ "up to 40. Please add "
+                    + "up to 40. Please add "
                     + "additional hours into overtime or "
                     + "flexible hour field");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
-            FacesContext.getCurrentInstance().addMessage(
-                    "timesheet_form", message);
+            FacesContext.getCurrentInstance().addMessage("timesheet_form",
+                    message);
             System.out.println("Work hours must add up to 40.");
         }
         if (!timesheet.areRowsValid()) {
             isValid = false;
             saveSuccess = false;
             FacesMessage message = new FacesMessage("A combination of project "
-            		+ "id & workpage must be filled and unique for each row.");
+                    + "id & workpage must be filled and unique for each row.");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
-            FacesContext.getCurrentInstance().addMessage(
-                    "timesheet_form", message);
+            FacesContext.getCurrentInstance().addMessage("timesheet_form",
+                    message);
         }
         if (isValid) {
             timesheetManager.merge(timesheet);
@@ -153,8 +153,9 @@ public class TimesheetBean implements Serializable {
     }
 
     /**
-     * Go to Fill timesheet page to create / edit current week's timesheet.
-     * Set currEndWeek to current week's Friday.
+     * Go to Fill timesheet page to create / edit current week's timesheet. Set
+     * currEndWeek to current week's Friday.
+     * 
      * @return navigation outcome - createTimesheet page.
      */
     public String currTimesheet() {
