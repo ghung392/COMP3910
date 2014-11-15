@@ -322,6 +322,9 @@ public class TimesheetModel extends Timesheet {
         for (TimesheetRow r : rows) {
             sb.append(r.toString());
         }
+        
+        sb.append("Overtime: ").append(getOvertime()).append("\n");
+        sb.append("FlexTime: ").append(getFlextime()).append("\n");
 
         return sb.toString();
     }
