@@ -131,6 +131,15 @@ public class TimesheetBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage("timesheet_form",
                     message);
         }
+        if (!timesheet.correctHoursInDay()) {
+            isValid = false;
+            saveSuccess = false;
+            FacesMessage message = new FacesMessage("Hours in a day must "
+                    + "add up to 24 hours or less.");
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            FacesContext.getCurrentInstance().addMessage("timesheet_form",
+                    message);
+        }
         if (isValid) {
             timesheetManager.merge(timesheet);
             refreshTimesheetList();
@@ -168,7 +177,7 @@ public class TimesheetBean implements Serializable {
     /**
      * Go to Fill timesheet page to create / edit current week's timesheet. Set
      * currEndWeek to current week's Friday.
-     * 
+     *
      * @return navigation outcome - createTimesheet page.
      */
     public String currTimesheet() {

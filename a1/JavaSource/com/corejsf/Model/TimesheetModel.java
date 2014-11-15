@@ -39,6 +39,9 @@ public class TimesheetModel extends Timesheet {
     /** Timesheet's id */
     private int id;
 
+    /** Maximum number of hours in a day.*/
+    private final int maxHours = 24;
+
     public TimesheetModel() {
         this(null); // calling public TimesheetModel(final Employee e)
     }
@@ -46,7 +49,7 @@ public class TimesheetModel extends Timesheet {
     /**
      * Constructor for TimesheetModel. Initialize a Timesheet with 5 empty
      * TimesheetRowModel rather than TimesheetRow, and setEmployee
-     * 
+     *
      * @param e owner of timesheet
      */
     public TimesheetModel(final Employee e) {
@@ -65,7 +68,7 @@ public class TimesheetModel extends Timesheet {
 
     /**
      * Create a TimesheetModel, passing all parameters to parent constructor.
-     * 
+     *
      * @param user The owner of the timesheet
      * @param end The date of the end of the week for the timesheet (Friday)
      * @param charges he detailed hours charged for the week for this timesheet
@@ -253,7 +256,7 @@ public class TimesheetModel extends Timesheet {
      * Check if Timesheet's rows all have unique combination of Project ID &
      * WokrPackage. Note 0 is considered valid project id number, and
      * WorkPackage must not be empty.
-     * 
+     *
      * @return whether timesheet's rows all have valid projectID+workPackage.
      */
     @Transient
@@ -279,7 +282,7 @@ public class TimesheetModel extends Timesheet {
     /**
      * Check if given TimesheetRows' combination of Project ID & WokrPackage has
      * any duplicates.
-     * 
+     *
      * @param rows TimesheetRows to check
      * @return whether given TimesheetRows has duplicates.
      */
@@ -311,10 +314,54 @@ public class TimesheetModel extends Timesheet {
 
         return true;
     }
+    /**
+     * Checks to see if hours in a day add up to 24 hours or less.
+     * @return true if correctly summed
+     */
+    @Transient
+    public boolean correctHoursInDay() {
+        if (getMonHours() != null) {
+            if ((getMonHours().intValue()) > maxHours) {
+                return false;
+            }
+        }
+        if (getTueHours() != null) {
+            if ((getTueHours().intValue()) > maxHours) {
+                return false;
+            }
+        }
+        if (getWedHours() != null) {
+            if ((getWedHours().intValue()) > maxHours) {
+                return false;
+            }
+        }
+        if (getThuHours() != null) {
+            if ((getThuHours().intValue()) > maxHours) {
+                return false;
+            }
+        }
+        if (getFriHours() != null) {
+            if ((getFriHours().intValue()) > maxHours) {
+                return false;
+            }
+        }
+        if (getSatHours() != null) {
+            if ((getSatHours().intValue()) > maxHours) {
+                return false;
+            }
+        }
+        if (getSunHours() != null) {
+            if ((getSunHours().intValue()) > maxHours) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     /**
      * Check whether given Date is on same day as timesheet's endWeek.
-     * 
+     *
      * @param reference date to validate against.
      * @return whether given Date is on same day as timesheet's endWeek.
      */
