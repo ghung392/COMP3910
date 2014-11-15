@@ -31,7 +31,7 @@ public class EmployeeTracker implements Serializable {
     private int counter = 4;
     /**
      * Method to find a employee.
-     * @param username of employee to find
+     * @param id of employee to find
      * @return employee if found or null
      */
     public EmployeeModel find(final int id) {
@@ -79,8 +79,8 @@ public class EmployeeTracker implements Serializable {
     public EmployeeModel auth(final String username,
             final String password) {
         List<EmployeeModel> employeeList = getEmployees();
-        for(EmployeeModel employee : employeeList) {
-            if (username.compareTo(employee.getUserName()) == 0 
+        for (EmployeeModel employee : employeeList) {
+            if (username.compareTo(employee.getUserName()) == 0
                     && password.compareTo(employee.getPassword()) == 0) {
                 return employee;
             }

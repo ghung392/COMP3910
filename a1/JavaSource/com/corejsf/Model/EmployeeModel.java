@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -20,22 +22,20 @@ public class EmployeeModel extends Employee implements Serializable {
     /** Serial Version UID. */
     private static final long serialVersionUID = 1L;
     /** Employee password. */
-    @Column(name = "Pass")
     private String password;
     /** Employee admin status. */
-    @Column(name = "IsAdmin")
     private boolean admin;
     /** Employee number. */
-    @Id
+    //@Id
     //@GeneratedValue
-    @Column(name = "EmpID")
-    private int empNumber;
+    //@Column(name = "EmpID")
+    //private int empNumber;
     /** Employee name. */
-    @Column(name = "EmpName")
-    private String name;
+    //@Column(name = "EmpName")
+    //private String name;
     /** Employee username. */
-    @Column(name = "UserName")
-    private String userName;
+    //@Column(name = "UserName")
+    //private String userName;
     /**
      * Default constructor.
      */
@@ -62,55 +62,55 @@ public class EmployeeModel extends Employee implements Serializable {
      * Getter for employee name.
      * @return employee name
      */
-    @Override
-    public String getName() {
-        return name;
+    @Column(name = "EmpName")
+    public String getEmpName() {
+        return getName();
     }
     /**
      * Setter for employee name.
      * @param empName new employee name
      */
-    @Override
-    public void setName(final String empName) {
-        name = empName;
+    public void setEmpName(final String empName) {
+        setName(empName);
     }
     /**
      * Getter for employee number.
      * @return employee number
      */
-    @Override
-    public int getEmpNumber() {
-        return empNumber;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "EmpID")
+    public int getId() {
+        return getEmpNumber();
     }
     /**
      * Setter for employee number.
      * @param number new employee number
      */
-    @Override
-    public void setEmpNumber(final int number) {
-        empNumber = number;
+    public void setId(final int number) {
+        setEmpNumber(number);
     }
     /**
      * Getter for employee username.
      * @return employee username
      */
-    @Override
-    public String getUserName() {
-        return userName;
+    @Column(name = "UserName")
+    public String getUserId() {
+        return getUserName();
     }
     /**
      * Setter for employee username.
      * @param id new employee username
      */
-    @Override
-    public void setUserName(final String id) {
-        userName = id;
+    public void setUserId(final String id) {
+        setUserName(id);
     }
 
     /**
      * Getter for password.
      * @return employee password
      */
+    @Column(name = "Pass")
     public String getPassword() {
         return password;
     }
@@ -132,7 +132,8 @@ public class EmployeeModel extends Employee implements Serializable {
      * Getter for admin status.
      * @return current admin status
      */
-    public boolean isAdmin() {
+    @Column(name = "IsAdmin")
+    public boolean getAdmin() {
         return admin;
     }
 

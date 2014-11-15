@@ -69,7 +69,7 @@ public class EmployeeInfo implements Serializable {
      * @return employee's admin status
      */
     public boolean getAdmin() {
-        return currentEmployee.isAdmin();
+        return currentEmployee.getAdmin();
     }
 
     /**

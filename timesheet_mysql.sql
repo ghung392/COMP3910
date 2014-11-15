@@ -6,7 +6,7 @@ GRANT ALL PRIVILEGES ON timesheet.* TO stock@"%" IDENTIFIED BY 'check';
 USE timesheet;
 
 DROP TABLE IF EXISTS Employees;
-CREATE TABLE Employees(EmpID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, EmpName TINYTEXT, UserName TINYTEXT, IsAdmin bit, Pass TINYTEXT);
+CREATE TABLE Employees(EmpID INT NOT NULL PRIMARY KEY AUTO_INCREMENT, EmpName TINYTEXT NOT NULL, UserName TINYTEXT NOT NULL, IsAdmin bit NOT NULL, Pass TINYTEXT NOT NULL);
 
 INSERT INTO Employees VALUES(1, "John Doe", "test", 0, "test");
 INSERT INTO Employees VALUES(2, "Bob Smith", "testadmin", 1, "testadmin");
