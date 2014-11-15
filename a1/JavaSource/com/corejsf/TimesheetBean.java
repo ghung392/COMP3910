@@ -107,13 +107,13 @@ public class TimesheetBean implements Serializable {
      */
     public String saveTimesheet() {
         boolean isValid = true;
+//        saveSuccess = false;
 
         timesheet.trimTimesheetRows();
         System.out.println("DEBUG: " + timesheet);
 
         if (!timesheet.isValid()) {
             isValid = false;
-            saveSuccess = false;
             FacesMessage message = new FacesMessage("Work hours must add "
                     + "up to 40. Please add "
                     + "additional hours into overtime or "
@@ -125,7 +125,6 @@ public class TimesheetBean implements Serializable {
         }
         if (!timesheet.areRowsValid()) {
             isValid = false;
-            saveSuccess = false;
             FacesMessage message = new FacesMessage("A combination of project "
                     + "id & workpage must be filled and unique for each row.");
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
@@ -136,10 +135,24 @@ public class TimesheetBean implements Serializable {
             timesheetManager.merge(timesheet);
             refreshTimesheetList();
             saveSuccess = true;
+            closeNotification();
             System.out.println("Saving timesheet");
         }
 
         return null;
+    }
+
+    // reset saveSuccess after page render
+    private void closeNotification() {
+        new java.util.Timer().schedule( 
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        saveSuccess = false;
+                    }
+                }, 
+                1500 
+        );
     }
 
     /**
