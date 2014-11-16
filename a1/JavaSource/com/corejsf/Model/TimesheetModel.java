@@ -36,12 +36,15 @@ import ca.bcit.infosys.timesheet.TimesheetRow;
 @Table(name = "Timesheets")
 public class TimesheetModel extends Timesheet {
 
-    /** Timesheet's id */
+    /** Timesheet's id. */
     private int id;
 
-    /** Maximum number of hours in a day.*/
+    /** Maximum number of hours in a day. */
     private final int maxHours = 24;
 
+    /**
+     * Zero Argument constructor used for jpa.
+     */
     public TimesheetModel() {
         this(null); // calling public TimesheetModel(final Employee e)
     }
@@ -78,6 +81,9 @@ public class TimesheetModel extends Timesheet {
         super(user, end, charges);
     }
 
+    /**
+     * @return timesheet id.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TimesheetID")
@@ -85,55 +91,100 @@ public class TimesheetModel extends Timesheet {
         return id;
     }
 
+    /**
+     * Set timesheet id.
+     *
+     * @param n timesheet id.
+     */
     public void setId(final int n) {
         id = n;
     }
 
+    /**
+     * @return owner of timesheet.
+     */
     @ManyToOne(targetEntity = EmployeeModel.class)
     @JoinColumn(name = "EmpID", nullable = false)
     public Employee getEmp() {
         return getEmployee();
     }
 
+    /**
+     * Set owner of timesheet.
+     *
+     * @param e owner of timesheet
+     */
     public void setEmp(final Employee e) {
         setEmployee(e);
     }
 
+    /**
+     * @return weekEnd of week timesheet is in.
+     */
     @Temporal(TemporalType.DATE)
     @Column(name = "EndWeek", nullable = false)
     public Date getWeekEnd() {
         return getEndWeek();
     }
 
+    /**
+     * Set weekEnd of week timesheet is in.
+     *
+     * @param end weekEnd of week timesheet is in
+     */
     public void setWeekEnd(final Date end) {
         setEndWeek(end);
     }
 
+    /**
+     * @return overtime hours.
+     */
     @Column(name = "OverTime")
     public BigDecimal getOtime() {
         return getOvertime();
     }
 
+    /**
+     * Set overtime hours.
+     *
+     * @param otime overtime hours
+     */
     public void setOtime(final BigDecimal otime) {
         setOvertime(otime);
     }
 
+    /**
+     * @return flexible time.
+     */
     @Column(name = "FlexTime")
     public BigDecimal getFtime() {
         return getFlextime();
     }
 
+    /**
+     * Set flexible time.
+     *
+     * @param ftime flexible time
+     */
     public void setFtime(final BigDecimal ftime) {
         setFlextime(ftime);
     }
 
+    /**
+     * @return timesheet rows.
+     */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,
-            fetch = FetchType.EAGER, mappedBy = "timesheet", 
+            fetch = FetchType.EAGER, mappedBy = "timesheet",
             targetEntity = TimesheetRowModel.class)
     public List<TimesheetRow> getTimesheetRows() {
         return getDetails();
     }
 
+    /**
+     * Set timesheet rows.
+     *
+     * @param rows timesheet rows
+     */
     public void setTimesheetRows(final List<TimesheetRow> rows) {
         setDetails(rows);
     }
@@ -279,8 +330,7 @@ public class TimesheetModel extends Timesheet {
         for (int i = 0; i < size - 1; i++) {
             row1 = (TimesheetRowModel) rows.get(i);
             if (!row1.isIdEmpty()) {
-                System.out
-                        .println("1: projectId and work package must be filled.");
+                System.out.println("projectId and workPackage must be filled.");
                 return false;
             }
             for (int j = i + 1; j < size; j++) {
@@ -299,8 +349,10 @@ public class TimesheetModel extends Timesheet {
 
         return true;
     }
+
     /**
      * Checks to see if hours in a day add up to 24 hours or less.
+     *
      * @return true if correctly summed
      */
     @Transient
@@ -375,7 +427,18 @@ public class TimesheetModel extends Timesheet {
     }
 
     @Override
-    public String toString() {
+    public final int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((getEmployee() == null) ? 0 : getEmployee().hashCode());
+        result = prime * result
+                + ((getEndWeek() == null) ? 0 : getEndWeek().hashCode());
+        return result;
+    }
+
+    @Override
+    public final String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("Week of ").append(getWeekEnding()).append("\n");
         sb.append("EMP#: ").append(getEmployee().getUserName()).append("\n");

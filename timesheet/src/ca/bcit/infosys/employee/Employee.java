@@ -10,6 +10,7 @@ import java.io.Serializable;
  */
 public class Employee implements Serializable {
 
+    /** Serial version number. */
     private static final long serialVersionUID = 1L;
     /** The employee's name. */
     private String name;
@@ -31,7 +32,6 @@ public class Employee implements Serializable {
      * who have access as well as the administrator.
      *
      * @param empName the name of the employee.
-     * @param number the empNumber of the user.
      * @param id the loginID of the user.
      */
     public Employee(final String empName, final String id) {
@@ -81,6 +81,5 @@ public class Employee implements Serializable {
     public void setUserName(final String id) {
         userName = id;
     }
-
 
 }

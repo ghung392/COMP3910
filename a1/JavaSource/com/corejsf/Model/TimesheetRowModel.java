@@ -35,6 +35,11 @@ public class TimesheetRowModel extends TimesheetRow {
         this(null);
     }
 
+    /**
+     * Onwer of timesheetrow.
+     *
+     * @param t timesheet this row belongs to.
+     */
     public TimesheetRowModel(final TimesheetModel t) {
         super();
         timesheet = t;
@@ -43,18 +48,21 @@ public class TimesheetRowModel extends TimesheetRow {
     /**
      * Creates a TimesheetRowModel object with all fields set. Used to create
      * sample data.
-     * 
-     * @param id project id
+     *
+     * @param i project id
      * @param wp work package number (alphanumeric)
      * @param hours number of hours charged for each day of week. null
      *            represents ZERO
      * @param comments any notes with respect to this work package charges
      */
-    public TimesheetRowModel(final int id, final String wp,
+    public TimesheetRowModel(final int i, final String wp,
             final BigDecimal[] hours, final String comments) {
-        super(id, wp, hours, comments);
+        super(i, wp, hours, comments);
     }
 
+    /**
+     * @return timesheetrow id.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RowID")
@@ -62,43 +70,74 @@ public class TimesheetRowModel extends TimesheetRow {
         return id;
     }
 
+    /**
+     * Set timesheetrow id.
+     *
+     * @param n timesheetrow id
+     */
     public void setId(final int n) {
         id = n;
     }
 
+    /**
+     * @return timesheet that owns this row.
+     */
     @ManyToOne
     @JoinColumn(name = "TimesheetID")
     public TimesheetModel getTimesheet() {
         return timesheet;
     }
 
+    /**
+     * Set timesheet that owns this row.
+     *
+     * @param t timesheet that owns this row
+     */
     public void setTimesheet(final TimesheetModel t) {
         timesheet = t;
     }
 
+    /**
+     * @return the projectID
+     */
     @Column(name = "ProjectID", nullable = false)
     public Integer getProjId() {
         return getProjectID();
     }
 
+    /**
+     * @param n the projectID to set
+     */
     public void setProjId(final Integer n) {
         setProjectID(n);
     }
 
+    /**
+     * @return the workPackage
+     */
     @Column(name = "WorkPackage", nullable = false)
     public String getPackageId() {
         return getWorkPackage();
     }
 
+    /**
+     * @param wpId the workPackage to set
+     */
     public void setPackageId(final String wpId) {
         setWorkPackage(wpId);
     }
 
+    /**
+     * @return the notes
+     */
     @Column(name = "Notes")
     public String getNote() {
         return getNotes();
     }
 
+    /**
+     * @param note the notes to set
+     */
     public void setNote(final String note) {
         setNotes(note);
     }
@@ -113,7 +152,7 @@ public class TimesheetRowModel extends TimesheetRow {
 
     /**
      * Set hour on Monday.
-     * 
+     *
      * @param hour number of hours worked
      */
     public void setHourMon(final BigDecimal hour) {
@@ -170,7 +209,7 @@ public class TimesheetRowModel extends TimesheetRow {
 
     /**
      * Set hour on Tuesday.
-     * 
+     *
      * @param hour number of hours worked
      */
     public void setHourTue(final BigDecimal hour) {
@@ -179,7 +218,7 @@ public class TimesheetRowModel extends TimesheetRow {
 
     /**
      * Set hour on Wednesday.
-     * 
+     *
      * @param hour number of hours worked
      */
     public void setHourWed(final BigDecimal hour) {
@@ -188,7 +227,7 @@ public class TimesheetRowModel extends TimesheetRow {
 
     /**
      * Set hour on Thursday.
-     * 
+     *
      * @param hour number of hours worked
      */
     public void setHourThur(final BigDecimal hour) {
@@ -197,7 +236,7 @@ public class TimesheetRowModel extends TimesheetRow {
 
     /**
      * Set hour on Friday.
-     * 
+     *
      * @param hour number of hours worked
      */
     public void setHourFri(final BigDecimal hour) {
@@ -206,7 +245,7 @@ public class TimesheetRowModel extends TimesheetRow {
 
     /**
      * Set hour on Saturday.
-     * 
+     *
      * @param hour number of hours worked
      */
     public void setHourSat(final BigDecimal hour) {
@@ -215,7 +254,7 @@ public class TimesheetRowModel extends TimesheetRow {
 
     /**
      * Set hour on Sunday.
-     * 
+     *
      * @param hour number of hours worked
      */
     public void setHourSun(final BigDecimal hour) {
@@ -224,7 +263,7 @@ public class TimesheetRowModel extends TimesheetRow {
 
     /**
      * Set hour on a given day.
-     * 
+     *
      * @param day day to set hours for
      * @param hour hour number of hours worked
      */
@@ -239,7 +278,7 @@ public class TimesheetRowModel extends TimesheetRow {
     /**
      * Check if row is a duplicate of given row. Definition of duplicate is when
      * two rows has exact same combination of projectID + WorkPackage.
-     * 
+     *
      * @param reference row to be checked against.
      * @return whether given row is a duplicate of current row
      */
@@ -251,9 +290,8 @@ public class TimesheetRowModel extends TimesheetRow {
         }
 
         String id1 = getProjectID() + getWorkPackage();
-        String id2 = reference.getProjectID()
-                + reference.getWorkPackage();
-        
+        String id2 = reference.getProjectID() + reference.getWorkPackage();
+
         id1 = id1.toUpperCase();
         id2 = id2.toUpperCase();
 
@@ -262,18 +300,19 @@ public class TimesheetRowModel extends TimesheetRow {
 
     /**
      * Validate the timesheetRow's projectId and Work package are not empty.
-     * @return
+     *
+     * @return if projectId and workpackage number are filled.
      */
     @Transient
     public final boolean isIdEmpty() {
-        final Integer id = getProjectID();
+        final Integer projId = getProjectID();
         final String workPk = getWorkPackage();
 
-        return (id != null) && (workPk != null) && (workPk.length() > 0);
+        return (projId != null) && (workPk != null) && (workPk.length() > 0);
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         final StringBuilder sb = new StringBuilder();
 
         sb.append(getProjectID()).append(getWorkPackage());

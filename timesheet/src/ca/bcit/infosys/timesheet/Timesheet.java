@@ -15,6 +15,7 @@ import ca.bcit.infosys.employee.Employee;
  * @author Bruce Link
  */
 public class Timesheet implements java.io.Serializable {
+
     /** Serial version number. */
     private static final long serialVersionUID = 2L;
     /** The user associated with this timesheet. */

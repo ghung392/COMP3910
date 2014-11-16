@@ -37,7 +37,7 @@ public class TimesheetManager {
     /**
      * Get all timesheet belonging to given employee.
      *
-     * @param employeeID employeeID of owner of timesheet.
+     * @param e owner of timesheet.
      * @return all timesheet belonging to given employee
      */
     public List<TimesheetModel> find(final Employee e) {
@@ -51,7 +51,7 @@ public class TimesheetManager {
     /**
      * Get timesheet belong to a given employee and given week.
      *
-     * @param employeeID timesheet's owner's employeeID
+     * @param e owner of timesheet.
      * @param weekEnd timesheet's week end day
      * @return a timesheet of a given employee and given week.
      */

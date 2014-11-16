@@ -25,7 +25,7 @@ import com.corejsf.Model.EmployeeModel;
 @Stateless
 public class EmployeeTracker implements Serializable {
     /** Entity Manager. */
-    @PersistenceContext(unitName = "a1") EntityManager em;
+    @PersistenceContext(unitName = "a1") private EntityManager em;
 
     /**
      * Method to find a employee.
@@ -39,9 +39,9 @@ public class EmployeeTracker implements Serializable {
      * Remove an employee from the list.
      * @param employee to remove
      */
-    public void remove(Employee employee) {
-        employee = find(employee.getEmpNumber());
-        em.remove(employee);
+    public void remove(final Employee employee) {
+        Employee emp = find(employee.getEmpNumber());
+        em.remove(emp);
     }
     /**
      * Merge an employee for updating values.

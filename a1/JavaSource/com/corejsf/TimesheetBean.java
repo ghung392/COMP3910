@@ -25,6 +25,10 @@ import com.corejsf.Model.TimesheetModel;
 @ConversationScoped
 public class TimesheetBean implements Serializable {
 
+    /** time to wait before reset saveSuccess message. */
+    private static final long WAIT_TIME = 1500;
+
+    /** Manages conversation of the conversationscoped. */
     @Inject
     private Conversation conversation;
     /** Manages access and persistence of timesheets in data layer. */
@@ -107,61 +111,53 @@ public class TimesheetBean implements Serializable {
      */
     public String saveTimesheet() {
         boolean isValid = true;
-//        saveSuccess = false;
+        FacesMessage message = null;
 
         timesheet.trimTimesheetRows();
-        System.out.println("DEBUG: " + timesheet);
 
         if (!timesheet.isValid()) {
             isValid = false;
-            FacesMessage message = new FacesMessage("Work hours must add "
+            message = new FacesMessage("Work hours must add "
                     + "up to 40. Please add "
                     + "additional hours into overtime or "
                     + "flexible hour field");
-            message.setSeverity(FacesMessage.SEVERITY_ERROR);
-            FacesContext.getCurrentInstance().addMessage("timesheet_form",
-                    message);
-            System.out.println("Work hours must add up to 40.");
         }
         if (!timesheet.areRowsValid()) {
             isValid = false;
-            FacesMessage message = new FacesMessage("A combination of project "
+            message = new FacesMessage("A combination of project "
                     + "id & workpage must be filled and unique for each row.");
-            message.setSeverity(FacesMessage.SEVERITY_ERROR);
-            FacesContext.getCurrentInstance().addMessage("timesheet_form",
-                    message);
         }
         if (!timesheet.correctHoursInDay()) {
             isValid = false;
             saveSuccess = false;
-            FacesMessage message = new FacesMessage("Hours in a day must "
+            message = new FacesMessage("Hours in a day must "
                     + "add up to 24 hours or less.");
-            message.setSeverity(FacesMessage.SEVERITY_ERROR);
-            FacesContext.getCurrentInstance().addMessage("timesheet_form",
-                    message);
+
         }
         if (isValid) {
             timesheetManager.merge(timesheet);
             refreshTimesheetList();
             saveSuccess = true;
             closeNotification();
-            System.out.println("Saving timesheet");
+        } else {
+            message.setSeverity(FacesMessage.SEVERITY_ERROR);
+            FacesContext.getCurrentInstance().addMessage("timesheet_form",
+                    message);
         }
 
         return null;
     }
 
-    // reset saveSuccess after page render
+    /**
+     * reset saveSuccess after page render.
+     */
     private void closeNotification() {
-        new java.util.Timer().schedule( 
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        saveSuccess = false;
-                    }
-                }, 
-                1500 
-        );
+        new java.util.Timer().schedule(new java.util.TimerTask() {
+            @Override
+            public void run() {
+                saveSuccess = false;
+            }
+        }, WAIT_TIME);
     }
 
     /**
@@ -197,11 +193,19 @@ public class TimesheetBean implements Serializable {
         return "viewTimesheet";
     }
 
+    /**
+     * Go to page to view list of past timesheets.
+     *
+     * @return navigation outcome - history page
+     */
     public String viewTimesheetList() {
         endConversation();
         return "history";
     }
 
+    /**
+     * Begins the conversation.
+     */
     private void beginConversation() {
         if (conversation.isTransient()) {
             System.out.println("conversation began.");
@@ -209,6 +213,9 @@ public class TimesheetBean implements Serializable {
         }
     }
 
+    /**
+     * Ends conversation.
+     */
     private void endConversation() {
         if (!conversation.isTransient()) {
             System.out.println("conversation end.");
