@@ -247,7 +247,11 @@ public class EmployeeInfo implements Serializable {
     public String changeEmployee(final int id) {
         focusedEmployee = getEmployee(id);
 
-        return "viewprofile";
+        if (focusedEmployee.equals(currentEmployee)) {
+            return "viewprofile";
+        }
+
+        return "viewadminprofile";
     }
 
 }
