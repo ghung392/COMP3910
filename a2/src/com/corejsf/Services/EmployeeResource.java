@@ -42,9 +42,10 @@ public class EmployeeResource {
      * @param confirmPassword
      * @param firstName
      * @param lastName
-     * @return response 200 if successful,
-     * response 400 if there is an empty form parameter,
-     * response 401 if employee is not an admin
+     * @return OK if successful,
+     * BAD_REQUEST if there is an empty form parameter,
+     * UNAUTHORIZED if employee is not an admin or invalid token,
+     * CONFLICT if adding a duplicate username
      */
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -69,6 +70,14 @@ public class EmployeeResource {
 
     	if( !employeeList.find(loggedInEmployee).getAdmin() ) {
     		throw new WebApplicationException(Response.Status.FORBIDDEN);
+    	}
+
+    	Employee[] employees = employeeList.getEmployees();
+
+    	for( Employee employee : employees ) {
+    		if( employee.getUserName().equals(username)) {
+    			throw new WebApplicationException(Response.Status.CONFLICT);
+    		}
     	}
 
     	Employee employee = new Employee(firstName, lastName, username,
