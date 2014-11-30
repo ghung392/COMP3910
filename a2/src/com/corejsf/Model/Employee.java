@@ -91,7 +91,7 @@ public class Employee implements Serializable {
     @XmlElement
     @Column(name = "EmpLastName")
     public String getLastName() {
-        return firstName;
+        return lastName;
     }
 
     /**
@@ -100,7 +100,7 @@ public class Employee implements Serializable {
      * @param empName new employee first name
      */
     public void setLastName(final String empLastName) {
-        firstName = empLastName;
+        lastName = empLastName;
     }
 
     /**
