@@ -15,13 +15,18 @@ CREATE TABLE Employees(
 	Pass TINYTEXT NOT NULL
 );
 
-INSERT INTO Employees VALUES(1, "John Doe", "test", 0, "test");
-INSERT INTO Employees VALUES(2, "Bob Smith", "testadmin", 1, "testadmin");
-INSERT INTO Employees VALUES(3, "Gabriel Hung", "ghung392", 1, "toohardtoguess");
-INSERT INTO Employees VALUES(4, "Angela Ma", "starangelam", 0, "qwerty");
+INSERT INTO Employees VALUES(1, "John", "Doe", "test", 0, "test");
+INSERT INTO Employees VALUES(2, "Bob", "Smith", "testadmin", 1, "testadmin");
+INSERT INTO Employees VALUES(3, "Gabriel", "Hung", "ghung392", 1, "toohardtoguess");
+INSERT INTO Employees VALUES(4, "Angela", "Ma", "starangelam", 0, "qwerty");
 
 DROP TABLE IF EXISTS Tokens;
-CREATE TABLE Tokens(TokenID TINYTEXT NOT NULL PRIMARY KEY, EmpId INT NOT NULL);
+CREATE TABLE Tokens(
+	TokenID VARCHAR(255) NOT NULL PRIMARY KEY, 
+	EmpId INT NOT NULL
+);
+
+INSERT INTO Tokens VALUES("a9d8f823jhl32j", "1");
 
 DROP TABLE IF EXISTS Timesheets;
 CREATE TABLE Timesheets(

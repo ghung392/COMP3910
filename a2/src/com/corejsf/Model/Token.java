@@ -46,7 +46,7 @@ public class Token implements Serializable {
 	 * @return uuid
 	 */
 	@XmlAttribute
-	@Column(name = "TokenId")
+	@Column(name = "TokenID")
 	@Id
     public String getUuid() {
     	return uuid;
@@ -61,13 +61,20 @@ public class Token implements Serializable {
 	}
 
 	/**
-	 * Getter for employee id.
-	 * @return employee id
+	 * Getter for token id.
+	 * @return token id
 	 */
 	@XmlElement
 	@Column(name = "EmpId")
 	public int getId() {
 		return id;
+	}
+	/**
+	 * Setter for token id.
+	 * @param newValue of id
+	 */
+	public void setId(int newValue) {
+		id = newValue;
 	}
 
 	@Override
