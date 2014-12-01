@@ -37,8 +37,9 @@ public class Token implements Serializable {
 	 * Constructor to instantiate a token.
 	 * @param token unique token
 	 * @param empId id tied to the session
+	 * @param time that token will timeout
 	 */
-	public Token(String token, int empId, long time ) {
+	public Token(final String token, final int empId, final long time) {
 		uuid = token;
 		id = empId;
 		timeout = time;
@@ -98,12 +99,11 @@ public class Token implements Serializable {
 	}
 
 	@Override
-   public String toString()
-   {
-      return "Employee{" +
-              "id=" + id +
-              ", uuid='" + uuid + '\'' +
-              ", id='" + id + '\'' +
-              '}';
+   public String toString() {
+      return "Employee{"
+    		  + "id=" + id
+    		  + ", uuid='" + uuid + '\''
+    		  + ", id='" + id + '\''
+    		  + '}';
    }
 }

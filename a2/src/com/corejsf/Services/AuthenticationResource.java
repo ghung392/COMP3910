@@ -44,11 +44,11 @@ public class AuthenticationResource {
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/xml")
-    public Response login(@FormParam("username") String username,
-    		@FormParam("password") String password) {
+    public Response login(@FormParam("username") final String username,
+    		@FormParam("password") final String password) {
     	employeeSession.timeoutToken();
 
-    	if( username == null || password == null) {
+    	if (username == null || password == null) {
     		throw new WebApplicationException(Response.Status.BAD_REQUEST);
     	}
     	Employee employee = employeeList.auth(username, password);
@@ -68,7 +68,7 @@ public class AuthenticationResource {
      * response 401 if invalid token
      */
     @DELETE
-    public Response logout(@HeaderParam("token") String token) {
+    public Response logout(@HeaderParam("token") final String token) {
     	employeeSession.timeoutToken();
 
     	if (token == null) {

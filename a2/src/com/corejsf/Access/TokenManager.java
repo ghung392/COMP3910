@@ -18,7 +18,7 @@ import com.corejsf.Model.Token;
 @Stateless
 public class TokenManager {
 	/** Entity Manager. */
-	@PersistenceContext(unitName="a3") EntityManager em;
+	@PersistenceContext(unitName = "a3")private EntityManager em;
 
 	/**
      * Method to find a token.

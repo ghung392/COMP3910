@@ -36,12 +36,12 @@ public class EmployeeResource {
 
     /**
      * Create employee function.
-     * @param token
-     * @param username
-     * @param password
-     * @param confirmPassword
-     * @param firstName
-     * @param lastName
+     * @param token of employee requesting
+     * @param username of employee to add
+     * @param password of employee to add
+     * @param confirmPassword of employee to add
+     * @param firstName of employee to add
+     * @param lastName of employee to add
      * @return OK if successful,
      * BAD_REQUEST if there is an empty form parameter or passwords don't match
      * UNAUTHORIZED if invalid token,
@@ -51,12 +51,12 @@ public class EmployeeResource {
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/xml")
-    public Response createEmployee(@HeaderParam("token") String token,
-    		@FormParam("username") String username,
-    		@FormParam("password") String password,
-    		@FormParam("confirmpassword") String confirmPassword,
-    		@FormParam("firstname") String firstName,
-    		@FormParam("lastname") String lastName) {
+    public Response createEmployee(@HeaderParam("token") final String token,
+    		@FormParam("username") final String username,
+    		@FormParam("password") final String password,
+    		@FormParam("confirmpassword") final String confirmPassword,
+    		@FormParam("firstname") final String firstName,
+    		@FormParam("lastname") final String lastName) {
 
     	employeeSession.timeoutToken();
 
@@ -68,22 +68,23 @@ public class EmployeeResource {
     		throw new WebApplicationException(Response.Status.BAD_REQUEST);
     	}
 
-    	if( username == null || password == null || confirmPassword == null
-    			|| firstName == null || lastName == null ) {
+    	if (username == null || password == null || confirmPassword == null
+    			|| firstName == null || lastName == null) {
     		throw new WebApplicationException(Response.Status.BAD_REQUEST);
     	}
 
     	int loggedInEmployee = employeeSession.getEmployeeId(token);
 
-    	if( !employeeList.find(loggedInEmployee).getAdmin() ) {
+    	if (!employeeList.find(loggedInEmployee).getAdmin()) {
     		throw new WebApplicationException(Response.Status.FORBIDDEN);
     	}
 
     	Employee[] employees = employeeList.getEmployees();
 
-    	for( Employee employee : employees ) {
-    		if( employee.getUserName().equals(username)) {
-    			throw new WebApplicationException(Response.Status.CONFLICT);
+    	for (Employee employee : employees) {
+    		if (employee.getUserName().equals(username)) {
+    			throw new
+    			WebApplicationException(Response.Status.CONFLICT);
     		}
     	}
 
@@ -108,8 +109,8 @@ public class EmployeeResource {
     @GET
     @Path("/{id}")
     @Produces("application/xml")
-    public Response getEmployee(@HeaderParam("token") String token,
-    		@PathParam("id") int id) {
+    public Response getEmployee(@HeaderParam("token") final String token,
+    		@PathParam("id") final int id) {
     	employeeSession.timeoutToken();
 
     	if (token == null) {
@@ -119,14 +120,14 @@ public class EmployeeResource {
     	int loggedInEmployee = employeeSession.getEmployeeId(token);
     	int employeeToView = id;
 
-    	if( !employeeList.find(loggedInEmployee).getAdmin() &&
-    			loggedInEmployee != employeeToView ) {
+    	if (!employeeList.find(loggedInEmployee).getAdmin() &&
+    			loggedInEmployee != employeeToView) {
     		throw new WebApplicationException(Response.Status.FORBIDDEN);
     	}
 
     	Employee employee = employeeList.find(employeeToView);
 
-    	if( employee == null ) {
+    	if (employee == null) {
     		throw new WebApplicationException(Response.Status.NOT_FOUND);
     	}
 
@@ -137,14 +138,14 @@ public class EmployeeResource {
 
     /**
      * Get list of employees.
-     * @param token
+     * @param token of requesting employee
      * @return FORBIDDEN status if not admin,
      * OK status if successful,
      * UNAUTHORIZED if invalid token
      */
     @GET
     @Produces("application/xml")
-    public Response getEmployees(@HeaderParam("token") String token) {
+    public Response getEmployees(@HeaderParam("token") final String token) {
     	employeeSession.timeoutToken();
 
     	if (token == null) {
@@ -153,7 +154,7 @@ public class EmployeeResource {
 
     	int loggedInEmployee = employeeSession.getEmployeeId(token);
 
-    	if( !employeeList.find(loggedInEmployee).getAdmin() ) {
+    	if (!employeeList.find(loggedInEmployee).getAdmin()) {
     		throw new WebApplicationException(Response.Status.FORBIDDEN);
     	}
 
@@ -162,12 +163,12 @@ public class EmployeeResource {
 
     /**
      * Updates an employee.
-     * @param token
+     * @param token of requesting employee
      * @param id of employee to update
-     * @param username
-     * @param password
-     * @param firstName
-     * @param lastName
+     * @param username of employee to update
+     * @param password of employee to update
+     * @param firstName of employee to update
+     * @param lastName of employee to update
      * @return FORBIDDEN status if trying to update an employee that is
      * not itself if non-admin,
      * NOT FOUND status if trying to update non-existent employee
@@ -178,42 +179,42 @@ public class EmployeeResource {
     @Path("/{id}")
     @Consumes("application/x-www-form-urlencoded")
     @Produces("application/xml")
-    public Response updateEmployee(@HeaderParam("token") String token,
-    		@PathParam("id") int id,
-    		@FormParam("username") String username,
-    		@FormParam("password") String password,
-    		@FormParam("firstname") String firstName,
-    		@FormParam("lastname") String lastName ) {
+    public Response updateEmployee(@HeaderParam("token") final String token,
+    		@PathParam("id") final int id,
+    		@FormParam("username") final String username,
+    		@FormParam("password") final String password,
+    		@FormParam("firstname") final String firstName,
+    		@FormParam("lastname") final String lastName) {
 
     	employeeSession.timeoutToken();
 
     	int loggedInEmployee = employeeSession.getEmployeeId(token);
     	int employeeToView = id;
 
-    	if( !employeeList.find(loggedInEmployee).getAdmin() &&
-    			loggedInEmployee != employeeToView ) {
+    	if (!employeeList.find(loggedInEmployee).getAdmin() &&
+    			loggedInEmployee != employeeToView) {
     		throw new WebApplicationException(Response.Status.FORBIDDEN);
     	}
 
     	Employee employeeToUpdate = employeeList.find(employeeToView);
 
-    	if( employeeToUpdate == null ) {
+    	if (employeeToUpdate == null) {
     		throw new WebApplicationException(Response.Status.NOT_FOUND);
     	}
 
-    	if( username != null ) {
+    	if (username != null) {
     		employeeToUpdate.setUserName(username);
     	}
 
-    	if( password != null ) {
+    	if (password != null) {
     		employeeToUpdate.setPassword(password);
     	}
 
-    	if( firstName != null ) {
+    	if (firstName != null) {
     		employeeToUpdate.setFirstName(firstName);
     	}
 
-    	if( lastName != null ) {
+    	if (lastName != null) {
     		employeeToUpdate.setLastName(lastName);
     	}
 
@@ -225,7 +226,7 @@ public class EmployeeResource {
 
     /**
      * Delete an employee.
-     * @param token
+     * @param token of requesting employee
      * @param id of employee to delete
      * @return FORBIDDEN if non-admin or admin deleting themselves,
      * NOT_FOUND if employee id to delete is non-existent,
@@ -234,23 +235,23 @@ public class EmployeeResource {
      */
     @DELETE
     @Path("/{id}")
-    public Response deleteEmployee(@HeaderParam("token") String token,
-    		@PathParam("id") int id ) {
+    public Response deleteEmployee(@HeaderParam("token") final String token,
+    		@PathParam("id") final int id) {
 
     	employeeSession.timeoutToken();
     	int loggedInEmployee = employeeSession.getEmployeeId(token);
 
-    	if( !employeeList.find(loggedInEmployee).getAdmin() ) {
+    	if (!employeeList.find(loggedInEmployee).getAdmin()) {
     		throw new WebApplicationException(Response.Status.FORBIDDEN);
     	}
 
     	Employee employeeToDelete = employeeList.find(id);
 
-    	if( employeeToDelete == null ) {
+    	if (employeeToDelete == null) {
     		throw new WebApplicationException(Response.Status.NOT_FOUND);
     	}
 
-    	if( employeeToDelete.equals(employeeList.find(loggedInEmployee))) {
+    	if (employeeToDelete.equals(employeeList.find(loggedInEmployee))) {
     		throw new WebApplicationException(Response.Status.FORBIDDEN);
     	}
 

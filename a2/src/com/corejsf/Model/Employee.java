@@ -48,17 +48,18 @@ public class Employee implements Serializable {
     /**
      * Constructor to instantiate an employee.
      *
-     * @param empName employee name
-     * @param id employee username
+     * @param first employee first name
+     * @param last employee last name
+     * @param user employee username
      * @param isSuper boolean to determine whether user has admin status
      * @param pass employee password
      */
-    public Employee(final String first, final String last, final String id,
+    public Employee(final String first, final String last, final String user,
             final boolean isSuper, final String pass) {
 
         firstName = first;
         lastName = last;
-        userName = id;
+        userName = user;
         admin = isSuper;
         password = pass;
     }
@@ -77,7 +78,7 @@ public class Employee implements Serializable {
     /**
      * Setter for employee first name.
      *
-     * @param empName new employee first name
+     * @param empFirstName new employee first name
      */
     public void setFirstName(final String empFirstName) {
         firstName = empFirstName;
@@ -97,7 +98,7 @@ public class Employee implements Serializable {
     /**
      * Setter for employee first name.
      *
-     * @param empName new employee first name
+     * @param empLastName new employee first name
      */
     public void setLastName(final String empLastName) {
         lastName = empLastName;
@@ -208,16 +209,15 @@ public class Employee implements Serializable {
     }
 
     @Override
-	   public String toString()
-	   {
-	      return "Employee{" +
-	              "id=" + id +
-	              ", firstName='" + firstName + '\'' +
-	              ", lastName='" + lastName + '\'' +
-	              ", userName='" + userName + '\'' +
-	              ", isAdmin='" + admin + '\'' +
-	              ", password='" + password + '\'' +
-	              '}';
+	   public String toString() {
+	      return "Employee{"
+	    		  + "id=" + id
+	    		  + ", firstName='" + firstName + '\''
+	    		  + ", lastName='" + lastName + '\''
+	    		  + ", userName='" + userName + '\''
+	    		  + ", isAdmin='" + admin + '\''
+	    		  + ", password='" + password + '\''
+	    		  + '}';
 	   }
 
 }

@@ -15,7 +15,7 @@ import com.corejsf.Model.Employee;
 @Stateless
 public class EmployeeManager {
 	/** Entity Manager. */
-	@PersistenceContext(unitName="a3") EntityManager em;
+	@PersistenceContext(unitName = "a3") private EntityManager em;
 
 	/**
      * Method to find a employee.
@@ -56,7 +56,7 @@ public class EmployeeManager {
                 + "from Employee e", Employee.class);
         java.util.List<Employee> employees = query.getResultList();
         Employee[] empArray = new Employee[employees.size()];
-        for (int i=0; i < empArray.length; i++) {
+        for (int i = 0; i < empArray.length; i++) {
         	empArray[i] = employees.get(i);
         }
         return empArray;
