@@ -23,6 +23,8 @@ public class Token implements Serializable {
 	private String uuid;
 	/** Employee Id. */
 	private int id;
+	/** Timeout period. */
+	private long timeout;
 
 	/**
 	 * Default constructor.
@@ -36,9 +38,10 @@ public class Token implements Serializable {
 	 * @param token unique token
 	 * @param empId id tied to the session
 	 */
-	public Token(String token, int empId ) {
+	public Token(String token, int empId, long time ) {
 		uuid = token;
 		id = empId;
+		timeout = time;
 	}
 
 	/**
@@ -75,6 +78,23 @@ public class Token implements Serializable {
 	 */
 	public void setId(int newValue) {
 		id = newValue;
+	}
+
+	/**
+	 * Getter for timeout.
+	 * @return timeout time
+	 */
+	@XmlElement
+	@Column(name = "Timeout")
+	public long getTimeout() {
+		return timeout;
+	}
+	/**
+	 * Setter for timeout.
+	 * @param newValue of timeout
+	 */
+	public void setTimeout(long newValue) {
+		timeout = newValue;
 	}
 
 	@Override

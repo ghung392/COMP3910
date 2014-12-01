@@ -23,10 +23,9 @@ INSERT INTO Employees VALUES(4, "Angela", "Ma", "starangelam", 0, "qwerty");
 DROP TABLE IF EXISTS Tokens;
 CREATE TABLE Tokens(
 	TokenID VARCHAR(255) NOT NULL PRIMARY KEY, 
-	EmpId INT NOT NULL
+	EmpId INT NOT NULL,
+	Timeout BIGINT NOT NULL
 );
-
-INSERT INTO Tokens VALUES("a9d8f823jhl32j", "1");
 
 DROP TABLE IF EXISTS Timesheets;
 CREATE TABLE Timesheets(

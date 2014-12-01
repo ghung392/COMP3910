@@ -48,7 +48,7 @@ public class TokenManager {
      * Gets the whole list of tokens.
      * @return list of tokens
      */
-    public List<Token> getEmployees() {
+    public List<Token> getTokens() {
         TypedQuery<Token> query = em.createQuery("select t "
                 + "from Token t", Token.class);
         List<Token> tokens = query.getResultList();

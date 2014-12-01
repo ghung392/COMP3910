@@ -43,9 +43,10 @@ public class EmployeeResource {
      * @param firstName
      * @param lastName
      * @return OK if successful,
-     * BAD_REQUEST if there is an empty form parameter,
-     * UNAUTHORIZED if employee is not an admin or invalid token,
-     * CONFLICT if adding a duplicate username
+     * BAD_REQUEST if there is an empty form parameter or passwords don't match
+     * UNAUTHORIZED if invalid token,
+     * CONFLICT if adding a duplicate username,
+     * FORBIDDEN if trying to create as non-admin
      */
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -57,8 +58,14 @@ public class EmployeeResource {
     		@FormParam("firstname") String firstName,
     		@FormParam("lastname") String lastName) {
 
+    	employeeSession.timeoutToken();
+
     	if (token == null) {
     		throw new WebApplicationException(Response.Status.UNAUTHORIZED);
+    	}
+
+    	if (!password.equals(confirmPassword)) {
+    		throw new WebApplicationException(Response.Status.BAD_REQUEST);
     	}
 
     	if( username == null || password == null || confirmPassword == null
@@ -103,6 +110,8 @@ public class EmployeeResource {
     @Produces("application/xml")
     public Response getEmployee(@HeaderParam("token") String token,
     		@PathParam("id") int id) {
+    	employeeSession.timeoutToken();
+
     	if (token == null) {
     		throw new WebApplicationException(Response.Status.UNAUTHORIZED);
     	}
@@ -136,6 +145,8 @@ public class EmployeeResource {
     @GET
     @Produces("application/xml")
     public Response getEmployees(@HeaderParam("token") String token) {
+    	employeeSession.timeoutToken();
+
     	if (token == null) {
     		throw new WebApplicationException(Response.Status.UNAUTHORIZED);
     	}
@@ -160,7 +171,8 @@ public class EmployeeResource {
      * @return FORBIDDEN status if trying to update an employee that is
      * not itself if non-admin,
      * NOT FOUND status if trying to update non-existent employee
-     * OK status & Xml if successful
+     * OK status & Xml if successful,
+     * UNAUTHORIZED if invalid token
      */
     @PUT
     @Path("/{id}")
@@ -172,6 +184,8 @@ public class EmployeeResource {
     		@FormParam("password") String password,
     		@FormParam("firstname") String firstName,
     		@FormParam("lastname") String lastName ) {
+
+    	employeeSession.timeoutToken();
 
     	int loggedInEmployee = employeeSession.getEmployeeId(token);
     	int employeeToView = id;
@@ -213,14 +227,17 @@ public class EmployeeResource {
      * Delete an employee.
      * @param token
      * @param id of employee to delete
-     * @return FORBIDDEN if invalid token or non-admin
+     * @return FORBIDDEN if non-admin or admin deleting themselves,
      * NOT_FOUND if employee id to delete is non-existent,
-     * NO_CONTENT if successful
+     * NO_CONTENT if successful,
+     * UNAUTHORIZED if invalid token
      */
     @DELETE
     @Path("/{id}")
     public Response deleteEmployee(@HeaderParam("token") String token,
     		@PathParam("id") int id ) {
+
+    	employeeSession.timeoutToken();
     	int loggedInEmployee = employeeSession.getEmployeeId(token);
 
     	if( !employeeList.find(loggedInEmployee).getAdmin() ) {

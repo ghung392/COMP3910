@@ -46,6 +46,8 @@ public class AuthenticationResource {
     @Produces("application/xml")
     public Response login(@FormParam("username") String username,
     		@FormParam("password") String password) {
+    	employeeSession.timeoutToken();
+
     	if( username == null || password == null) {
     		throw new WebApplicationException(Response.Status.BAD_REQUEST);
     	}
@@ -62,18 +64,20 @@ public class AuthenticationResource {
     /**
      * Logout and remove token tied to session.
      * @param token to be removed
-     * @return response 200 OK if success,
-     * response 404 if invalid token
+     * @return response 204 NO_CONTENT if success,
+     * response 401 if invalid token
      */
     @DELETE
     public Response logout(@HeaderParam("token") String token) {
+    	employeeSession.timeoutToken();
+
     	if (token == null) {
     		throw new WebApplicationException(Response.Status.UNAUTHORIZED);
     	}
 
-    	if (!employeeSession.removeToken(token)) {
-    		throw new WebApplicationException(Response.Status.NOT_FOUND);
-    	}
+    	employeeSession.getEmployeeId(token);
+
+    	employeeSession.removeToken(token);
 
     	return Response.noContent().build();
     }
