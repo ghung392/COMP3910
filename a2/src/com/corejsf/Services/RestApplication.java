@@ -22,7 +22,8 @@ public class RestApplication extends Application {
 	public RestApplication() {
 		HashSet<Class<?>> c = new HashSet<>();
 		c.add(EmployeeResource.class);
-		c.add(AuthenticationResource.class);
+        c.add(AuthenticationResource.class);
+        c.add(TimesheetResource.class);
 		classes = Collections.unmodifiableSet(c);
 	}
 

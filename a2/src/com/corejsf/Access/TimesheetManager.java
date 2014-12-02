@@ -28,8 +28,7 @@ public class TimesheetManager {
      */
     public List<Timesheet> getTimesheets() {
         TypedQuery<Timesheet> query = em.createQuery("select t "
-                + "from Timesheet t ORDER BY t.endWeek DESC",
-                Timesheet.class);
+                + "from Timesheet t ORDER BY t.endWeek DESC", Timesheet.class);
         return query.getResultList();
     }
 
@@ -61,14 +60,30 @@ public class TimesheetManager {
         query.setParameter("employee", e);
         query.setParameter("endWeek", weekEnd);
 
-        Timesheet result;
         try {
-            result = query.getSingleResult();
+            return query.getSingleResult();
         } catch (NoResultException nre) {
-            result = new Timesheet(e);
+            return null;
         }
+    }
 
-        return result;
+    /**
+     * Get timesheet belong to a given employee and given week.
+     *
+     * @param e owner of timesheet.
+     * @param weekEnd timesheet's week end day
+     * @return a timesheet of a given employee and given week.
+     */
+    public Timesheet find(final int id) {
+        TypedQuery<Timesheet> query = em.createQuery(
+                "SELECT t FROM Timesheet t WHERE t.id = :id", Timesheet.class);
+        query.setParameter("id", id);
+
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
     /**

@@ -22,6 +22,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import com.corejsf.utils.DateAdapter;
 
 /**
  * Extend Timesheet class, representing a single timesheet. Adds more methods
@@ -29,6 +38,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "Timesheets")
+@XmlRootElement(name = "timesheet")
 public class Timesheet implements java.io.Serializable {
 
     /** Serial version number. */
@@ -99,6 +109,7 @@ public class Timesheet implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TimesheetID")
+    @XmlAttribute
     public int getId() {
         return id;
     }
@@ -117,6 +128,7 @@ public class Timesheet implements java.io.Serializable {
      */
     @ManyToOne
     @JoinColumn(name = "EmpID", nullable = false)
+    @XmlTransient
     public Employee getEmployee() {
         return employee;
     }
@@ -133,6 +145,8 @@ public class Timesheet implements java.io.Serializable {
      */
     @Temporal(TemporalType.DATE)
     @Column(name = "EndWeek", nullable = false)
+    @XmlElement(name = "week-end")
+    @XmlJavaTypeAdapter(DateAdapter.class)
     public Date getEndWeek() {
         return endWeek;
     }
@@ -143,20 +157,6 @@ public class Timesheet implements java.io.Serializable {
     public void setEndWeek(final Date end) {
         checkFriday(end);
         endWeek = end;
-    }
-
-    /**
-     * @return the endWeek as string
-     */
-    @Transient
-    public String getWeekEnding() {
-        Calendar c = new GregorianCalendar();
-        c.setTime(endWeek);
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        month += 1;
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        return month + "/" + day + "/" + year;
     }
 
     private void checkFriday(final Date end) {
@@ -173,6 +173,7 @@ public class Timesheet implements java.io.Serializable {
      * @return the overtime
      */
     @Column(name = "OverTime")
+    @XmlElement
     public BigDecimal getOvertime() {
         return overtime;
     }
@@ -192,6 +193,7 @@ public class Timesheet implements java.io.Serializable {
      * @return the flextime
      */
     @Column(name = "FlexTime")
+    @XmlElement
     public BigDecimal getFlextime() {
         return flextime;
     }
@@ -210,8 +212,9 @@ public class Timesheet implements java.io.Serializable {
     /**
      * @return timesheet rows.
      */
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, 
-            fetch = FetchType.EAGER, mappedBy = "timesheet")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "timesheet")
+    @XmlElement(name = "timesheet-row")
+    @XmlElementWrapper(name = "timesheet-rows")
     public List<TimesheetRow> getTimesheetRows() {
         return timesheetRows;
     }
@@ -222,7 +225,6 @@ public class Timesheet implements java.io.Serializable {
      * @param rows timesheet rows
      */
     public void setTimesheetRows(final List<TimesheetRow> rows) {
-        
         timesheetRows = rows;
     }
 
@@ -230,6 +232,7 @@ public class Timesheet implements java.io.Serializable {
      * @return the weeknumber of the timesheet
      */
     @Transient
+    @XmlElement(name = "week-number")
     public int getWeekNumber() {
         Calendar c = new GregorianCalendar();
         c.setTime(endWeek);
@@ -252,6 +255,21 @@ public class Timesheet implements java.io.Serializable {
     }
 
     /**
+     * Calculates the total hours.
+     *
+     * @return total hours for timesheet.
+     */
+    @Transient
+    @XmlElement(name = "total-hours")
+    public BigDecimal getTotalHours() {
+        BigDecimal sum = BigDecimal.ZERO.setScale(1, BigDecimal.ROUND_HALF_UP);
+        for (TimesheetRow row : timesheetRows) {
+            sum = sum.add(row.getSum());
+        }
+        return sum;
+    }
+
+    /**
      * Deletes the specified row from the timesheet.
      *
      * @param rowToRemove the row to remove from the timesheet.
@@ -268,19 +286,6 @@ public class Timesheet implements java.io.Serializable {
     }
 
     /**
-     * @return current weeks End of Week day (Friday)
-     */
-    @Transient
-    public static Date getCurrDate() {
-        Calendar c = new GregorianCalendar();
-        int currentDay = c.get(Calendar.DAY_OF_WEEK);
-        int leftDays = Calendar.FRIDAY - currentDay;
-        c.add(Calendar.DATE, leftDays);
-
-        return c.getTime();
-    }
-
-    /**
      * Check if Timesheet's rows all have unique combination of Project ID &
      * WokrPackage. Note 0 is considered valid project id number, and
      * WorkPackage must not be empty.
@@ -288,7 +293,7 @@ public class Timesheet implements java.io.Serializable {
      * @return whether timesheet's rows all have valid projectID+workPackage.
      */
     @Transient
-    public final boolean areRowsValid() {
+    public final boolean checkRowsIdUnique() {
         boolean rowsValid = true;
 
         final List<TimesheetRow> rows = getTimesheetRows();
@@ -305,6 +310,25 @@ public class Timesheet implements java.io.Serializable {
         }
 
         return rowsValid;
+    }
+
+    /**
+     * Checks to see if hours in a day add up to 24 hours or less.
+     *
+     * @return true if correctly summed
+     */
+    @Transient
+    public boolean checkHoursInDay() {
+        BigDecimal[] hoursInDay = getDailyHours();
+
+        for (int i = 0; i < hoursInDay.length; i++) {
+            BigDecimal hourInDay = hoursInDay[i];
+            if (hourInDay != null && hourInDay.compareTo(HOURS_IN_DAY) == 1) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -366,25 +390,6 @@ public class Timesheet implements java.io.Serializable {
     }
 
     /**
-     * Checks to see if hours in a day add up to 24 hours or less.
-     *
-     * @return true if correctly summed
-     */
-    @Transient
-    public boolean checkHoursInDay() {
-        BigDecimal[] hoursInDay = getDailyHours();
-
-        for (int i = 0; i < hoursInDay.length; i++) {
-            BigDecimal hourInDay = hoursInDay[i];
-            if (hourInDay != null && hourInDay.compareTo(HOURS_IN_DAY) == 1) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
      * Check whether given Date is on same day as timesheet's endWeek.
      *
      * @param reference date to validate against.
@@ -428,7 +433,7 @@ public class Timesheet implements java.io.Serializable {
     @Override
     public final String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append("Week of ").append(getWeekEnding()).append("\n");
+        sb.append("Week of ").append(getEndWeek()).append("\n");
         sb.append("EMP#: ").append(getEmployee().getUserName()).append("\n");
 
         List<TimesheetRow> rows = getTimesheetRows();
