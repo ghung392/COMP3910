@@ -20,6 +20,7 @@ import com.corejsf.Access.EmployeeManager;
 import com.corejsf.Access.TimesheetManager;
 import com.corejsf.Model.Employee;
 import com.corejsf.Model.Timesheet;
+import com.corejsf.Model.Timesheets;
 
 @Dependent
 @Stateless
@@ -65,18 +66,18 @@ public class TimesheetResource {
 
     @GET
     @Produces("application/xml")
-    public Response getTimesheets(@HeaderParam("token") final String token) {
+    public Timesheets getTimesheets(@HeaderParam("token") final String token) {
         if (token == null) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
         final int employeeId;
         final Employee owner;
-        final Timesheet[] timesheets;
+        final List<Timesheet> timesheets;
 
         employeeId = employeeSession.getEmployeeId(token);
         owner = employeeManager.find(employeeId);
         timesheets = timesheetManager.find(owner);
 
-        return Response.ok(timesheets).build();
+        return new Timesheets(timesheets);
     }
 }
