@@ -38,12 +38,14 @@ public class TimesheetManager {
      * @param e owner of timesheet.
      * @return all timesheet belonging to given employee
      */
-    public List<Timesheet> find(final Employee e) {
+    public Timesheet[] find(final Employee e) {
         TypedQuery<Timesheet> query = em.createQuery(
                 "SELECT t FROM Timesheet t WHERE t.employee = :employee"
                         + " ORDER BY t.endWeek DESC", Timesheet.class);
         query.setParameter("employee", e);
-        return query.getResultList();
+        List<Timesheet> timesheets = query.getResultList();
+        
+        return timesheets.toArray(new Timesheet[timesheets.size()]);
     }
 
     /**

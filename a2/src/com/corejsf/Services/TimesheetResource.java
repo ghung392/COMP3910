@@ -1,5 +1,7 @@
 package com.corejsf.Services;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
@@ -61,4 +63,20 @@ public class TimesheetResource {
         return Response.ok(timesheet).build();
     }
 
+    @GET
+    @Produces("application/xml")
+    public Response getTimesheets(@HeaderParam("token") final String token) {
+        if (token == null) {
+            throw new WebApplicationException(Response.Status.UNAUTHORIZED);
+        }
+        final int employeeId;
+        final Employee owner;
+        final Timesheet[] timesheets;
+
+        employeeId = employeeSession.getEmployeeId(token);
+        owner = employeeManager.find(employeeId);
+        timesheets = timesheetManager.find(owner);
+
+        return Response.ok(timesheets).build();
+    }
 }
