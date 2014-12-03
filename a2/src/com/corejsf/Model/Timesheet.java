@@ -270,6 +270,42 @@ public class Timesheet implements java.io.Serializable {
     }
 
     /**
+     * @return current weeks End of Week day (Friday)
+     */
+    @Transient
+    public static Date getCurrEndWeek() {
+        Calendar c = new GregorianCalendar();
+        int currentDay = c.get(Calendar.DAY_OF_WEEK);
+        int leftDays = Calendar.FRIDAY - currentDay;
+        c.add(Calendar.DATE, leftDays);
+
+        return c.getTime();
+    }
+
+    /**
+     * Calculates the daily hours.
+     *
+     * @return array of total hours for each day of week for timesheet.
+     */
+    @Transient
+    public BigDecimal[] getDailyHours() {
+        BigDecimal[] sums = new BigDecimal[DAYS_IN_WEEK];
+        for (TimesheetRow day : timesheetRows) {
+            BigDecimal[] hours = day.getHoursForWeek();
+            for (int i = 0; i < DAYS_IN_WEEK; i++) {
+                if (hours[i] != null) {
+                    if (sums[i] == null) {
+                        sums[i] = hours[i];
+                    } else {
+                        sums[i] = sums[i].add(hours[i]);
+                    }
+                }
+            }
+        }
+        return sums;
+    }
+
+    /**
      * Deletes the specified row from the timesheet.
      *
      * @param rowToRemove the row to remove from the timesheet.
@@ -283,6 +319,23 @@ public class Timesheet implements java.io.Serializable {
      */
     public void addRow() {
         timesheetRows.add(new TimesheetRow());
+    }
+
+    /**
+     * Checks to see if timesheet total nets 40 hours.
+     *
+     * @return true if FULL_WORK_WEEK == hours -flextime - overtime
+     */
+    @Transient
+    public boolean checkTotalHours() {
+        BigDecimal net = getTotalHours();
+        if (overtime != null) {
+            net = net.subtract(overtime);
+        }
+        if (flextime != null) {
+            net = net.subtract(flextime);
+        }
+        return net.equals(FULL_WORK_WEEK);
     }
 
     /**
@@ -338,7 +391,6 @@ public class Timesheet implements java.io.Serializable {
      * @param rows TimesheetRows to check
      * @return whether given TimesheetRows has duplicates.
      */
-    @Transient
     private boolean hasCollision(final List<TimesheetRow> rows) {
         TimesheetRow row1, row2;
         final int size = rows.size();
@@ -364,29 +416,6 @@ public class Timesheet implements java.io.Serializable {
         }
 
         return true;
-    }
-
-    /**
-     * Calculates the daily hours.
-     *
-     * @return array of total hours for each day of week for timesheet.
-     */
-    @Transient
-    public BigDecimal[] getDailyHours() {
-        BigDecimal[] sums = new BigDecimal[DAYS_IN_WEEK];
-        for (TimesheetRow day : timesheetRows) {
-            BigDecimal[] hours = day.getHoursForWeek();
-            for (int i = 0; i < DAYS_IN_WEEK; i++) {
-                if (hours[i] != null) {
-                    if (sums[i] == null) {
-                        sums[i] = hours[i];
-                    } else {
-                        sums[i] = sums[i].add(hours[i]);
-                    }
-                }
-            }
-        }
-        return sums;
     }
 
     /**
@@ -433,8 +462,11 @@ public class Timesheet implements java.io.Serializable {
     @Override
     public final String toString() {
         final StringBuilder sb = new StringBuilder();
+        sb.append("Id ").append(getId()).append("\n");
         sb.append("Week of ").append(getEndWeek()).append("\n");
-        sb.append("EMP#: ").append(getEmployee().getUserName()).append("\n");
+        final String username = (employee != null) ? employee.getUserName()
+                : null;
+        sb.append("EMP#: ").append(username).append("\n");
 
         List<TimesheetRow> rows = getTimesheetRows();
         for (TimesheetRow r : rows) {

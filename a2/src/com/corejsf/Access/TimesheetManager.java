@@ -43,7 +43,7 @@ public class TimesheetManager {
                 "SELECT t FROM Timesheet t WHERE t.employee = :employee"
                         + " ORDER BY t.endWeek DESC", Timesheet.class);
         query.setParameter("employee", e);
-        
+
         return query.getResultList();
     }
 
@@ -91,9 +91,20 @@ public class TimesheetManager {
      * Updates a timesheet.
      *
      * @param timesheet timesheet to store
+     * @return new timesheet after update
      */
-    public void merge(final Timesheet timesheet) {
-        em.merge(timesheet);
+    public Timesheet merge(final Timesheet timesheet) {
+        return em.merge(timesheet);
     }
 
+    /**
+     * Saves a new timesheet to database.
+     *
+     * @param timesheet new timesheet to be saved
+     */
+    public Timesheet persist(final Timesheet timesheet) {
+        em.persist(timesheet);
+        em.flush();
+        return timesheet;
+    }
 }

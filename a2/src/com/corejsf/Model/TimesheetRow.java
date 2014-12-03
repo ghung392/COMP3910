@@ -337,7 +337,7 @@ public class TimesheetRow implements java.io.Serializable {
      * @param hour The number of hours worked for that day
      */
     private void setHour(final int day, final BigDecimal hour) {
-        checkHour(hour);
+//        checkHour(hour);
         if (hour != null) {
             hoursForWeek[day] = hour.setScale(1, BigDecimal.ROUND_HALF_UP);
         } else {
