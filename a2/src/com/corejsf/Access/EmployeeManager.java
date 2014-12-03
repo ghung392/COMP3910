@@ -1,5 +1,7 @@
 package com.corejsf.Access;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -51,7 +53,7 @@ public class EmployeeManager {
      * Gets the whole list of employees.
      * @return list of employees
      */
-    public Employee[] getEmployees() {
+    public List<Employee> getEmployees() {
         TypedQuery<Employee> query = em.createQuery("select e "
                 + "from Employee e", Employee.class);
         java.util.List<Employee> employees = query.getResultList();
@@ -59,7 +61,7 @@ public class EmployeeManager {
         for (int i = 0; i < empArray.length; i++) {
         	empArray[i] = employees.get(i);
         }
-        return empArray;
+        return employees;
     }
     /**
      * Authenticates a user.
@@ -69,7 +71,7 @@ public class EmployeeManager {
      */
     public Employee auth(final String username,
             final String password) {
-        Employee[] employeeList = getEmployees();
+        List<Employee> employeeList = getEmployees();
         for (Employee employee : employeeList) {
             if (username.compareTo(employee.getUserName()) == 0
                     && password.compareTo(employee.getPassword()) == 0) {

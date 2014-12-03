@@ -1,5 +1,7 @@
 package com.corejsf.Services;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -19,6 +21,7 @@ import javax.ws.rs.core.Response;
 import com.corejsf.EmployeeSession;
 import com.corejsf.Access.EmployeeManager;
 import com.corejsf.Model.Employee;
+import com.corejsf.Model.Employees;
 
 /**
  * Resource responsible for employee tasks such as authentication and
@@ -79,7 +82,7 @@ public class EmployeeResource {
     		throw new WebApplicationException(Response.Status.FORBIDDEN);
     	}
 
-    	Employee[] employees = employeeList.getEmployees();
+    	List<Employee> employees = employeeList.getEmployees();
 
     	for (Employee employee : employees) {
     		if (employee.getUserName().equals(username)) {
@@ -145,8 +148,10 @@ public class EmployeeResource {
      */
     @GET
     @Produces("application/xml")
-    public Response getEmployees(@HeaderParam("token") final String token) {
+    public Employees getEmployees(@HeaderParam("token") final String token) {
     	employeeSession.timeoutToken();
+
+    	List<Employee> employees;
 
     	if (token == null) {
     		throw new WebApplicationException(Response.Status.UNAUTHORIZED);
@@ -158,7 +163,9 @@ public class EmployeeResource {
     		throw new WebApplicationException(Response.Status.FORBIDDEN);
     	}
 
-    	return Response.ok(employeeList.getEmployees()).build();
+    	employees = employeeList.getEmployees();
+
+    	return new Employees(employees);
     }
 
     /**
