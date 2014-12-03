@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.corejsf.utils.DateAdapter;
@@ -58,7 +57,7 @@ public class Timesheet implements java.io.Serializable {
     private Employee employee;
     /** The date of Friday for the week of the timesheet. */
     private Date endWeek;
-    /** The ArrayList of all timesheetRows (i.e. rows) that the form contains. */
+    /** The List of all timesheetRows (i.e. rows) that the form contains. */
     private List<TimesheetRow> timesheetRows;
     /** The total number of overtime hours on the timesheet. */
     private BigDecimal overtime;
@@ -136,7 +135,7 @@ public class Timesheet implements java.io.Serializable {
     /**
      * @param e the employee who has the timesheet
      */
-    public void setEmployee(Employee e) {
+    public void setEmployee(final Employee e) {
         employee = e;
     }
 
@@ -159,6 +158,10 @@ public class Timesheet implements java.io.Serializable {
         endWeek = end;
     }
 
+    /**
+     * Check if date is a Friday.
+     * @param end a date
+     */
     private void checkFriday(final Date end) {
         Calendar c = new GregorianCalendar();
         c.setTime(end);
@@ -212,7 +215,8 @@ public class Timesheet implements java.io.Serializable {
     /**
      * @return timesheet rows.
      */
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "timesheet")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, 
+            fetch = FetchType.EAGER, mappedBy = "timesheet")
     @XmlElement(name = "timesheet-row")
     @XmlElementWrapper(name = "timesheet-rows")
     public List<TimesheetRow> getTimesheetRows() {

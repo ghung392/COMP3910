@@ -142,8 +142,8 @@ public class Employee implements Serializable {
      *
      * @param id new employee username
      */
-    public void setUserName(final String id) {
-        userName = id;
+    public void setUserName(final String identification) {
+        userName = identification;
     }
 
     /**
@@ -209,15 +209,15 @@ public class Employee implements Serializable {
     }
 
     @Override
-	   public String toString() {
-	      return "Employee{"
-	    		  + "id=" + id
-	    		  + ", firstName='" + firstName + '\''
-	    		  + ", lastName='" + lastName + '\''
-	    		  + ", userName='" + userName + '\''
-	    		  + ", isAdmin='" + admin + '\''
-	    		  + ", password='" + password + '\''
-	    		  + '}';
-	   }
+    public final String toString() {
+      return "Employee{"
+    		  + "id=" + id
+    		  + ", firstName='" + firstName + '\''
+    		  + ", lastName='" + lastName + '\''
+    		  + ", userName='" + userName + '\''
+    		  + ", isAdmin='" + admin + '\''
+    		  + ", password='" + password + '\''
+    		  + '}';
+    }
 
 }

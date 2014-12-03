@@ -71,9 +71,8 @@ public class TimesheetManager {
     /**
      * Get timesheet belong to a given employee and given week.
      *
-     * @param e owner of timesheet.
-     * @param weekEnd timesheet's week end day
-     * @return a timesheet of a given employee and given week.
+     * @param id timesheet id.
+     * @return a timesheet of a given id.
      */
     public Timesheet find(final int id) {
         TypedQuery<Timesheet> query = em.createQuery(
@@ -101,6 +100,7 @@ public class TimesheetManager {
      * Saves a new timesheet to database.
      *
      * @param timesheet new timesheet to be saved
+     * @return updated timesheet.
      */
     public Timesheet persist(final Timesheet timesheet) {
         em.persist(timesheet);

@@ -1,15 +1,11 @@
 package com.corejsf.Services;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -29,6 +25,9 @@ import com.corejsf.Model.Timesheet;
 import com.corejsf.Model.TimesheetRow;
 import com.corejsf.Model.Timesheets;
 
+/**
+ * Resource responsible for create, update and get timesheet(s).
+ */
 @Dependent
 @Stateless
 @Path("/timesheets")
@@ -43,6 +42,15 @@ public class TimesheetResource {
     @Inject
     private EmployeeSession employeeSession;
 
+    /**
+     * Get a specified timesheet.
+     * 
+     * @param token of employee requesting
+     * @param id of timesheet
+     * @return 200 OK and timesheet requested on successful, NOT_FOUND if
+     *         timesheet with specified id not found UNAUTHORIZED if invalid
+     *         token.
+     */
     @GET
     @Path("/{id}")
     @Produces("application/xml")
@@ -71,6 +79,13 @@ public class TimesheetResource {
         return Response.ok(timesheet).build();
     }
 
+    /**
+     * Get all timesheets for this employee.
+     * 
+     * @param token of employee requesting
+     * @return 200 OK and timesheets requested on successful, UNAUTHORIZED if
+     *         invalid token.
+     */
     @GET
     @Produces("application/xml")
     public Timesheets getTimesheets(@HeaderParam("token") final String token) {
@@ -88,6 +103,15 @@ public class TimesheetResource {
         return new Timesheets(timesheets);
     }
 
+    /**
+     * Create (if non-exist) or update current week's timesheet for this
+     * employee.
+     * 
+     * @param token of employee requesting
+     * @param sheet timesheet to save
+     * @return 200 OK with updated timesheet on success, UNAUTHORIZED if invalid
+     *         token, BAD_REQUEST if timesheet is invalid.
+     */
     @POST
     @Consumes("application/xml")
     @Produces("application/xml")
