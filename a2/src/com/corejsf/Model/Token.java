@@ -60,7 +60,7 @@ public class Token implements Serializable {
 	 * Setter for uuid.
 	 * @param newValue new uuid
 	 */
-	public void setUuid(String newValue) {
+	public void setUuid(final String newValue) {
 		uuid = newValue;
 	}
 
@@ -77,7 +77,7 @@ public class Token implements Serializable {
 	 * Setter for token id.
 	 * @param newValue of id
 	 */
-	public void setId(int newValue) {
+	public void setId(final int newValue) {
 		id = newValue;
 	}
 
@@ -94,16 +94,13 @@ public class Token implements Serializable {
 	 * Setter for timeout.
 	 * @param newValue of timeout
 	 */
-	public void setTimeout(long newValue) {
+	public void setTimeout(final long newValue) {
 		timeout = newValue;
 	}
 
-	@Override
-   public String toString() {
-      return "Employee{"
-    		  + "id=" + id
-    		  + ", uuid='" + uuid + '\''
-    		  + ", id='" + id + '\''
-    		  + '}';
-   }
+    @Override
+    public String toString() {
+        return "Employee{" + "id=" + id + ", uuid='" + uuid + '\'' + ", id='"
+                + id + '\'' + '}';
+    }
 }

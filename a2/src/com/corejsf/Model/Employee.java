@@ -140,7 +140,7 @@ public class Employee implements Serializable {
     /**
      * Setter for employee username.
      *
-     * @param id new employee username
+     * @param identification new employee username
      */
     public void setUserName(final String identification) {
         userName = identification;
@@ -210,14 +210,17 @@ public class Employee implements Serializable {
 
     @Override
     public final String toString() {
-      return "Employee{"
-    		  + "id=" + id
-    		  + ", firstName='" + firstName + '\''
-    		  + ", lastName='" + lastName + '\''
-    		  + ", userName='" + userName + '\''
-    		  + ", isAdmin='" + admin + '\''
-    		  + ", password='" + password + '\''
-    		  + '}';
+        final StringBuilder sb = new StringBuilder();
+        sb.append("Employee{\n");
+        sb.append("id=").append(id).append(",\n");
+        sb.append("firstName=").append(firstName).append(",\n");
+        sb.append("lastName=").append(lastName).append(",\n");
+        sb.append("userName=").append(userName).append(",\n");
+        sb.append("isAdmin=").append(admin).append(",\n");
+        sb.append("password=").append(password).append("\n");
+        sb.append("}\n");
+
+        return sb.toString();
     }
 
 }

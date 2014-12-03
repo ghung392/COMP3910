@@ -18,7 +18,7 @@ public class DateAdapter extends XmlAdapter<String, Date> {
      * Used when parsing the XML, store date object.
      * @param xml input String expecting to be date.
      * @return Date converted from String input.
-     * @exception Exception any error that could go wrong when parsing 
+     * @exception Exception any error that could go wrong when parsing
      * string.
      */
     public Date unmarshal(final String xml) throws Exception {

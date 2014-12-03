@@ -44,7 +44,7 @@ public class TimesheetResource {
 
     /**
      * Get a specified timesheet.
-     * 
+     *
      * @param token of employee requesting
      * @param id of timesheet
      * @return 200 OK and timesheet requested on successful, NOT_FOUND if
@@ -81,7 +81,7 @@ public class TimesheetResource {
 
     /**
      * Get all timesheets for this employee.
-     * 
+     *
      * @param token of employee requesting
      * @return 200 OK and timesheets requested on successful, UNAUTHORIZED if
      *         invalid token.
@@ -106,7 +106,7 @@ public class TimesheetResource {
     /**
      * Create (if non-exist) or update current week's timesheet for this
      * employee.
-     * 
+     *
      * @param token of employee requesting
      * @param sheet timesheet to save
      * @return 200 OK with updated timesheet on success, UNAUTHORIZED if invalid

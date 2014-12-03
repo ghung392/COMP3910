@@ -136,23 +136,23 @@ public class TimesheetRow implements java.io.Serializable {
      * @return the projectID
      */
     @Column(name = "ProjectID", nullable = false)
-    @XmlElement(name="project-num")
+    @XmlElement(name = "project-num")
     public Integer getProjectID() {
         return projectID;
     }
 
     /**
-     * @param id the projectID to set
+     * @param identification the projectID to set
      */
-    public void setProjectID(final Integer id) {
-        this.projectID = id;
+    public void setProjectID(final Integer identification) {
+        this.projectID = identification;
     }
 
     /**
      * @return the workPackage
      */
     @Column(name = "WorkPackage", nullable = false)
-    @XmlElement(name="work-package")
+    @XmlElement(name = "work-package")
     public String getWorkPackage() {
         return workPackage;
     }
@@ -168,7 +168,7 @@ public class TimesheetRow implements java.io.Serializable {
      * @return the notes
      */
     @Column(name = "Notes")
-    @XmlElement(name="note")
+    @XmlElement(name = "note")
     public String getNotes() {
         return notes;
     }
@@ -184,7 +184,7 @@ public class TimesheetRow implements java.io.Serializable {
      * @return Monday's hour on this row.
      */
     @Column(name = "Mon")
-    @XmlElement(name="monday")
+    @XmlElement(name = "monday")
     public BigDecimal getHourMon() {
         return getHour(TimesheetRow.MON);
     }
@@ -202,7 +202,7 @@ public class TimesheetRow implements java.io.Serializable {
      * @return Tuesday's hour on this row.
      */
     @Column(name = "Tue")
-    @XmlElement(name="tuesday")
+    @XmlElement(name = "tuesday")
     public BigDecimal getHourTue() {
         return getHour(TimesheetRow.TUE);
     }
@@ -220,7 +220,7 @@ public class TimesheetRow implements java.io.Serializable {
      * @return Wednesday's hour on this row.
      */
     @Column(name = "Wed")
-    @XmlElement(name="wednesday")
+    @XmlElement(name = "wednesday")
     public BigDecimal getHourWed() {
         return getHour(TimesheetRow.WED);
     }
@@ -238,7 +238,7 @@ public class TimesheetRow implements java.io.Serializable {
      * @return Thursday's hour on this row.
      */
     @Column(name = "Thu")
-    @XmlElement(name="thursday")
+    @XmlElement(name = "thursday")
     public BigDecimal getHourThur() {
         return getHour(TimesheetRow.THU);
     }
@@ -256,7 +256,7 @@ public class TimesheetRow implements java.io.Serializable {
      * @return Friday's hour on this row.
      */
     @Column(name = "Fri")
-    @XmlElement(name="friday")
+    @XmlElement(name = "friday")
     public BigDecimal getHourFri() {
         return getHour(TimesheetRow.FRI);
     }
@@ -274,7 +274,7 @@ public class TimesheetRow implements java.io.Serializable {
      * @return Saturday's hour on this row.
      */
     @Column(name = "Sat")
-    @XmlElement(name="saturday")
+    @XmlElement(name = "saturday")
     public BigDecimal getHourSat() {
         return getHour(TimesheetRow.SAT);
     }
@@ -292,7 +292,7 @@ public class TimesheetRow implements java.io.Serializable {
      * @return Sunday's hour on this row.
      */
     @Column(name = "Sun")
-    @XmlElement(name="sunday")
+    @XmlElement(name = "sunday")
     public BigDecimal getHourSun() {
         return getHour(TimesheetRow.SUN);
     }
@@ -337,7 +337,6 @@ public class TimesheetRow implements java.io.Serializable {
      * @param hour The number of hours worked for that day
      */
     private void setHour(final int day, final BigDecimal hour) {
-//        checkHour(hour);
         if (hour != null) {
             hoursForWeek[day] = hour.setScale(1, BigDecimal.ROUND_HALF_UP);
         } else {
@@ -397,7 +396,7 @@ public class TimesheetRow implements java.io.Serializable {
      * @return the weekly hours
      */
     @Transient
-    @XmlElement(name="total")
+    @XmlElement(name = "total")
     public BigDecimal getSum() {
         BigDecimal sum = BigDecimal.ZERO;
         for (BigDecimal next : hoursForWeek) {

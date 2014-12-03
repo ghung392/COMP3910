@@ -215,7 +215,7 @@ public class Timesheet implements java.io.Serializable {
     /**
      * @return timesheet rows.
      */
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,
             fetch = FetchType.EAGER, mappedBy = "timesheet")
     @XmlElement(name = "timesheet-row")
     @XmlElementWrapper(name = "timesheet-rows")
